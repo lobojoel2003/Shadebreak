@@ -1,0 +1,23 @@
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      django:
+        patterns: ["Django", "django-*", "dj-database-url", "whitenoise"]
+      test-tools:
+        patterns: ["pytest*", "freezegun", "responses", "ruff", "build"]
+    ignore:
+      # Stay on the Django 5.2 LTS line; move to the next LTS on purpose.
+      - dependency-name: Django
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

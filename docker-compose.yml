@@ -1,0 +1,66 @@
+# Shadebreak with Postgres, Redis, a Celery worker and Celery beat.
+#   cp .env.example .env   # then set DJANGO_SECRET_KEY and your host name
+#   docker compose up -d
+name: shadebreak
+
+x-app: &app
+  image: ghcr.io/lobojoel2003/shadebreak:${SHADEBREAK_TAG:-latest}
+  build: .
+  env_file:
+    - path: .env
+      required: false
+  environment:
+    DATABASE_URL: postgres://shadebreak:${POSTGRES_PASSWORD:-shadebreak}@db:5432/shadebreak
+    CELERY_BROKER_URL: redis://redis:6379/0
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+  restart: unless-stopped
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: shadebreak
+      POSTGRES_USER: shadebreak
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-shadebreak}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shadebreak -d shadebreak"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  web:
+    <<: *app
+    command: ["web"]
+    ports:
+      - "${SHADEBREAK_PORT:-8000}:8000"
+
+  worker:
+    <<: *app
+    command: ["worker"]
+    healthcheck:
+      disable: true
+
+  beat:
+    <<: *app
+    command: ["beat"]
+    healthcheck:
+      disable: true
+
+volumes:
+  pgdata:

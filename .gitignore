@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.python-version
+
+# Testing and linting
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.ruff_cache/
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+media/
+celerybeat-schedule*
+
+# Local config and tooling
+.env
+node_modules/
+.DS_Store
+.idea/
+.vscode/

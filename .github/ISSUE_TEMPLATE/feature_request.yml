@@ -1,0 +1,20 @@
+name: Feature request
+description: Suggest something that would help a crew stay safe in the heat.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: Who is this for (crew lead, worker, safety manager) and what gets in their way today?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would help
+  - type: textarea
+    id: sources
+    attributes:
+      label: Guidance or sources
+      description: For changes to heat rules, link the NIOSH, OSHA, ACGIH, NWS or state guidance it follows.

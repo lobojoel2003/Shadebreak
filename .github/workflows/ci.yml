@@ -1,0 +1,201 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  PYTHON_VERSION: "3.13"
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install Ruff
+        run: pip install "$(grep '^ruff==' requirements-dev.txt)"
+      - name: Ruff lint
+        run: ruff check --output-format=github .
+      - name: Ruff format
+        run: ruff format --check .
+
+  test:
+    name: Test (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.13"]
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: shadebreak
+          POSTGRES_USER: shadebreak
+          POSTGRES_PASSWORD: shadebreak
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U shadebreak"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      DATABASE_URL: postgres://shadebreak:shadebreak@localhost:5432/shadebreak
+      CELERY_BROKER_URL: redis://localhost:6379/0
+      DJANGO_SECRET_KEY: ci-only-not-secret
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: requirements*.txt
+      - name: System libraries for WeasyPrint and gettext
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gettext libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 fonts-dejavu-core
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+      - name: Compile translations
+        run: python manage.py compilemessages --ignore=.venv
+      - name: Django system checks
+        run: |
+          python manage.py check
+          SHADEBREAK_ENV=production DJANGO_SECURE_SSL_REDIRECT=1 DJANGO_HSTS_SECONDS=31536000 DJANGO_HSTS_PRELOAD=1 \
+            DJANGO_SECRET_KEY="$(python -c 'import secrets; print(secrets.token_urlsafe(50))')" \
+            python manage.py check --deploy --fail-level WARNING
+      - name: Migrations are up to date
+        run: python manage.py makemigrations --check --dry-run
+      - name: Tests (Postgres)
+        run: python -m pytest --cov --cov-report=term-missing --cov-report=xml --junitxml=junit.xml
+      - name: Upload coverage report
+        if: always() && matrix.python == '3.13'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: |
+            coverage.xml
+            junit.xml
+
+  package:
+    name: Build package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Build sdist and wheel
+        run: |
+          pip install "$(grep '^build==' requirements-dev.txt)"
+          python -m build
+      - name: Wheel contains templates, static files and translations
+        run: |
+          python - <<'EOF'
+          import glob, zipfile
+          names = zipfile.ZipFile(glob.glob("dist/*.whl")[0]).namelist()
+          for needed in ("shadebreak/templates/base.html", "shadebreak/static/shadebreak/css/app.css",
+                         "shadebreak/locale/es/LC_MESSAGES/django.mo", "crews/templates/crews/dashboard.html"):
+              assert needed in names, needed
+          print(f"{len(names)} files OK")
+          EOF
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-package
+          path: dist/
+
+  docker:
+    name: Docker image
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE: ghcr.io/${{ github.repository_owner }}/shadebreak
+      PUBLISH: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Read version
+        id: version
+        run: echo "version=$(python3 -c 'import re,pathlib;print(re.search(r"__version__ = \"(.+)\"",pathlib.Path("shadebreak/__init__.py").read_text()).group(1))')" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-buildx-action@v3
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: shadebreak:ci
+          build-args: |
+            VERSION=${{ steps.version.outputs.version }}
+            BUILD_NUMBER=${{ github.run_number }}
+            GIT_SHA=${{ github.sha }}
+            BUILD_DATE=${{ github.event.head_commit.timestamp || github.event.pull_request.updated_at }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Smoke test
+        run: |
+          docker run -d --name smoke -p 8000:8000 \
+            -e DJANGO_SECRET_KEY=smoke-test-only \
+            -e DATABASE_URL=sqlite:////tmp/smoke.sqlite3 \
+            -e DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1 \
+            shadebreak:ci
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8000/healthz; then echo; break; fi
+            sleep 2
+          done
+          curl -fsS http://127.0.0.1:8000/version | tee version.json
+          grep -q '"build": "${{ github.run_number }}"' version.json
+          curl -fsS -o /dev/null http://127.0.0.1:8000/static/shadebreak/css/app.css
+          docker exec smoke python manage.py check
+          docker logs smoke
+          docker rm -f smoke
+      - name: Log in to GitHub Container Registry
+        if: env.PUBLISH == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Image tags
+        if: env.PUBLISH == 'true'
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=edge,branch=main
+            type=sha,prefix=sha-
+            type=raw,value=build-${{ github.run_number }}
+      - name: Publish edge image
+        if: env.PUBLISH == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ steps.version.outputs.version }}
+            BUILD_NUMBER=${{ github.run_number }}
+            GIT_SHA=${{ github.sha }}
+            BUILD_DATE=${{ github.event.head_commit.timestamp }}
+          cache-from: type=gha

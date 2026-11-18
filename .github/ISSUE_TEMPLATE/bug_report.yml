@@ -1,0 +1,40 @@
+name: Bug report
+description: Something in Shadebreak is wrong or broken.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If someone is sick from the heat right now, call 911 first.
+        Please do not include workers' names or phone numbers in this report.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what did you see instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the Today screen for a site in Phoenix, AZ
+        2. ...
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Shown in the page footer, for example "v1.0.0 · build 12 · abc1234".
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Forecast or heat rating
+        - Breaks or acclimatization
+        - Text messages
+        - Heat plan PDF
+        - Spanish translation
+        - Install or deployment
+        - Other
