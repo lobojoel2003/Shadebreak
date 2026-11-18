@@ -54,9 +54,11 @@ plans every hot day around the National Weather Service forecast.
 - Docker image (non-root, health check), Docker Compose stack with Postgres,
   Redis, Celery worker and beat.
 - CI (lint, tests on Postgres for Python 3.12 and 3.13, deploy checks,
-  package and Docker smoke tests), CodeQL, Dependabot, and a tag-driven
-  release workflow that publishes versioned images to GHCR and a GitHub
-  release with the wheel, sdist, sample heat plans and checksums.
+  package and Docker smoke tests), CodeQL, Dependabot, and a continuous
+  release workflow that tags each new version on `main` (or takes a pushed
+  tag), publishes versioned images to GHCR and a GitHub release with the
+  wheel, sdist, sample heat plans and checksums. Build numbers are the
+  commit count on `main`.
 
 [Unreleased]: https://github.com/lobojoel2003/Shadebreak/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/lobojoel2003/Shadebreak/releases/tag/v1.0.0

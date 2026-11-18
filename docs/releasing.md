@@ -19,7 +19,7 @@ Every CI run stamps the Docker image with:
 
 | Value | Source | Shown as |
 | --- | --- | --- |
-| Build number | GitHub Actions run number | `build 42` |
+| Build number | Number of commits on `main` (`git rev-list --count HEAD`): always increasing, and the same for a commit in CI and in its release | `build 42` |
 | Commit | Git SHA | `abc1234` |
 | Build date | Commit timestamp | `/version` → `date` |
 
@@ -35,41 +35,38 @@ They are baked into the image as `SHADEBREAK_BUILD_NUMBER`,
 | `ghcr.io/lobojoel2003/shadebreak:1.2.3` | Release `v1.2.3` |
 | `:1.2`, `:1` | Latest release in that line |
 | `:latest` | Latest stable release |
-| `:build-42` | Every published build |
+| `:build-42` | Every published build (the commit count) |
 | `:edge`, `:sha-abc1234` | Every push to `main` that passes CI |
 
 ## Cutting a release
 
-1. Make sure `main` is green and `CHANGELOG.md` has the changes under
-   `## [Unreleased]`.
+Releases are continuous: when `main` carries a version that has no tag yet,
+the **Release** workflow tags it and publishes it.
+
+1. Make sure `CHANGELOG.md` has the changes under `## [Unreleased]`.
 2. Bump the version and date the changelog:
 
    ```bash
    python scripts/release.py bump 1.1.0
    ```
 
-3. Commit, tag and push:
+3. Commit and push (or merge a pull request) to `main`:
 
    ```bash
-   git commit -am "Release 1.1.0"
+   git commit -am "Release 1.1.0" && git push origin main
    ```
 
-   ```bash
-   git tag -a v1.1.0 -m "Shadebreak 1.1.0"
-   ```
-
-   ```bash
-   git push origin main v1.1.0
-   ```
-
-The **Release** workflow then checks the tag matches `__version__` and the
-changelog, runs the full CI, builds the wheel and sdist, renders the sample
-heat plans, publishes the Docker images and creates the GitHub release with
-the changelog section as its notes and these assets:
+The **Release** workflow then checks the version against the changelog, runs
+the full CI, creates the annotated tag `v1.1.0` with the changelog section as
+its message, builds the wheel and sdist, renders the sample heat plans,
+publishes the Docker images and creates the GitHub release with these assets:
 
 * `shadebreak-X.Y.Z-py3-none-any.whl` and `shadebreak-X.Y.Z.tar.gz`
 * `shadebreak-sample-heat-plan-en.pdf` and `shadebreak-sample-heat-plan-es.pdf`
 * `SHA256SUMS.txt`
 
-Tags with a suffix (`v1.1.0-rc.1`) are published as pre-releases and do not
-move `latest`.
+Pushes to `main` that do not change the version do nothing here (CI still
+publishes the `edge` image). You can also push a tag yourself
+(`git tag -a v1.1.0 -m "Shadebreak 1.1.0" && git push origin v1.1.0`); it must
+match `__version__`. Versions with a suffix (`1.1.0-rc.1`) are published as
+pre-releases and do not move `latest`.

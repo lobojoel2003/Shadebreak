@@ -1,12 +1,18 @@
 name: Release
 
-# Push a tag like v1.2.3 (matching shadebreak.__version__) to publish:
-#   - a GitHub release with notes from CHANGELOG.md,
-#   - the Python wheel and sdist, sample heat plans (EN/ES) and SHA-256 checksums,
-#   - Docker images ghcr.io/<owner>/shadebreak:1.2.3, :1.2, :1, :latest and :build-<run>.
+# Continuous delivery. A release is cut when either:
+#   - main carries a version (shadebreak.__version__) that has no tag yet:
+#     this workflow creates the annotated tag vX.Y.Z itself, or
+#   - someone pushes a tag vX.Y.Z by hand (it must match __version__).
+# Each release publishes:
+#   - a GitHub release with notes from CHANGELOG.md, the wheel and sdist,
+#     sample heat plans (EN/ES) and SHA-256 checksums,
+#   - Docker images ghcr.io/<owner>/shadebreak:X.Y.Z, :X.Y, :X, :latest and :build-N.
 on:
   push:
+    branches: [main]
     tags: ["v*.*.*"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -16,36 +22,80 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  verify:
-    name: Verify tag
+  plan:
+    name: Plan release
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.version.outputs.version }}
-      prerelease: ${{ steps.version.outputs.prerelease }}
+      release: ${{ steps.plan.outputs.release }}
+      create_tag: ${{ steps.plan.outputs.create_tag }}
+      version: ${{ steps.plan.outputs.version }}
+      tag: ${{ steps.plan.outputs.tag }}
+      build: ${{ steps.plan.outputs.build }}
+      prerelease: ${{ steps.plan.outputs.prerelease }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
-      - name: Tag matches shadebreak.__version__ and CHANGELOG.md
-        run: python scripts/release.py check-tag "${GITHUB_REF_NAME}"
-      - id: version
+      - name: Decide
+        id: plan
         run: |
-          version="${GITHUB_REF_NAME#v}"
+          version=$(python3 -c 'import re,pathlib;print(re.search(r"__version__ = \"(.+)\"",pathlib.Path("shadebreak/__init__.py").read_text()).group(1))')
+          tag="v${version}"
           echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          echo "build=$(git rev-list --count HEAD)" >> "$GITHUB_OUTPUT"
           if [[ "$version" == *-* ]]; then echo "prerelease=true" >> "$GITHUB_OUTPUT"; else echo "prerelease=false" >> "$GITHUB_OUTPUT"; fi
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            python scripts/release.py check-tag "$GITHUB_REF_NAME"
+            echo "release=true" >> "$GITHUB_OUTPUT"
+            echo "create_tag=false" >> "$GITHUB_OUTPUT"
+          elif git ls-remote --exit-code --tags origin "refs/tags/${tag}" > /dev/null; then
+            echo "${tag} is already released; nothing to do."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            echo "create_tag=false" >> "$GITHUB_OUTPUT"
+          else
+            python scripts/release.py check-tag "${tag}"
+            echo "Version ${version} has no tag yet: releasing ${tag}."
+            echo "release=true" >> "$GITHUB_OUTPUT"
+            echo "create_tag=true" >> "$GITHUB_OUTPUT"
+          fi
 
   ci:
     name: CI
-    needs: verify
+    needs: plan
+    if: needs.plan.outputs.release == 'true'
     uses: ./.github/workflows/ci.yml
     permissions:
       contents: read
       packages: write
 
+  tag:
+    name: Create tag
+    needs: [plan, ci]
+    if: needs.plan.outputs.create_tag == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - name: Annotated tag from the changelog
+        env:
+          TAG: ${{ needs.plan.outputs.tag }}
+          VERSION: ${{ needs.plan.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python3 scripts/release.py notes "$VERSION" > notes.md
+          git tag -a "$TAG" -m "Shadebreak $VERSION" -m "$(cat notes.md)" "$GITHUB_SHA"
+          git push origin "refs/tags/$TAG"
+
   artifacts:
     name: Build release artifacts
-    needs: [verify, ci]
+    needs: [plan, ci]
+    if: needs.plan.outputs.release == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -67,17 +117,21 @@ jobs:
       - name: Render sample heat plans
         run: python scripts/sample_plan.py --out dist
       - name: Release notes and checksums
+        env:
+          VERSION: ${{ needs.plan.outputs.version }}
+          BUILD: ${{ needs.plan.outputs.build }}
+          IMAGE: ghcr.io/${{ github.repository_owner }}/shadebreak
         run: |
           {
-            python scripts/release.py notes "${{ needs.verify.outputs.version }}"
+            python scripts/release.py notes "$VERSION"
             echo
-            echo "### Install"
+            echo "### Run it"
             echo
             echo '```bash'
-            echo "docker pull ghcr.io/${{ github.repository_owner }}/shadebreak:${{ needs.verify.outputs.version }}"
+            echo "docker pull ${IMAGE}:${VERSION}"
             echo '```'
             echo
-            echo "Build ${{ github.run_number }} · commit ${GITHUB_SHA::7}"
+            echo "Build ${BUILD} · commit ${GITHUB_SHA::7}"
           } > release-notes.md
           cd dist && sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt
       - uses: actions/upload-artifact@v4
@@ -89,7 +143,8 @@ jobs:
 
   docker:
     name: Publish Docker image
-    needs: [verify, ci]
+    needs: [plan, ci]
+    if: needs.plan.outputs.release == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -107,12 +162,12 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository_owner }}/shadebreak
           tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=raw,value=build-${{ github.run_number }}
+            type=semver,pattern={{version}},value=${{ needs.plan.outputs.tag }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ needs.plan.outputs.tag }}
+            type=semver,pattern={{major}},value=${{ needs.plan.outputs.tag }}
+            type=raw,value=build-${{ needs.plan.outputs.build }}
           flavor: |
-            latest=${{ needs.verify.outputs.prerelease == 'false' }}
+            latest=${{ needs.plan.outputs.prerelease == 'false' }}
       - uses: docker/build-push-action@v6
         with:
           context: .
@@ -120,8 +175,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            VERSION=${{ needs.verify.outputs.version }}
-            BUILD_NUMBER=${{ github.run_number }}
+            VERSION=${{ needs.plan.outputs.version }}
+            BUILD_NUMBER=${{ needs.plan.outputs.build }}
             GIT_SHA=${{ github.sha }}
             BUILD_DATE=${{ github.event.head_commit.timestamp }}
           cache-from: type=gha
@@ -129,7 +184,11 @@ jobs:
 
   publish:
     name: GitHub release
-    needs: [verify, artifacts, docker]
+    needs: [plan, tag, artifacts, docker]
+    if: >-
+      always() && needs.plan.outputs.release == 'true'
+      && needs.artifacts.result == 'success' && needs.docker.result == 'success'
+      && (needs.tag.result == 'success' || needs.tag.result == 'skipped')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -139,10 +198,11 @@ jobs:
           name: release
       - uses: softprops/action-gh-release@v2
         with:
-          name: Shadebreak ${{ github.ref_name }}
+          tag_name: ${{ needs.plan.outputs.tag }}
+          name: Shadebreak ${{ needs.plan.outputs.tag }}
           body_path: release-notes.md
-          prerelease: ${{ needs.verify.outputs.prerelease == 'true' }}
-          make_latest: ${{ needs.verify.outputs.prerelease == 'false' }}
+          prerelease: ${{ needs.plan.outputs.prerelease == 'true' }}
+          make_latest: ${{ needs.plan.outputs.prerelease == 'false' }}
           files: |
             dist/*.whl
             dist/*.tar.gz

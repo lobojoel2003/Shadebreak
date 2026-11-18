@@ -1,7 +1,7 @@
 """Version and build information.
 
 The semantic version lives in ``shadebreak.__version__``. CI stamps each
-build with a build number (the GitHub Actions run number), the commit and the
+build with a build number (the commit count on main), the commit and the
 build date through environment variables baked into the Docker image.
 """
 

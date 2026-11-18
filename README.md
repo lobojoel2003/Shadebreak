@@ -188,11 +188,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Changes to heat rules must cite their so
 
 * **Semantic versioning.** The version lives in [`shadebreak/__init__.py`](shadebreak/__init__.py)
   and every change is recorded in [CHANGELOG.md](CHANGELOG.md).
-* **Build numbers.** Every CI build is stamped with the GitHub Actions run number,
-  commit and date, shown in the page footer (`v1.0.0 · build 42 · abc1234`), the PDF,
-  `/version` and the image labels.
-* **Releases.** Pushing a tag `vX.Y.Z` runs the full CI, then publishes Docker images
-  (`X.Y.Z`, `X.Y`, `X`, `latest`, `build-N`) to GHCR and a
+* **Build numbers.** Every build is stamped with a build number (the commit count on
+  `main`), the commit and the date, shown in the page footer
+  (`v1.0.0 · build 42 · abc1234`), the PDF, `/version` and the image labels.
+* **Tags and releases.** When `main` carries a new version, the Release workflow runs the
+  full CI, creates the annotated tag `vX.Y.Z`, publishes Docker images (`X.Y.Z`, `X.Y`,
+  `X`, `latest`, `build-N`) to GHCR and a
   [GitHub release](https://github.com/lobojoel2003/Shadebreak/releases) with the wheel,
   sdist, sample heat plans and checksums. Details in [docs/releasing.md](docs/releasing.md).
 
@@ -201,7 +202,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Changes to heat rules must cite their so
 | Workflow | Runs on | What it does |
 | --- | --- | --- |
 | [CI](.github/workflows/ci.yml) | every push and pull request | Ruff; tests on Postgres + Redis for Python 3.12 and 3.13; `check --deploy`; migration check; wheel contents; Docker build and smoke test; on `main`, publishes `edge` and `build-N` images |
-| [Release](.github/workflows/release.yml) | tags `v*.*.*` | Verifies the tag against the version and changelog, runs CI, publishes images and the GitHub release |
+| [Release](.github/workflows/release.yml) | new version on `main`, or a `v*.*.*` tag | Checks the version against the changelog, runs CI, tags `vX.Y.Z`, publishes images and the GitHub release |
 | [CodeQL](.github/workflows/codeql.yml) | pushes, pull requests, weekly | Security analysis of Python, JavaScript and workflows |
 | [Dependabot](.github/dependabot.yml) | weekly | Updates Python packages, the base image and actions |
 
