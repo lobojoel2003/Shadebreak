@@ -88,7 +88,7 @@ jobs:
         run: python -m pytest --cov --cov-report=term-missing --cov-report=xml --junitxml=junit.xml
       - name: Upload coverage report
         if: always() && matrix.python == '3.13'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage
           path: |
@@ -117,7 +117,7 @@ jobs:
               assert needed in names, needed
           print(f"{len(names)} files OK")
           EOF
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: python-package
           path: dist/
