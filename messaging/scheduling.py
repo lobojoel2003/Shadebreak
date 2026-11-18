@@ -94,7 +94,7 @@ def schedule_workday(workday: WorkDay, now: datetime) -> int:
                         language=worker.language,
                     )
 
-    if crew.lead_phone and crew.lead_phone not in briefed:
+    if crew.lead_phone and not crew.lead_opted_out and crew.lead_phone not in briefed:
         add(
             Message.Kind.BRIEFING,
             crew.lead_phone,
@@ -103,32 +103,40 @@ def schedule_workday(workday: WorkDay, now: datetime) -> int:
             language=crew.language,
         )
 
+    # One prompt per person and time, even when they watch more than one worker.
+    groups: dict[tuple[str, datetime], dict] = {}
     for checkin in workday.checkins.filter(status=CheckIn.Status.PENDING, due_at__gt=now).select_related(
         "worker", "buddy"
     ):
         buddy = checkin.buddy
         if buddy is not None and buddy.can_text:
-            add(
-                Message.Kind.CHECKIN,
-                buddy.phone,
-                compose.checkin_prompt(checkin, buddy.language, to_lead=False),
-                checkin.due_at,
-                buddy,
-                checkin,
-                language=buddy.language,
-            )
-        elif crew.lead_phone:
-            add(
-                Message.Kind.CHECKIN,
-                crew.lead_phone,
-                compose.checkin_prompt(checkin, crew.language, to_lead=buddy is None),
-                checkin.due_at,
-                checkin=checkin,
-                language=crew.language,
-            )
+            to_number, recipient, language, to_lead = buddy.phone, buddy, buddy.language, False
+        elif crew.lead_phone and not crew.lead_opted_out:
+            to_number, recipient, language, to_lead = crew.lead_phone, None, crew.language, buddy is None
+        else:
+            continue
+        group = groups.setdefault(
+            (to_number, checkin.due_at),
+            {"recipient": recipient, "language": language, "to_lead": to_lead, "checkins": []},
+        )
+        group["checkins"].append(checkin)
+        group["to_lead"] = group["to_lead"] and buddy is None
 
     Message.objects.bulk_create(queue)
-    return len(queue)
+    for (to_number, due_at), group in groups.items():
+        prompt = Message.objects.create(
+            crew=crew,
+            workday=workday,
+            worker=group["recipient"],
+            checkin=group["checkins"][0],
+            kind=Message.Kind.CHECKIN,
+            to_number=to_number,
+            body=compose.checkin_prompt(group["checkins"], group["language"], to_lead=group["to_lead"]),
+            language=group["language"],
+            send_at=due_at,
+        )
+        prompt.checkins.set(group["checkins"])
+    return len(queue) + len(groups)
 
 
 def _worker_breaks(assignment: Assignment, breaks):

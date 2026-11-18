@@ -13,5 +13,5 @@ request = urllib.request.Request(
 try:
     with urllib.request.urlopen(request, timeout=4) as response:  # noqa: S310 - fixed local URL
         sys.exit(0 if response.status == 200 else 1)
-except Exception:  # noqa: BLE001
+except Exception:
     sys.exit(1)

@@ -65,42 +65,55 @@ Each hour gets the higher of two ratings (`heat/risk.py`):
 | Very high | 103–114 °F | 88–89.9 °F | NWS "danger" |
 | Extreme | 115 °F and up | 90 °F and up | OSHA-NIOSH Heat Safety Tool "very high to extreme" |
 
-The WBGT categories match those used in NWS WBGT forecasts. The OSHA heat
+The WBGT categories match those used in NWS WBGT forecasts. For crews in
+coveralls or chemical suits, the clothing adjustment (below) is added to WBGT
+before rating, so they reach each level at a lower temperature. The OSHA heat
 rule was *proposed* in 2024; check its current status, and any state heat
 rule that applies to you (for example California, Washington, Oregon,
 Colorado or Maryland), before relying on it.
 
 ## 5. Breaks
 
-Each shift is cut into one-hour blocks from its start. For each block
-(`heat/schedule.py`):
+Each shift is cut into one-hour blocks from its start, and each block uses
+the forecast at its midpoint (`heat/schedule.py`). All clock arithmetic is in
+UTC, so a shift through a daylight-saving change still gets real hours.
 
-1. **Below Caution:** no fixed breaks. Water and shade must still be close, and
-   anyone may rest at any time.
-2. **WBGT at Caution or above** (WBGT plus the clothing adjustment ≥ 80 °F):
-   the ACGIH screening table sets the rest per hour for the site's workload.
-   Acclimatized workers use the **TLV**; workers still acclimatizing use the
-   stricter **Action Limit**. This is the table reproduced in the OSHA
-   Technical Manual, Section III, Chapter 4 (°C WBGT):
+1. **Work/rest limits.** The ACGIH screening table sets the rest each hour for
+   the site's workload, using WBGT plus the clothing adjustment. Acclimatized
+   workers use the **TLV**; workers still acclimatizing use the stricter
+   **Action Limit**. This is the table reproduced in the OSHA Technical Manual,
+   Section III, Chapter 4 (°C WBGT):
 
    | Work per hour | Light | Moderate | Heavy | Very heavy |
    | --- | --- | --- | --- | --- |
-   | **TLV** 75–100% | 31.0 | 28.0 | – | – |
+   | **TLV** 75–100% | 31.0 | 28.0 | 26.6\* | 25.5\* |
    | 50–75% | 31.0 | 29.0 | 27.5 | – |
    | 25–50% | 32.0 | 30.0 | 29.0 | 28.0 |
    | 0–25% | 32.5 | 31.5 | 30.5 | 30.0 |
-   | **Action Limit** 75–100% | 28.0 | 25.0 | – | – |
+   | **Action Limit** 75–100% | 28.0 | 25.0 | 23.0\* | 21.6\* |
    | 50–75% | 28.5 | 26.0 | 24.0 | – |
    | 25–50% | 29.5 | 27.0 | 25.5 | 24.5 |
    | 0–25% | 30.0 | 29.0 | 28.0 | 27.0 |
 
-   The resulting rest is 0, 15, 30 or 45 minutes at the end of each hour. A dash
-   means ACGIH gives no value for that much work, so at least the next row
-   applies. Clothing adjustment values: double-layer woven coveralls +3 °C,
-   polyolefin coveralls +1 °C, vapor-barrier suits +11 °C.
-3. **At High or above,** nobody works more than two hours without a 15-minute
-   rest (the 2024 proposed rule's high-heat break).
-4. **Stop:** if even 45 minutes of rest an hour exceeds the limit, the block is
+   \* The printed table leaves continuous heavy and very heavy work blank.
+   Those cells come from ACGIH's own equations for the limit at metabolic rate
+   *M*: TLV = 56.7 − 11.5·log₁₀ *M* and Action Limit = 59.9 − 14.1·log₁₀ *M*,
+   with *M* = 415 W (heavy) and 520 W (very heavy). The same equations give the
+   printed light and moderate values to within 0.2 °C. The remaining blank
+   cells (very heavy work at 50–75%) fall through to the next row.
+
+   The result is 0, 15, 30 or 45 minutes of rest at the end of each hour. Below
+   the continuous-work limit no rest is required, though water and shade must
+   still be close and anyone may rest at any time. Clothing adjustment values:
+   double-layer woven coveralls +3 °C, polyolefin coveralls +1 °C,
+   vapor-barrier suits +11 °C.
+2. **Two-hour rule.** From **High** up (heat index 90 °F or the WBGT
+   equivalent; the 2024 proposed rule's high-heat trigger), nobody works more
+   than two hours without a 15-minute rest. Time worked earlier in the shift
+   counts, so if the crew has already worked two hours when High heat begins,
+   the rest starts right then. A rest that would end exactly at the end of the
+   shift is skipped (that is going home).
+3. **Stop.** If even 45 minutes of rest an hour exceeds the limit, the block is
    marked *stop* for that workload: switch to light tasks in shade or move the
    work to a cooler time.
 
@@ -131,7 +144,19 @@ Heat and Hot Environments* (2016), Chapter 4 (`heat/acclimatization.py`):
 
 At **High**, a buddy checks every 2 hours; at **Very high** and above, every
 hour; for first-week and acclimatizing workers, every hour from **Caution**
-(`plan_checkins`). The buddy gets a text: *reply 1 if OK, 2 if they need help*.
+(`plan_checkins`). There is also a check when a worker comes off the heat (the
+end of their reduced hours or of the shift), so a new worker on 45 minutes of
+heat still gets checked. The buddy gets a text: *reply 1 if OK, 2 if they need
+help*. Someone watching two people gets one text naming both.
+
+Pairing (`crews/services/buddies.py`) keeps the crew lead's choices and
+standing buddies, then pairs new workers with experienced ones. If new workers
+outnumber free experienced ones, an experienced worker watches more than one
+rather than two new workers watching each other.
+
+Replies are read safety-first: any sign of trouble (`2`, `help`, `ayuda`,
+`mal`, `not ok`, `no está bien`, ...) anywhere in the text counts as a call for
+help, even after a "yes" or "ok".
 A `2` (or `help`/`ayuda`) alerts the crew lead immediately. No reply within
 `SHADEBREAK_CHECKIN_GRACE_MINUTES` (default 15) alerts the crew lead too, and a
 late "OK" is passed on.

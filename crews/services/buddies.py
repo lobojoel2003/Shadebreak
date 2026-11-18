@@ -4,13 +4,17 @@ Order of preference:
 
 1. A pairing the crew lead set by hand for the day.
 2. The standing buddy on the worker's profile, if both are on site.
-3. New or acclimatizing workers paired with experienced ones.
+3. New or acclimatizing workers paired with experienced ones. When there
+   are more new workers than free experienced ones, an experienced worker
+   watches more than one (one-way), rather than two new workers watching
+   each other.
 4. Everyone else, two by two. An odd worker out is watched by someone
    experienced (a one-way pairing), so no one is left alone.
 """
 
 from __future__ import annotations
 
+from collections import Counter
 from collections.abc import Sequence
 
 from ..models import Assignment
@@ -45,6 +49,16 @@ def pair_buddies(assignments: Sequence[Assignment]) -> None:
 
     while vulnerable and seasoned:
         pair(vulnerable.pop(0), seasoned.pop(0))
+
+    experienced = [a for a in present if not a.needs_extra_care]
+    if vulnerable and experienced:
+        load = Counter(a.buddy_id for a in present if a.buddy_id)
+        for a in vulnerable:
+            helper = min(experienced, key=lambda e: (load[e.worker_id], e.worker.name))
+            a.buddy_id = helper.worker_id
+            load[helper.worker_id] += 1
+        vulnerable = []
+
     rest = vulnerable + seasoned
     while len(rest) >= 2:
         pair(rest.pop(0), rest.pop(0))

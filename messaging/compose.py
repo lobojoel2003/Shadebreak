@@ -205,18 +205,35 @@ def water_reminder(worker: Worker, risk: int) -> str:
         }
 
 
-def checkin_prompt(checkin: CheckIn, language: str, to_lead: bool) -> str:
-    crew = checkin.workday.site.crew
+def checkin_prompt(checkins: Sequence[CheckIn], language: str, to_lead: bool) -> str:
+    """Ask a buddy (or the crew lead) to look at one or more workers now."""
+    if isinstance(checkins, CheckIn):
+        checkins = [checkins]
+    crew = checkins[0].workday.site.crew
+    names = [c.worker.name for c in checkins]
     with translation.override(language):
+        listed = _join_names(names)
         if to_lead:
             return _(
                 "Shadebreak check-in: %(worker)s has no buddy on site. Check on them now. "
                 "Reply 1 if OK, 2 if they need help."
-            ) % {"worker": checkin.worker.name}
+            ) % {"worker": listed}
+        if len(names) > 1:
+            return _(
+                "Shadebreak check-in: look at %(workers)s now. Reply 1 if all are OK, "
+                "2 if anyone needs help. Danger signs: confusion, slurred speech, fainting, "
+                "hot dry skin - call %(number)s."
+            ) % {"workers": listed, "number": crew.emergency_number}
         return _(
             "Shadebreak check-in: look at %(worker)s now. Reply 1 if OK, 2 if they need help. "
             "Danger signs: confusion, slurred speech, fainting, hot dry skin - call %(number)s."
-        ) % {"worker": checkin.worker.name, "number": crew.emergency_number}
+        ) % {"worker": listed, "number": crew.emergency_number}
+
+
+def _join_names(names: Sequence[str]) -> str:
+    if len(names) <= 1:
+        return "".join(names)
+    return _("%(names)s and %(last)s") % {"names": ", ".join(names[:-1]), "last": names[-1]}
 
 
 def missed_checkin_alert(checkin: CheckIn) -> str:

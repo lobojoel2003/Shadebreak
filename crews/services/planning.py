@@ -30,9 +30,22 @@ def ensure_workday(site: JobSite, day: date) -> tuple[WorkDay, bool]:
         defaults={"start_time": site.shift_start, "end_time": site.shift_end},
     )
     if created:
-        regulars = site.regulars.filter(active=True)
+        regulars = site.regulars.filter(active=True, start_date__lte=day)
         Assignment.objects.bulk_create([Assignment(workday=workday, worker=w) for w in regulars])
     return workday, created
+
+
+def sync_regular(worker: Worker, today: date) -> None:
+    """Put an active worker on their usual site's upcoming days, and take an
+    inactive one off them. Past days are history and stay as they were."""
+    if not worker.active:
+        Assignment.objects.filter(worker=worker, workday__date__gte=today).delete()
+        return
+    if worker.site_id is None:
+        return
+    first_day = max(today, worker.start_date) if worker.start_date else today
+    for workday in WorkDay.objects.filter(site_id=worker.site_id, date__gte=first_day):
+        Assignment.objects.get_or_create(workday=workday, worker=worker)
 
 
 def ensure_scheduled_workdays(site: JobSite, day: date) -> WorkDay | None:
@@ -63,6 +76,7 @@ def heat_days(worker: Worker, before: date) -> list[date]:
         Assignment.objects.filter(
             worker=worker,
             workday__date__lt=before,
+            workday__date__gte=worker.start_date,
             workday__peak_risk__gte=RiskLevel.CAUTION,
         )
         .exclude(status=Assignment.Status.ABSENT)
@@ -101,6 +115,10 @@ def plan_workday(workday: WorkDay, now: datetime | None = None, notify: bool = T
     )
 
     assignments = list(workday.assignments.select_related("worker"))
+    not_started = [a.pk for a in assignments if a.worker.start_date and a.worker.start_date > workday.date]
+    if not_started:  # a start date moved later after the day was set up
+        Assignment.objects.filter(pk__in=not_started).delete()
+        assignments = [a for a in assignments if a.pk not in not_started]
     gap = settings.SHADEBREAK_ACCLIMATIZATION_GAP_DAYS
     for a in assignments:
         status = acclimatization_status(

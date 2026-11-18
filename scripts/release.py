@@ -50,7 +50,8 @@ def bump(version: str) -> None:
     text = text.replace("## [Unreleased]", f"## [Unreleased]\n\n## [{version}] - {today}", 1)
     text = re.sub(
         r"^\[Unreleased\]: .*$",
-        f"[Unreleased]: {REPO}/compare/v{version}...HEAD\n[{version}]: {REPO}/compare/v{previous}...v{version}",
+        f"[Unreleased]: {REPO}/compare/v{version}...HEAD\n"
+        f"[{version}]: {REPO}/compare/v{previous}...v{version}",
         text,
         count=1,
         flags=re.MULTILINE,

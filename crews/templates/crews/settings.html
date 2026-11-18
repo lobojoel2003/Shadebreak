@@ -2,6 +2,9 @@
 {% block title %}{% translate "Settings" %}{% endblock %}
 {% block content %}
 <div class="page-head"><div><div class="eyebrow">{{ crew.name }}</div><h1>{% translate "Crew settings" %}</h1></div></div>
+{% if crew.lead_opted_out %}
+<div class="alert-banner" role="alert">⚠ {% translate "The crew lead's number replied STOP, so it gets no alerts. Text START from that phone to turn alerts back on." %}</div>
+{% endif %}
 <form method="post" class="card form">
   {% csrf_token %}
   {% include "shadebreak/_field.html" with field=form.name %}

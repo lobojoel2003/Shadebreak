@@ -23,10 +23,17 @@ Work/rest is the ACGIH TLV (acclimatized workers) and Action Limit
 (unacclimatized workers) screening table for WBGT, as reproduced in the OSHA
 Technical Manual, Section III, Chapter 4. A clothing adjustment value is added
 to WBGT before the lookup.
+
+The printed table leaves continuous (75-100%) heavy and very heavy work blank.
+Those cells are filled from ACGIH's own equations for the limit at metabolic
+rate M (watts): TLV = 56.7 - 11.5 log10(M) and AL = 59.9 - 14.1 log10(M),
+with M = 415 W (heavy) and 520 W (very heavy). The same equations reproduce
+the printed light and moderate values to within 0.2 C.
 """
 
 from __future__ import annotations
 
+import math
 from enum import IntEnum, StrEnum
 
 from .units import c_to_f
@@ -80,20 +87,39 @@ WBGT_THRESHOLDS_F: tuple[tuple[float, Risk], ...] = (
     (80.0, Risk.CAUTION),
 )
 
-# Rows are work allocations 75-100%, 50-75%, 25-50% and 0-25% of each hour.
-# ``None`` means ACGIH gives no value because the strain is too high for that
-# much work. Values in degrees C WBGT.
+# Representative metabolic rates for each ACGIH work category, watts.
+METABOLIC_RATE_W: dict[Workload, int] = {
+    Workload.LIGHT: 180,
+    Workload.MODERATE: 300,
+    Workload.HEAVY: 415,
+    Workload.VERY_HEAVY: 520,
+}
+
+
+def continuous_tlv_c(workload: Workload | str) -> float:
+    """ACGIH TLV for continuous work at the category's metabolic rate."""
+    return round(56.7 - 11.5 * math.log10(METABOLIC_RATE_W[Workload(workload)]), 1)
+
+
+def continuous_action_limit_c(workload: Workload | str) -> float:
+    """ACGIH Action Limit for continuous work at the category's metabolic rate."""
+    return round(59.9 - 14.1 * math.log10(METABOLIC_RATE_W[Workload(workload)]), 1)
+
+
+# Rows are work allocations 75-100%, 50-75%, 25-50% and 0-25% of each hour,
+# in degrees C WBGT. ``None`` is a cell ACGIH leaves blank and no equation
+# fills (very heavy work at 50-75%): the next row applies.
 TLV_C: dict[Workload, tuple[float | None, ...]] = {
     Workload.LIGHT: (31.0, 31.0, 32.0, 32.5),
     Workload.MODERATE: (28.0, 29.0, 30.0, 31.5),
-    Workload.HEAVY: (None, 27.5, 29.0, 30.5),
-    Workload.VERY_HEAVY: (None, None, 28.0, 30.0),
+    Workload.HEAVY: (continuous_tlv_c(Workload.HEAVY), 27.5, 29.0, 30.5),
+    Workload.VERY_HEAVY: (continuous_tlv_c(Workload.VERY_HEAVY), None, 28.0, 30.0),
 }
 ACTION_LIMIT_C: dict[Workload, tuple[float | None, ...]] = {
     Workload.LIGHT: (28.0, 28.5, 29.5, 30.0),
     Workload.MODERATE: (25.0, 26.0, 27.0, 29.0),
-    Workload.HEAVY: (None, 24.0, 25.5, 28.0),
-    Workload.VERY_HEAVY: (None, None, 24.5, 27.0),
+    Workload.HEAVY: (continuous_action_limit_c(Workload.HEAVY), 24.0, 25.5, 28.0),
+    Workload.VERY_HEAVY: (continuous_action_limit_c(Workload.VERY_HEAVY), None, 24.5, 27.0),
 }
 # Minimum rest per hour for each of those rows.
 REST_MINUTES_BY_ROW = (0, 15, 30, 45)
@@ -115,9 +141,13 @@ def risk_from_wbgt_c(wbgt_c: float) -> Risk:
     return _level(c_to_f(wbgt_c), WBGT_THRESHOLDS_F)
 
 
-def hourly_risk(heat_index_f: float, wbgt_c: float) -> Risk:
-    """The higher of the heat-index and WBGT levels."""
-    return max(risk_from_heat_index(heat_index_f), risk_from_wbgt_c(wbgt_c))
+def hourly_risk(heat_index_f: float, wbgt_c: float, clothing_adjustment_c: float = 0.0) -> Risk:
+    """The higher of the heat-index and WBGT levels.
+
+    The clothing adjustment is added to WBGT, so crews in coveralls or
+    chemical suits reach each level at a lower air temperature.
+    """
+    return max(risk_from_heat_index(heat_index_f), risk_from_wbgt_c(wbgt_c + clothing_adjustment_c))
 
 
 def rest_minutes_per_hour(

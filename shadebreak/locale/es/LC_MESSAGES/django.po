@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Shadebreak 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 20:05+0000\n"
+"POT-Creation-Date: 2026-11-18 20:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Shadebreak maintainers\n"
 "Language-Team: Spanish\n"
@@ -96,39 +96,39 @@ msgstr ""
 "Recibe una alerta cuando nadie responde una revisión o alguien necesita "
 "ayuda."
 
-#: crews/forms.py:97
+#: crews/forms.py:106
 msgid "Crew or company name"
 msgstr "Nombre de la cuadrilla o empresa"
 
-#: crews/forms.py:98
+#: crews/forms.py:107
 msgid "Your name"
 msgstr "Su nombre"
 
-#: crews/forms.py:99
+#: crews/forms.py:108
 msgid "Time zone"
 msgstr "Zona horaria"
 
-#: crews/forms.py:119
+#: crews/forms.py:128
 msgid "Work days"
 msgstr "Días de trabajo"
 
-#: crews/forms.py:121
+#: crews/forms.py:130
 msgid "Latitude"
 msgstr "Latitud"
 
-#: crews/forms.py:122
+#: crews/forms.py:131
 msgid "Longitude"
 msgstr "Longitud"
 
-#: crews/forms.py:166
+#: crews/forms.py:175
 msgid "Enter both latitude and longitude, or neither."
 msgstr "Escriba la latitud y la longitud, o ninguna de las dos."
 
-#: crews/forms.py:168
+#: crews/forms.py:177
 msgid "Enter an address or use your location."
 msgstr "Escriba una dirección o use su ubicación."
 
-#: crews/forms.py:175
+#: crews/forms.py:184
 msgid ""
 "We could not find that address. Use your location or enter latitude and "
 "longitude."
@@ -136,27 +136,27 @@ msgstr ""
 "No encontramos esa dirección. Use su ubicación o escriba la latitud y la "
 "longitud."
 
-#: crews/forms.py:193
+#: crews/forms.py:202
 msgid "Mobile number"
 msgstr "Número de celular"
 
-#: crews/forms.py:226
+#: crews/forms.py:235
 msgid "Another worker on this crew already has this number."
 msgstr "Otro trabajador de esta cuadrilla ya tiene este número."
 
-#: crews/forms.py:232
+#: crews/forms.py:241
 msgid "Add a mobile number to send texts."
 msgstr "Agregue un número de celular para enviar mensajes."
 
-#: crews/forms.py:255
+#: crews/forms.py:264
 msgid "Follow schedule"
 msgstr "Seguir el plan"
 
-#: crews/forms.py:257
+#: crews/forms.py:266
 msgid "Time in heat"
 msgstr "Tiempo en el calor"
 
-#: crews/forms.py:270
+#: crews/forms.py:279
 msgid "Pick automatically"
 msgstr "Elegir automáticamente"
 
@@ -265,232 +265,231 @@ msgstr "nombre del jefe de cuadrilla"
 msgid "crew lead mobile"
 msgstr "celular del jefe de cuadrilla"
 
-#: crews/models.py:82
+#: crews/models.py:85
 msgid "emergency number"
 msgstr "número de emergencia"
 
-#: crews/models.py:83
+#: crews/models.py:86
 msgid "send text messages"
 msgstr "enviar mensajes de texto"
 
-#: crews/models.py:84
+#: crews/models.py:87
 msgid "hourly water reminders at High heat and above"
 msgstr "recordatorios de agua cada hora con calor Alto o más"
 
-#: crews/models.py:90
+#: crews/models.py:93
 msgid "crew"
 msgstr "cuadrilla"
 
-#: crews/models.py:91
+#: crews/models.py:94
 msgid "crews"
 msgstr "cuadrillas"
 
-#: crews/models.py:110
+#: crews/models.py:113
 msgid "site name"
 msgstr "nombre de la obra"
 
-#: crews/models.py:111
+#: crews/models.py:114
 msgid "address"
 msgstr "dirección"
 
-#: crews/models.py:113
+#: crews/models.py:116
 msgid "latitude"
 msgstr "latitud"
 
-#: crews/models.py:119
+#: crews/models.py:122
 msgid "longitude"
 msgstr "longitud"
 
-#: crews/models.py:125
+#: crews/models.py:128
 msgid "sun exposure"
 msgstr "exposición al sol"
 
-#: crews/models.py:128
+#: crews/models.py:131
 msgid "typical workload"
 msgstr "esfuerzo típico"
 
-#: crews/models.py:131
+#: crews/models.py:134
 msgid "clothing"
 msgstr "ropa"
 
-#: crews/models.py:133
+#: crews/models.py:136
 msgid "shift starts"
 msgstr "el turno empieza"
 
-#: crews/models.py:134
+#: crews/models.py:137
 msgid "shift ends"
 msgstr "el turno termina"
 
-#: crews/models.py:135
+#: crews/models.py:138
 msgid "work days"
 msgstr "días de trabajo"
 
-#: crews/models.py:136
+#: crews/models.py:139
 msgid "where the water is"
 msgstr "dónde está el agua"
 
-#: crews/models.py:137
+#: crews/models.py:140
 msgid "where the shade is"
 msgstr "dónde está la sombra"
 
-#: crews/models.py:138
+#: crews/models.py:141
 msgid "nearest hospital or urgent care"
 msgstr "hospital o clínica de urgencias más cercana"
 
-#: crews/models.py:139
+#: crews/models.py:142
 msgid "notes for the plan"
 msgstr "notas para el plan"
 
-#: crews/models.py:140 crews/models.py:230
+#: crews/models.py:143 crews/models.py:233
 msgid "active"
 msgstr "activo"
 
-#: crews/models.py:156
+#: crews/models.py:159
 msgid "job site"
 msgstr "obra"
 
-#: crews/models.py:157
+#: crews/models.py:160
 msgid "job sites"
 msgstr "obras"
 
-#: crews/models.py:167
+#: crews/models.py:170
 msgid "The shift must end at a different time."
 msgstr "El turno debe terminar a otra hora."
 
-#: crews/models.py:184
+#: crews/models.py:187
 msgid "Light work"
 msgstr "Trabajo ligero"
 
-#: crews/models.py:185
+#: crews/models.py:188
 msgid "Moderate work"
 msgstr "Trabajo moderado"
 
-#: crews/models.py:186
+#: crews/models.py:189
 msgid "Heavy work"
 msgstr "Trabajo pesado"
 
-#: crews/models.py:187
+#: crews/models.py:190
 msgid "Very heavy work"
 msgstr "Trabajo muy pesado"
 
-#: crews/models.py:202
+#: crews/models.py:205
 msgid "name"
 msgstr "nombre"
 
-#: crews/models.py:203
+#: crews/models.py:206
 msgid "mobile number"
 msgstr "número de celular"
 
-#: crews/models.py:204
+#: crews/models.py:207
 msgid "language"
 msgstr "idioma"
 
-#: crews/models.py:206
+#: crews/models.py:209
 msgid "heat experience"
 msgstr "experiencia con el calor"
 
-#: crews/models.py:208
+#: crews/models.py:211
 msgid "first day on this crew"
 msgstr "primer día en esta cuadrilla"
 
-#: crews/models.py:211
+#: crews/models.py:214
 msgid "usual site"
 msgstr "obra habitual"
 
-#: crews/models.py:219
+#: crews/models.py:222
 msgid "buddy"
 msgstr "compañero"
 
-#: crews/models.py:226
+#: crews/models.py:229
 msgid "agreed to get text messages"
 msgstr "aceptó recibir mensajes de texto"
 
-#: crews/models.py:228
+#: crews/models.py:231
 msgid "Only text people who said yes. Replying STOP turns texts off."
 msgstr ""
 "Solo envíe mensajes a quien dijo que sí. Si responde STOP, ya no recibe "
 "mensajes."
 
-#: crews/models.py:231
+#: crews/models.py:234
 msgid "notes"
 msgstr "notas"
 
-#: crews/models.py:236
+#: crews/models.py:239
 msgid "worker"
 msgstr "trabajador"
 
-#: crews/models.py:237
+#: crews/models.py:240
 msgid "workers"
 msgstr "trabajadores"
 
-#: crews/models.py:252
+#: crews/models.py:255
 msgid "A worker cannot be their own buddy."
 msgstr "Un trabajador no puede ser su propio compañero."
 
-#: crews/models.py:258
-#| msgid "New to hot work"
+#: crews/models.py:261
 msgid "New to heat work"
 msgstr "Nuevo con el calor"
 
-#: crews/models.py:259
+#: crews/models.py:262
 msgid "Returning or new to crew"
 msgstr "Regresa o es nuevo en la cuadrilla"
 
-#: crews/models.py:260 crews/templates/crews/plan/heat_plan.html:135
+#: crews/models.py:263 crews/templates/crews/plan/heat_plan.html:135
 msgid "Acclimatized"
 msgstr "Aclimatado"
 
-#: crews/models.py:280
+#: crews/models.py:283
 msgid "Sample data"
 msgstr "Datos de ejemplo"
 
-#: crews/models.py:377 messaging/models.py:20
+#: crews/models.py:380 messaging/models.py:20
 #: messaging/templates/messaging/log.html:21
 msgid "Scheduled"
 msgstr "Programado"
 
-#: crews/models.py:378
+#: crews/models.py:381
 msgid "Absent"
 msgstr "Ausente"
 
-#: crews/models.py:379
+#: crews/models.py:382
 msgid "Sent home or to care"
 msgstr "Enviado a casa o a atención médica"
 
-#: crews/models.py:396
+#: crews/models.py:399
 msgid "Leave empty to follow the acclimatization schedule."
 msgstr "Déjelo vacío para seguir el plan de aclimatación."
 
-#: crews/models.py:440
+#: crews/models.py:443
 msgid "Work/rest limit"
 msgstr "Límite de trabajo y descanso"
 
-#: crews/models.py:441
+#: crews/models.py:444
 msgid "15 minutes every 2 hours"
 msgstr "15 minutos cada 2 horas"
 
-#: crews/models.py:442
+#: crews/models.py:445
 msgid "Extra rest for new workers"
 msgstr "Descanso extra para trabajadores nuevos"
 
-#: crews/models.py:443
+#: crews/models.py:446
 msgid "Too hot for this work"
 msgstr "Demasiado calor para este trabajo"
 
-#: crews/models.py:485
+#: crews/models.py:488
 msgid "Waiting"
 msgstr "Esperando"
 
-#: crews/models.py:486 crews/templates/crews/_checkin.html:9
+#: crews/models.py:489 crews/templates/crews/_checkin.html:9
 msgid "OK"
 msgstr "Bien"
 
-#: crews/models.py:487 crews/templates/crews/_checkin.html:7
+#: crews/models.py:490 crews/templates/crews/_checkin.html:7
 #: crews/templates/crews/_checkin.html:10
 msgid "Needs help"
 msgstr "Necesita ayuda"
 
-#: crews/models.py:488 crews/templates/crews/_checkin.html:11
+#: crews/models.py:491 crews/templates/crews/_checkin.html:11
 msgid "No reply"
 msgstr "Sin respuesta"
 
@@ -1300,25 +1299,33 @@ msgstr "Ajustes"
 msgid "Crew settings"
 msgstr "Ajustes de la cuadrilla"
 
-#: crews/templates/crews/settings.html:19
+#: crews/templates/crews/settings.html:6
+msgid ""
+"The crew lead's number replied STOP, so it gets no alerts. Text START from "
+"that phone to turn alerts back on."
+msgstr ""
+"El número del jefe de cuadrilla respondió STOP, así que no recibe alertas. "
+"Envíe START desde ese teléfono para volver a activarlas."
+
+#: crews/templates/crews/settings.html:22
 #: crews/templates/crews/workday.html:58
 #: crews/templates/crews/worker_form.html:24
 msgid "Save"
 msgstr "Guardar"
 
-#: crews/templates/crews/settings.html:24
+#: crews/templates/crews/settings.html:27
 msgid "Switch crew"
 msgstr "Cambiar de cuadrilla"
 
-#: crews/templates/crews/settings.html:27
+#: crews/templates/crews/settings.html:30
 msgid "Switch"
 msgstr "Cambiar"
 
-#: crews/templates/crews/settings.html:33
+#: crews/templates/crews/settings.html:36
 msgid "Text message setup"
 msgstr "Configuración de mensajes de texto"
 
-#: crews/templates/crews/settings.html:34
+#: crews/templates/crews/settings.html:37
 msgid ""
 "Point your SMS provider's incoming-message webhook here so replies like 1 "
 "(OK) and 2 (needs help) reach Shadebreak:"
@@ -1326,7 +1333,7 @@ msgstr ""
 "Apunte el webhook de mensajes entrantes de su proveedor de SMS aquí para que"
 " las respuestas como 1 (bien) y 2 (necesita ayuda) lleguen a Shadebreak:"
 
-#: crews/templates/crews/settings.html:37
+#: crews/templates/crews/settings.html:40
 msgid "Other gateways"
 msgstr "Otras pasarelas"
 
@@ -1516,50 +1523,50 @@ msgstr ""
 "Agregue a las personas de su cuadrilla. Los trabajadores no necesitan una "
 "app ni una cuenta."
 
-#: crews/views.py:60
+#: crews/views.py:67
 #, python-format
 msgid "Could not reach the National Weather Service: %(error)s"
 msgstr "No se pudo conectar con el Servicio Meteorológico Nacional: %(error)s"
 
-#: crews/views.py:154
+#: crews/views.py:167
 #, python-format
 msgid "%(name)s added to the day."
 msgstr "%(name)s agregado al día."
 
-#: crews/views.py:175
+#: crews/views.py:188
 #, python-format
 msgid "Saved changes for %(name)s."
 msgstr "Cambios guardados para %(name)s."
 
-#: crews/views.py:177
+#: crews/views.py:190
 #, python-format
 msgid "Could not save: %(errors)s"
 msgstr "No se pudo guardar: %(errors)s"
 
-#: crews/views.py:193
+#: crews/views.py:206
 msgid "Marked in the app"
 msgstr "Marcado en la app"
 
-#: crews/views.py:226 crews/views.py:269
+#: crews/views.py:240 crews/views.py:285
 #, python-format
 msgid "Saved %(name)s."
 msgstr "%(name)s guardado."
 
-#: crews/views.py:238
+#: crews/views.py:254
 #, python-format
 msgid "%(name)s is no longer on the active crew."
 msgstr "%(name)s ya no está en la cuadrilla activa."
 
-#: crews/views.py:280
+#: crews/views.py:296
 #, python-format
 msgid "%(name)s is archived."
 msgstr "%(name)s está archivada."
 
-#: crews/views.py:308
+#: crews/views.py:324
 msgid "Crew settings saved."
 msgstr "Ajustes de la cuadrilla guardados."
 
-#: crews/views.py:330
+#: crews/views.py:346
 msgid "Welcome! Add your first job site to get today's heat plan."
 msgstr ""
 "¡Bienvenido! Agregue su primera obra para ver el plan de calor de hoy."
@@ -1720,7 +1727,7 @@ msgstr ""
 "Shadebreak: hora de tomar agua. Tome un vaso ahora, aunque no tenga sed. "
 "Calor: %(risk)s."
 
-#: messaging/compose.py:213
+#: messaging/compose.py:218
 #, python-format
 msgid ""
 "Shadebreak check-in: %(worker)s has no buddy on site. Check on them now. "
@@ -1729,7 +1736,23 @@ msgstr ""
 "Shadebreak revisión: %(worker)s no tiene compañero en la obra. Revise cómo "
 "está ahora. Responda 1 si está bien, 2 si necesita ayuda."
 
-#: messaging/compose.py:217
+#: messaging/compose.py:223
+#, python-format
+#| msgid ""
+#| "Shadebreak check-in: look at %(worker)s now. Reply 1 if OK, 2 if they need "
+#| "help. Danger signs: confusion, slurred speech, fainting, hot dry skin - call"
+#| " %(number)s."
+msgid ""
+"Shadebreak check-in: look at %(workers)s now. Reply 1 if all are OK, 2 if "
+"anyone needs help. Danger signs: confusion, slurred speech, fainting, hot "
+"dry skin - call %(number)s."
+msgstr ""
+"Shadebreak revisión: revise cómo están %(workers)s ahora. Responda 1 si "
+"todos están bien, 2 si alguien necesita ayuda. Señales de peligro: "
+"confusión, habla arrastrada, desmayo, piel caliente y seca - llame al "
+"%(number)s."
+
+#: messaging/compose.py:228
 #, python-format
 msgid ""
 "Shadebreak check-in: look at %(worker)s now. Reply 1 if OK, 2 if they need "
@@ -1740,11 +1763,17 @@ msgstr ""
 "bien, 2 si necesita ayuda. Señales de peligro: confusión, habla arrastrada, "
 "desmayo, piel caliente y seca - llame al %(number)s."
 
-#: messaging/compose.py:225
+#: messaging/compose.py:236
+#, python-format
+#| msgid "%(name)s (day %(day)s, until %(time)s)"
+msgid "%(names)s and %(last)s"
+msgstr "%(names)s y %(last)s"
+
+#: messaging/compose.py:242
 msgid "you"
 msgstr "usted"
 
-#: messaging/compose.py:227
+#: messaging/compose.py:244
 #, python-format
 msgid ""
 "Shadebreak ALERT: no reply to the %(time)s check-in on %(worker)s at "
@@ -1754,7 +1783,7 @@ msgstr ""
 "%(worker)s en %(site)s (se le preguntó a: %(buddy)s). Revise a %(worker)s "
 "ahora."
 
-#: messaging/compose.py:242
+#: messaging/compose.py:259
 #, python-format
 msgid ""
 "Shadebreak URGENT: %(worker)s texted for help at %(site)s. Call them now: "
@@ -1763,7 +1792,7 @@ msgstr ""
 "Shadebreak URGENTE: %(worker)s pidió ayuda por mensaje en %(site)s. Llámele "
 "ahora: %(phone)s. Si hay confusión, desmayo o no suda: llame al %(number)s."
 
-#: messaging/compose.py:251
+#: messaging/compose.py:268
 #, python-format
 msgid ""
 "Shadebreak URGENT: %(reporter)s says %(worker)s needs help at %(site)s. Go "
@@ -1774,21 +1803,21 @@ msgstr ""
 "%(site)s. Vaya ahora. Si hay confusión, desmayo o no suda: llame al "
 "%(number)s y enfríe a la persona con agua fría o hielo."
 
-#: messaging/compose.py:258
+#: messaging/compose.py:275
 #, python-format
 msgid "Shadebreak update: %(reporter)s says %(worker)s is OK."
 msgstr "Shadebreak aviso: %(reporter)s dice que %(worker)s está bien."
 
-#: messaging/compose.py:259
+#: messaging/compose.py:276
 msgid "Someone"
 msgstr "Alguien"
 
-#: messaging/compose.py:266
+#: messaging/compose.py:283
 #, python-format
 msgid "Thanks. Logged: %(names)s OK."
 msgstr "Gracias. Anotado: %(names)s bien."
 
-#: messaging/compose.py:272
+#: messaging/compose.py:289
 #, python-format
 msgid ""
 "Alert sent to your crew lead. Stay with %(names)s, get to shade and cool off"
@@ -1798,7 +1827,7 @@ msgstr ""
 "refrésquense con agua. Llame al %(number)s si hay confusión, desmayo o "
 "vómito."
 
-#: messaging/compose.py:280
+#: messaging/compose.py:297
 #, python-format
 msgid ""
 "Alert sent to your crew lead. Stop work, get to shade and drink water. If "
@@ -1807,19 +1836,19 @@ msgstr ""
 "Se avisó a su jefe de cuadrilla. Pare de trabajar, vaya a la sombra y tome "
 "agua. Si se siente confundido o mareado, llame al %(number)s."
 
-#: messaging/compose.py:287
+#: messaging/compose.py:304
 msgid ""
 "Shadebreak: you will not get more texts. Reply START to turn them back on."
 msgstr ""
 "Shadebreak: ya no recibirá mensajes. Responda START para volver a "
 "recibirlos."
 
-#: messaging/compose.py:292
+#: messaging/compose.py:309
 msgid "Shadebreak: texts are on. Reply STOP to turn them off."
 msgstr ""
 "Shadebreak: los mensajes están activados. Responda STOP para desactivarlos."
 
-#: messaging/compose.py:298
+#: messaging/compose.py:315
 #, python-format
 msgid ""
 "Shadebreak heat-safety texts. Reply 1 = OK, 2 = needs help, STOP = end "
@@ -1886,7 +1915,6 @@ msgid "Texts"
 msgstr "Mensajes"
 
 #: messaging/templates/messaging/log.html:5
-#| msgid "gets texts"
 msgid "All texts"
 msgstr "Todos los mensajes"
 

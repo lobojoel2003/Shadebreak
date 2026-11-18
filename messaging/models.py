@@ -34,6 +34,8 @@ class Message(models.Model):
     checkin = models.ForeignKey(
         "crews.CheckIn", on_delete=models.SET_NULL, null=True, blank=True, related_name="messages"
     )
+    # A check-in prompt can ask about several people at once (one text per buddy).
+    checkins = models.ManyToManyField("crews.CheckIn", blank=True, related_name="prompts")
     direction = models.CharField(max_length=3, choices=Direction.choices, default=Direction.OUTBOUND)
     kind = models.CharField(max_length=12, choices=Kind.choices)
     to_number = models.CharField(max_length=20, blank=True)

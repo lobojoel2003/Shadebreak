@@ -54,7 +54,10 @@ class TwilioBackend(BaseBackend):
             except ValueError:
                 detail = response.text[:200]
             raise SMSError(f"Twilio {response.status_code}: {detail}")
-        return SendResult(provider_id=response.json().get("sid", ""))
+        try:
+            return SendResult(provider_id=str(response.json().get("sid", "")))
+        except ValueError:
+            return SendResult()
 
 
 def twilio_signature(auth_token: str, url: str, params: dict[str, str]) -> str:

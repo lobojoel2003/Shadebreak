@@ -52,7 +52,9 @@ def test_hourly_risk_takes_the_higher_scale():
         (29.5, Workload.MODERATE, True, 30),
         (31.0, Workload.MODERATE, True, 45),
         (32.0, Workload.MODERATE, True, STOP_WORK),
-        (26.0, Workload.HEAVY, True, 15),  # no continuous heavy work in the TLV table
+        (26.0, Workload.HEAVY, True, 0),  # under the continuous heavy TLV from the ACGIH equation
+        (27.0, Workload.HEAVY, True, 15),
+        (26.0, Workload.HEAVY, False, 45),
         (30.0, Workload.HEAVY, True, 45),
         (24.5, Workload.MODERATE, False, 0),
         (25.5, Workload.MODERATE, False, 15),
@@ -82,6 +84,23 @@ def test_unacclimatized_limit_is_never_looser():
         for tenth in range(200, 340):
             wbgt = tenth / 10
             assert rest_minutes_per_hour(wbgt, workload, False) >= rest_minutes_per_hour(wbgt, workload, True)
+
+
+def test_acgih_equations_fill_the_blank_cells():
+    from heat.risk import continuous_action_limit_c, continuous_tlv_c
+
+    assert continuous_tlv_c(Workload.HEAVY) == 26.6
+    assert continuous_action_limit_c(Workload.HEAVY) == 23.0
+    assert continuous_tlv_c(Workload.VERY_HEAVY) == 25.5
+    # The equations reproduce the printed values for light and moderate work.
+    assert abs(continuous_tlv_c(Workload.MODERATE) - 28.0) <= 0.2
+    assert abs(continuous_action_limit_c(Workload.LIGHT) - 28.0) <= 0.2
+
+
+def test_clothing_raises_the_risk_level():
+    assert hourly_risk(79, 26.0) == Risk.LOW
+    assert hourly_risk(79, 26.0, clothing_adjustment_c=3) == Risk.CAUTION  # 29 C = 84.2 F
+    assert hourly_risk(79, 26.0, clothing_adjustment_c=11) == Risk.EXTREME
 
 
 def test_lighter_workload():

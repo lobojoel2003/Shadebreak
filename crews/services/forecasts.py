@@ -73,7 +73,7 @@ def rate_hours(
                 wbgt_c=round(wbgt, 2),
                 wbgt_shade_c=round(shade_wbgt, 2),
                 wbgt_source=wbgt_source,
-                risk=int(hourly_risk(hi, wbgt)),
+                risk=int(hourly_risk(hi, wbgt, site.clothing_adjustment_c)),
                 source=source,
                 fetched_at=fetched_at,
             )

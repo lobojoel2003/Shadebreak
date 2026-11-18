@@ -88,7 +88,10 @@ def test_template_tags():
     assert render("{% time_range a b s %}", a=start, b=noon, s=site) == "6:15 AM–12:30 PM"
     assert render("{{ t|hour_number:s }}{{ t|meridiem:s }}", t=noon, s=site) == "12PM"
     assert render("{{ c|f }}|{{ none|f }}", c=30, none=None) == "86|"
-    assert render("{{ r|risk_slug }}|{{ r|risk_label }}|{{ n|risk_slug }}", r=3, n=None) == "very-high|Very high|unknown"
+    assert (
+        render("{{ r|risk_slug }}|{{ r|risk_label }}|{{ n|risk_slug }}", r=3, n=None)
+        == "very-high|Very high|unknown"
+    )
     assert render("{{ p|phone }}", p="+16025550142") == "(602) 555-0142"
     assert render("{{ t|local }}", t=None) == ""
     assert render("{{ b|minutes_between:a }}", a=start, b=end) == "15"

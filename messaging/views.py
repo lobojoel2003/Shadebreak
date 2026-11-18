@@ -83,6 +83,7 @@ def gateway_inbound(request):
     if result.reply and request.GET.get("reply") != "inline":
         send_now(
             crew_id=result.crew_id,
+            worker_id=result.worker_id,
             kind=Message.Kind.REPLY,
             to_number=sender,
             body=result.reply,

@@ -21,10 +21,16 @@ that would arrive more than 30 minutes late are skipped rather than sent.
 | Reply | Meaning |
 | --- | --- |
 | `1`, `ok`, `sí`, `bien` | The person checked on is OK |
-| `2`, `help`, `ayuda` | They need help: the crew lead is alerted right away |
-| `STOP`, `alto` | Stop all texts to this number |
+| `2`, `help`, `ayuda`, `mal`, `not ok`, `no está bien` | They need help: the crew lead is alerted right away |
+| `STOP`, `alto` (the whole text) | Stop all texts to this number, including a crew lead's alerts |
 | `START` | Turn texts back on |
 | anything else | A short help message |
+
+Replies are read safety-first: a sign of trouble anywhere in the text wins, so
+"Sí, necesita ayuda" or "Stop, he collapsed" alerts the crew lead rather than
+counting as OK or opting out. Someone who watches two people gets one text
+naming both, and `1` means both are OK. If one phone number belongs to people
+on two crews, a reply goes to the crew that texted that number last.
 
 A worker who texts `help` without a pending check-in also triggers an urgent
 alert to the crew lead, with their number.

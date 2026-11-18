@@ -92,6 +92,15 @@ class CrewForm(forms.ModelForm):
             self.instance.timezone if self.instance else None
         )
 
+    def save(self, commit=True):
+        crew = super().save(commit=False)
+        if "lead_phone" in self.changed_data:
+            crew.lead_opted_out = False  # a new number has not said STOP
+        if commit:
+            crew.save()
+            self.save_m2m()
+        return crew
+
 
 class SignupForm(UserCreationForm):
     crew_name = forms.CharField(label=_("Crew or company name"), max_length=120)

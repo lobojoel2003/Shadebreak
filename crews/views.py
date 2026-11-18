@@ -12,6 +12,7 @@ from django.db.models import Count, Q
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone, translation
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
@@ -23,7 +24,13 @@ from .models import Assignment, CheckIn, Crew, JobSite, WorkDay, Worker
 from .services.access import SESSION_KEY
 from .services.dashboard import build_site_day
 from .services.forecasts import refresh_site_forecast, rerate_site
-from .services.planning import ensure_scheduled_workdays, ensure_workday, plan_site_days, plan_workday
+from .services.planning import (
+    ensure_scheduled_workdays,
+    ensure_workday,
+    plan_site_days,
+    plan_workday,
+    sync_regular,
+)
 
 
 def crew_required(view):
@@ -141,7 +148,10 @@ def workday_refresh(request, pk: int):
     plan_workday(workday)
     if request.htmx:
         return _card_response(request, workday)
-    return redirect(request.POST.get("next") or "dashboard")
+    target = request.POST.get("next", "")
+    if not url_has_allowed_host_and_scheme(target, {request.get_host()}, require_https=request.is_secure()):
+        target = "dashboard"
+    return redirect(target)
 
 
 @crew_required
@@ -149,6 +159,9 @@ def workday_refresh(request, pk: int):
 def workday_add_worker(request, pk: int):
     workday = _workday_for(request, pk)
     worker = get_object_or_404(Worker, pk=request.POST.get("worker"), crew=request.crew)
+    if worker.start_date and worker.start_date > workday.date:
+        worker.start_date = workday.date  # working this day means they have started
+        worker.save(update_fields=["start_date"])
     Assignment.objects.get_or_create(workday=workday, worker=worker)
     plan_workday(workday)
     messages.success(request, _("%(name)s added to the day.") % {"name": worker.name})
@@ -222,6 +235,7 @@ def worker_form(request, pk: int | None = None):
     form = WorkerForm(request.POST or None, instance=worker, crew=crew)
     if request.method == "POST" and form.is_valid():
         saved = form.save()
+        sync_regular(saved, crew.today())
         _replan_upcoming(crew)
         messages.success(request, _("Saved %(name)s.") % {"name": saved.name})
         return redirect("worker_list")
@@ -235,6 +249,8 @@ def worker_deactivate(request, pk: int):
     worker.active = False
     worker.save(update_fields=["active"])
     Worker.objects.filter(buddy=worker).update(buddy=None)
+    sync_regular(worker, request.crew.today())
+    _replan_upcoming(request.crew)
     messages.success(request, _("%(name)s is no longer on the active crew.") % {"name": worker.name})
     return redirect("worker_list")
 
@@ -252,7 +268,7 @@ def site_list(request):
 def site_form(request, pk: int | None = None):
     crew = request.crew
     site = get_object_or_404(JobSite, pk=pk, crew=crew) if pk else None
-    before = (site.exposure, site.latitude, site.longitude) if site else None
+    before = (site.exposure, site.latitude, site.longitude, site.clothing) if site else None
     form = SiteForm(request.POST or None, instance=site, crew=crew)
     if request.method == "POST" and form.is_valid():
         saved = form.save()
@@ -260,7 +276,7 @@ def site_form(request, pk: int | None = None):
         if moved:
             saved.forecasts.all().delete()
             _refresh(request, saved)
-        elif before[0] != saved.exposure:
+        elif (before[0], before[3]) != (saved.exposure, saved.clothing):
             rerate_site(saved)
         for workday in saved.workdays.filter(date__gte=crew.today()):
             workday.start_time, workday.end_time = saved.shift_start, saved.shift_end

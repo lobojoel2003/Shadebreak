@@ -1,3 +1,4 @@
+import itertools
 from datetime import UTC, datetime, timedelta
 
 from heat.risk import Risk, Workload
@@ -37,7 +38,13 @@ def test_conditions_at():
 
 
 def test_no_breaks_on_a_low_day():
-    assert plan_breaks(hours([0] * 8), START, START + 8 * H, Workload.HEAVY) == []
+    assert plan_breaks(hours([0] * 8, wbgt_f=[70] * 8, hi=75), START, START + 8 * H, Workload.HEAVY) == []
+
+
+def test_action_limit_applies_to_new_workers_before_caution():
+    # 75 F WBGT (23.9 C) is under Caution, but over the heavy-work Action Limit (23.0 C).
+    breaks = plan_breaks(hours([0] * 2, wbgt_f=[75, 75], hi=75), START, START + 2 * H, Workload.HEAVY)
+    assert breaks and all(b.minutes == 0 and b.new_worker_minutes == 15 for b in breaks)
 
 
 def test_two_hour_rule_at_high_heat_when_table_needs_nothing():
@@ -63,9 +70,37 @@ def test_work_rest_table_applies_for_heavy_work():
     assert all(b.new_worker_stop and not b.stop for b in breaks)
 
 
-def test_table_waits_for_wbgt_caution_even_if_heat_index_is_caution():
+def test_humid_dawn_on_heat_index_alone_needs_no_table_rest():
     forecast = hours([1] * 3, wbgt_f=[70, 70, 70], hi=82)
     assert plan_breaks(forecast, START, START + 3 * H, Workload.HEAVY) == []
+
+
+def test_clothing_counts_even_when_the_hour_looks_low():
+    # Reviewer case: WBGT 26 C, heat index 79 F, vapor-barrier suits (+11 C).
+    forecast = hours([0] * 2, wbgt_f=[78.8, 78.8], hi=79)
+    breaks = plan_breaks(forecast, START, START + 2 * H, Workload.MODERATE, clothing_adjustment_c=11)
+    assert len(breaks) == 2 and all(b.stop and b.new_worker_stop for b in breaks)
+    double_layer = plan_breaks(forecast, START, START + 2 * H, Workload.MODERATE, clothing_adjustment_c=3)
+    assert [(b.minutes, b.new_worker_minutes) for b in double_layer] == [(15, 45), (15, 45)]
+
+
+def test_two_hour_rest_comes_when_high_heat_starts_after_two_hours_of_work():
+    # Low 6-8 AM, High from 8 AM; light work stays under the TLV.
+    forecast = hours([0, 0, 2, 2, 2, 2], wbgt_f=[70, 72, 85, 85, 85, 85], hi=95)
+    crew = [b for b in plan_breaks(forecast, START, START + 6 * H, Workload.LIGHT) if b.minutes]
+    assert crew[0].start == START + 2 * H and crew[0].end == START + 2 * H + timedelta(minutes=15)
+    # Then every two hours after that rest at the latest.
+    gaps = [later.start - earlier.end for earlier, later in itertools.pairwise(crew)]
+    assert all(gap <= 2 * H for gap in gaps)
+
+
+def test_shift_across_daylight_saving_change_uses_real_hours():
+    from zoneinfo import ZoneInfo
+
+    chicago = ZoneInfo("America/Chicago")
+    start = datetime(2026, 11, 1, 0, 0, tzinfo=chicago)  # clocks fall back at 2 AM
+    end = datetime(2026, 11, 1, 4, 0, tzinfo=chicago)
+    assert len(shift_blocks(start, end)) == 5  # five real hours
 
 
 def test_clothing_adjustment_can_trigger_the_table():
@@ -98,12 +133,20 @@ def test_partial_block_rest_is_scaled():
 def test_checkins_by_risk():
     assert plan_checkins(hours([0] * 6), START, START + 6 * H) == []
     high = plan_checkins(hours([2] * 6), START, START + 6 * H)
-    assert [t - START for t in high] == [1 * H, 3 * H, 5 * H]
+    assert [t - START for t in high] == [1 * H, 3 * H, 5 * H, 6 * H]  # plus one at the end of the shift
     very_high = plan_checkins(hours([3] * 4), START, START + 4 * H)
-    assert len(very_high) == 3
+    assert len(very_high) == 4
     first_week = plan_checkins(hours([1] * 4), START, START + 4 * H, first_week=True)
-    assert len(first_week) == 3
+    assert len(first_week) == 4
     assert plan_checkins(hours([1] * 4), START, START + 4 * H) == []
+
+
+def test_new_worker_gets_a_checkin_when_coming_off_the_heat():
+    # Reviewer case: heat starts at 10:00, a 20% worker stops at 10:45.
+    forecast = hours([0, 0, 0, 0, 1, 1, 1, 1])
+    end = START + 4 * H + timedelta(minutes=45)
+    assert plan_checkins(forecast, START, end, first_week=True) == [end]
+    assert plan_checkins(forecast, START, START, first_week=True) == []
 
 
 def test_exposure_end_counts_only_hot_time():

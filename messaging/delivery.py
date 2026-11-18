@@ -40,6 +40,8 @@ def deliver(message: Message, backend: BaseBackend | None = None, now: datetime 
         return finish(Message.Status.EXPIRED, error="Worker is not opted in to texts")
     if message.crew_id and not message.crew.sms_enabled:
         return finish(Message.Status.EXPIRED, error="Texts are turned off for this crew")
+    if message.crew_id and message.crew.lead_opted_out and message.to_number == message.crew.lead_phone:
+        return finish(Message.Status.EXPIRED, error="The crew lead replied STOP")
     if not message.to_number:
         return finish(Message.Status.FAILED, error="No phone number")
 
@@ -49,6 +51,9 @@ def deliver(message: Message, backend: BaseBackend | None = None, now: datetime 
     except SMSError as exc:
         logger.warning("SMS %s to %s failed: %s", message.pk, message.to_number, exc)
         return finish(Message.Status.FAILED, error=str(exc)[:255], sent_at=now)
+    except Exception as exc:
+        logger.exception("SMS %s to %s failed unexpectedly", message.pk, message.to_number)
+        return finish(Message.Status.FAILED, error=f"Unexpected error: {exc}"[:255], sent_at=now)
     return finish(Message.Status.SENT, provider_id=result.provider_id[:64], sent_at=now, error="")
 
 

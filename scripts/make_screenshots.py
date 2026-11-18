@@ -37,13 +37,20 @@ def main() -> None:
     server = subprocess.Popen([sys.executable, str(ROOT / "scripts" / "demo_server.py"), "--port", str(PORT)])
     try:
         wait_for_server()
-        subprocess.run(["node", str(ROOT / "scripts" / "screenshots.cjs"), BASE, str(images)], check=True, env=os.environ)
+        subprocess.run(
+            ["node", str(ROOT / "scripts" / "screenshots.cjs"), BASE, str(images)], check=True, env=os.environ
+        )
     finally:
         server.terminate()
         server.wait(timeout=10)
     subprocess.run([sys.executable, str(ROOT / "scripts" / "sample_plan.py"), "--out", str(dist)], check=True)
     subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "compose_images.py"), str(images), str(dist / "shadebreak-sample-heat-plan-en.pdf")],
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "compose_images.py"),
+            str(images),
+            str(dist / "shadebreak-sample-heat-plan-en.pdf"),
+        ],
         check=True,
     )
 

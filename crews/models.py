@@ -79,6 +79,9 @@ class Crew(models.Model):
         blank=True,
         help_text=_("Gets an alert when a check-in is missed or someone needs help."),
     )
+    lead_opted_out = models.BooleanField(
+        default=False, help_text="The crew lead replied STOP; no texts go to the lead's number."
+    )
     emergency_number = models.CharField(_("emergency number"), max_length=20, default="911")
     sms_enabled = models.BooleanField(_("send text messages"), default=True)
     water_reminders = models.BooleanField(_("hourly water reminders at High heat and above"), default=True)

@@ -22,17 +22,19 @@ plans every hot day around the National Weather Service forecast.
   partly shaded or mostly shaded. Each hour is rated Low, Caution, High,
   Very high or Extreme on the higher of the two scales.
 - **Breaks:** work/rest cycles from the ACGIH TLV (crew) and Action Limit
-  (new workers) for the site's workload and clothing; a 15-minute rest at
-  least every 2 hours at High heat; "stop" blocks when even 45 minutes of
-  rest an hour is not enough.
+  (new workers) for the site's workload and clothing, with ACGIH's
+  metabolic-rate equations filling the table's blank continuous-work cells;
+  a 15-minute rest before anyone passes two hours of work at High heat;
+  "stop" blocks when even 45 minutes of rest an hour is not enough.
 - **Acclimatization:** the NIOSH ramp for new workers (20/40/60/80/100%) and
   for experienced or returning workers (50/60/80/100%). Only hot days count,
   the ramp restarts after time away, and only hot hours are reduced, so new
   workers can still work a cool morning. First-week workers are flagged.
 - **Buddies and check-ins:** automatic pairing (new workers with experienced
-  ones), buddy check-ins by text every 1–2 hours depending on heat, replies
-  `1` (OK) and `2` (needs help), and alerts to the crew lead for help
-  requests and unanswered check-ins.
+  ones), buddy check-ins by text every 1–2 hours depending on heat and when a
+  worker comes off the heat, one text per buddy, safety-first reading of
+  replies (`1` OK, `2`/`help`/`ayuda` needs help), and alerts to the crew lead
+  for help requests and unanswered check-ins.
 - **Text messages:** morning briefings, break and water reminders, check-ins
   and alerts in English and Spanish, with `STOP`/`START` handling. Pluggable
   backends: console, Twilio (REST, signed webhooks) and any HTTP SMS gateway.
