@@ -1,0 +1,2014 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Shadebreak 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 20:05+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Shadebreak maintainers\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: crews/apps.py:7
+msgid "Crews and job sites"
+msgstr "Cuadrillas y obras"
+
+#: crews/forms.py:14
+msgid "Eastern (New York)"
+msgstr "Este (Nueva York)"
+
+#: crews/forms.py:15
+msgid "Central (Chicago)"
+msgstr "Centro (Chicago)"
+
+#: crews/forms.py:16
+msgid "Mountain (Denver)"
+msgstr "Montaña (Denver)"
+
+#: crews/forms.py:17
+msgid "Arizona (Phoenix, no daylight saving)"
+msgstr "Arizona (Phoenix, sin horario de verano)"
+
+#: crews/forms.py:18
+msgid "Pacific (Los Angeles)"
+msgstr "Pacífico (Los Ángeles)"
+
+#: crews/forms.py:19
+msgid "Alaska (Anchorage)"
+msgstr "Alaska (Anchorage)"
+
+#: crews/forms.py:20
+msgid "Hawaii (Honolulu)"
+msgstr "Hawái (Honolulu)"
+
+#: crews/forms.py:21
+msgid "Atlantic (Puerto Rico)"
+msgstr "Atlántico (Puerto Rico)"
+
+#: crews/forms.py:22
+msgid "Chamorro (Guam)"
+msgstr "Chamorro (Guam)"
+
+#: crews/forms.py:26
+msgid "Mon"
+msgstr "Lun"
+
+#: crews/forms.py:27
+msgid "Tue"
+msgstr "Mar"
+
+#: crews/forms.py:28
+msgid "Wed"
+msgstr "Mié"
+
+#: crews/forms.py:29
+msgid "Thu"
+msgstr "Jue"
+
+#: crews/forms.py:30
+msgid "Fri"
+msgstr "Vie"
+
+#: crews/forms.py:31
+msgid "Sat"
+msgstr "Sáb"
+
+#: crews/forms.py:32
+msgid "Sun"
+msgstr "Dom"
+
+#: crews/forms.py:71
+msgid "Crew lead mobile"
+msgstr "Celular del jefe de cuadrilla"
+
+#: crews/forms.py:72 crews/models.py:80
+msgid "Gets an alert when a check-in is missed or someone needs help."
+msgstr ""
+"Recibe una alerta cuando nadie responde una revisión o alguien necesita "
+"ayuda."
+
+#: crews/forms.py:97
+msgid "Crew or company name"
+msgstr "Nombre de la cuadrilla o empresa"
+
+#: crews/forms.py:98
+msgid "Your name"
+msgstr "Su nombre"
+
+#: crews/forms.py:99
+msgid "Time zone"
+msgstr "Zona horaria"
+
+#: crews/forms.py:119
+msgid "Work days"
+msgstr "Días de trabajo"
+
+#: crews/forms.py:121
+msgid "Latitude"
+msgstr "Latitud"
+
+#: crews/forms.py:122
+msgid "Longitude"
+msgstr "Longitud"
+
+#: crews/forms.py:166
+msgid "Enter both latitude and longitude, or neither."
+msgstr "Escriba la latitud y la longitud, o ninguna de las dos."
+
+#: crews/forms.py:168
+msgid "Enter an address or use your location."
+msgstr "Escriba una dirección o use su ubicación."
+
+#: crews/forms.py:175
+msgid ""
+"We could not find that address. Use your location or enter latitude and "
+"longitude."
+msgstr ""
+"No encontramos esa dirección. Use su ubicación o escriba la latitud y la "
+"longitud."
+
+#: crews/forms.py:193
+msgid "Mobile number"
+msgstr "Número de celular"
+
+#: crews/forms.py:226
+msgid "Another worker on this crew already has this number."
+msgstr "Otro trabajador de esta cuadrilla ya tiene este número."
+
+#: crews/forms.py:232
+msgid "Add a mobile number to send texts."
+msgstr "Agregue un número de celular para enviar mensajes."
+
+#: crews/forms.py:255
+msgid "Follow schedule"
+msgstr "Seguir el plan"
+
+#: crews/forms.py:257
+msgid "Time in heat"
+msgstr "Tiempo en el calor"
+
+#: crews/forms.py:270
+msgid "Pick automatically"
+msgstr "Elegir automáticamente"
+
+#: crews/models.py:26
+msgid "Unknown time zone."
+msgstr "Zona horaria desconocida."
+
+#: crews/models.py:31
+msgid "Pick at least one work day."
+msgstr "Elija al menos un día de trabajo."
+
+#: crews/models.py:35 crews/plan.py:22 crews/templates/crews/_strip.html:13
+msgid "Low"
+msgstr "Bajo"
+
+#: crews/models.py:36 crews/plan.py:29 crews/templates/crews/_strip.html:14
+msgid "Caution"
+msgstr "Precaución"
+
+#: crews/models.py:37 crews/plan.py:39 crews/templates/crews/_strip.html:15
+msgid "High"
+msgstr "Alto"
+
+#: crews/models.py:38 crews/plan.py:49 crews/templates/crews/_strip.html:16
+msgid "Very high"
+msgstr "Muy alto"
+
+#: crews/models.py:39 crews/plan.py:56 crews/templates/crews/_strip.html:17
+msgid "Extreme"
+msgstr "Extremo"
+
+#: crews/models.py:43
+msgid "Light: walking, light hand work, driving equipment"
+msgstr "Ligero: caminar, trabajo ligero con las manos, manejar equipo"
+
+#: crews/models.py:44
+msgid "Moderate: mowing, pruning, steady hand and arm work"
+msgstr "Moderado: cortar pasto, podar, trabajo constante con manos y brazos"
+
+#: crews/models.py:45
+msgid "Heavy: digging, shoveling, carrying, roofing"
+msgstr "Pesado: excavar, palear, cargar, techar"
+
+#: crews/models.py:46
+msgid "Very heavy: fast shoveling, heavy lifting, hauling"
+msgstr "Muy pesado: palear rápido, levantar mucho peso, acarrear"
+
+#: crews/models.py:50
+msgid "Full sun"
+msgstr "Pleno sol"
+
+#: crews/models.py:51
+msgid "Partly shaded"
+msgstr "Sombra parcial"
+
+#: crews/models.py:52
+msgid "Mostly shaded"
+msgstr "Mayormente a la sombra"
+
+#: crews/models.py:56
+msgid "Regular work clothes or cloth coveralls"
+msgstr "Ropa de trabajo normal u overol de tela"
+
+#: crews/models.py:57
+msgid "Double-layer woven coveralls"
+msgstr "Overol de tela de doble capa"
+
+#: crews/models.py:58
+msgid "Polyolefin coveralls (for example Tyvek)"
+msgstr "Overol de poliolefina (por ejemplo, Tyvek)"
+
+#: crews/models.py:59
+msgid "Vapor-barrier chemical suits"
+msgstr "Traje químico impermeable al vapor"
+
+#: crews/models.py:63
+msgid "New to hot outdoor work"
+msgstr "Nuevo en el trabajo al aire libre con calor"
+
+#: crews/models.py:64
+msgid "Done hot work before, but new to the crew or back from time off"
+msgstr ""
+"Ya trabajó con calor, pero es nuevo en la cuadrilla o regresa de un descanso"
+
+#: crews/models.py:65
+msgid "Already working in the heat"
+msgstr "Ya está trabajando en el calor"
+
+#: crews/models.py:69
+msgid "crew name"
+msgstr "nombre de la cuadrilla"
+
+#: crews/models.py:70
+msgid "plan language"
+msgstr "idioma del plan"
+
+#: crews/models.py:72
+msgid "time zone"
+msgstr "zona horaria"
+
+#: crews/models.py:75
+msgid "crew lead name"
+msgstr "nombre del jefe de cuadrilla"
+
+#: crews/models.py:77
+msgid "crew lead mobile"
+msgstr "celular del jefe de cuadrilla"
+
+#: crews/models.py:82
+msgid "emergency number"
+msgstr "número de emergencia"
+
+#: crews/models.py:83
+msgid "send text messages"
+msgstr "enviar mensajes de texto"
+
+#: crews/models.py:84
+msgid "hourly water reminders at High heat and above"
+msgstr "recordatorios de agua cada hora con calor Alto o más"
+
+#: crews/models.py:90
+msgid "crew"
+msgstr "cuadrilla"
+
+#: crews/models.py:91
+msgid "crews"
+msgstr "cuadrillas"
+
+#: crews/models.py:110
+msgid "site name"
+msgstr "nombre de la obra"
+
+#: crews/models.py:111
+msgid "address"
+msgstr "dirección"
+
+#: crews/models.py:113
+msgid "latitude"
+msgstr "latitud"
+
+#: crews/models.py:119
+msgid "longitude"
+msgstr "longitud"
+
+#: crews/models.py:125
+msgid "sun exposure"
+msgstr "exposición al sol"
+
+#: crews/models.py:128
+msgid "typical workload"
+msgstr "esfuerzo típico"
+
+#: crews/models.py:131
+msgid "clothing"
+msgstr "ropa"
+
+#: crews/models.py:133
+msgid "shift starts"
+msgstr "el turno empieza"
+
+#: crews/models.py:134
+msgid "shift ends"
+msgstr "el turno termina"
+
+#: crews/models.py:135
+msgid "work days"
+msgstr "días de trabajo"
+
+#: crews/models.py:136
+msgid "where the water is"
+msgstr "dónde está el agua"
+
+#: crews/models.py:137
+msgid "where the shade is"
+msgstr "dónde está la sombra"
+
+#: crews/models.py:138
+msgid "nearest hospital or urgent care"
+msgstr "hospital o clínica de urgencias más cercana"
+
+#: crews/models.py:139
+msgid "notes for the plan"
+msgstr "notas para el plan"
+
+#: crews/models.py:140 crews/models.py:230
+msgid "active"
+msgstr "activo"
+
+#: crews/models.py:156
+msgid "job site"
+msgstr "obra"
+
+#: crews/models.py:157
+msgid "job sites"
+msgstr "obras"
+
+#: crews/models.py:167
+msgid "The shift must end at a different time."
+msgstr "El turno debe terminar a otra hora."
+
+#: crews/models.py:184
+msgid "Light work"
+msgstr "Trabajo ligero"
+
+#: crews/models.py:185
+msgid "Moderate work"
+msgstr "Trabajo moderado"
+
+#: crews/models.py:186
+msgid "Heavy work"
+msgstr "Trabajo pesado"
+
+#: crews/models.py:187
+msgid "Very heavy work"
+msgstr "Trabajo muy pesado"
+
+#: crews/models.py:202
+msgid "name"
+msgstr "nombre"
+
+#: crews/models.py:203
+msgid "mobile number"
+msgstr "número de celular"
+
+#: crews/models.py:204
+msgid "language"
+msgstr "idioma"
+
+#: crews/models.py:206
+msgid "heat experience"
+msgstr "experiencia con el calor"
+
+#: crews/models.py:208
+msgid "first day on this crew"
+msgstr "primer día en esta cuadrilla"
+
+#: crews/models.py:211
+msgid "usual site"
+msgstr "obra habitual"
+
+#: crews/models.py:219
+msgid "buddy"
+msgstr "compañero"
+
+#: crews/models.py:226
+msgid "agreed to get text messages"
+msgstr "aceptó recibir mensajes de texto"
+
+#: crews/models.py:228
+msgid "Only text people who said yes. Replying STOP turns texts off."
+msgstr ""
+"Solo envíe mensajes a quien dijo que sí. Si responde STOP, ya no recibe "
+"mensajes."
+
+#: crews/models.py:231
+msgid "notes"
+msgstr "notas"
+
+#: crews/models.py:236
+msgid "worker"
+msgstr "trabajador"
+
+#: crews/models.py:237
+msgid "workers"
+msgstr "trabajadores"
+
+#: crews/models.py:252
+msgid "A worker cannot be their own buddy."
+msgstr "Un trabajador no puede ser su propio compañero."
+
+#: crews/models.py:258
+#| msgid "New to hot work"
+msgid "New to heat work"
+msgstr "Nuevo con el calor"
+
+#: crews/models.py:259
+msgid "Returning or new to crew"
+msgstr "Regresa o es nuevo en la cuadrilla"
+
+#: crews/models.py:260 crews/templates/crews/plan/heat_plan.html:135
+msgid "Acclimatized"
+msgstr "Aclimatado"
+
+#: crews/models.py:280
+msgid "Sample data"
+msgstr "Datos de ejemplo"
+
+#: crews/models.py:377 messaging/models.py:20
+#: messaging/templates/messaging/log.html:21
+msgid "Scheduled"
+msgstr "Programado"
+
+#: crews/models.py:378
+msgid "Absent"
+msgstr "Ausente"
+
+#: crews/models.py:379
+msgid "Sent home or to care"
+msgstr "Enviado a casa o a atención médica"
+
+#: crews/models.py:396
+msgid "Leave empty to follow the acclimatization schedule."
+msgstr "Déjelo vacío para seguir el plan de aclimatación."
+
+#: crews/models.py:440
+msgid "Work/rest limit"
+msgstr "Límite de trabajo y descanso"
+
+#: crews/models.py:441
+msgid "15 minutes every 2 hours"
+msgstr "15 minutos cada 2 horas"
+
+#: crews/models.py:442
+msgid "Extra rest for new workers"
+msgstr "Descanso extra para trabajadores nuevos"
+
+#: crews/models.py:443
+msgid "Too hot for this work"
+msgstr "Demasiado calor para este trabajo"
+
+#: crews/models.py:485
+msgid "Waiting"
+msgstr "Esperando"
+
+#: crews/models.py:486 crews/templates/crews/_checkin.html:9
+msgid "OK"
+msgstr "Bien"
+
+#: crews/models.py:487 crews/templates/crews/_checkin.html:7
+#: crews/templates/crews/_checkin.html:10
+msgid "Needs help"
+msgstr "Necesita ayuda"
+
+#: crews/models.py:488 crews/templates/crews/_checkin.html:11
+msgid "No reply"
+msgstr "Sin respuesta"
+
+#: crews/phones.py:24
+msgid "Enter a 10-digit U.S. number or a full number starting with +."
+msgstr ""
+"Escriba un número de EE. UU. de 10 dígitos o un número completo que empiece "
+"con +."
+
+#: crews/phones.py:26
+msgid "That phone number is not the right length."
+msgstr "Ese número de teléfono no tiene el largo correcto."
+
+#: crews/plan.py:23 crews/plan.py:24
+msgid "Below 80°F"
+msgstr "Menos de 80°F"
+
+#: crews/plan.py:25
+msgid "Water, shade and rest available all shift. Watch new workers."
+msgstr ""
+"Agua, sombra y descanso disponibles todo el turno. Vigile a los trabajadores"
+" nuevos."
+
+#: crews/plan.py:33
+msgid ""
+"Cool water within reach: 1 cup every 15–20 minutes. Shade for every rest. "
+"Rest whenever needed. New workers on reduced hours."
+msgstr ""
+"Agua fresca a la mano: 1 vaso cada 15 a 20 minutos. Sombra en cada descanso."
+" Descansar cuando haga falta. Trabajadores nuevos con horas reducidas."
+
+#: crews/plan.py:43
+msgid ""
+"At least a 15-minute rest in shade every 2 hours. Buddy check-ins every 2 "
+"hours. Talk about heat at the start of the shift."
+msgstr ""
+"Al menos 15 minutos de descanso a la sombra cada 2 horas. Revisión entre "
+"compañeros cada 2 horas. Hablar del calor al empezar el turno."
+
+#: crews/plan.py:52
+msgid ""
+"Follow the work/rest schedule. Hourly buddy check-ins. Move heavy work to "
+"the coolest hours."
+msgstr ""
+"Seguir el horario de trabajo y descanso. Revisión entre compañeros cada "
+"hora. Pasar el trabajo pesado a las horas más frescas."
+
+#: crews/plan.py:57
+msgid "115°F and up"
+msgstr "115°F o más"
+
+#: crews/plan.py:58
+msgid "90°F and up"
+msgstr "90°F o más"
+
+#: crews/plan.py:60
+msgid ""
+"Stop heavy work unless it cannot wait. Light work only, with long rests in "
+"shade and constant watch."
+msgstr ""
+"Parar el trabajo pesado salvo que no pueda esperar. Solo trabajo ligero, con"
+" descansos largos a la sombra y vigilancia constante."
+
+#: crews/templates/crews/_checkin.html:1
+#, python-format
+msgid "Asked %(name)s"
+msgstr "Se le preguntó a %(name)s"
+
+#: crews/templates/crews/_checkin.html:1
+msgid "Asked the crew lead"
+msgstr "Se le preguntó al jefe de cuadrilla"
+
+#: crews/templates/crews/_checkin.html:6
+msgid "Mark OK"
+msgstr "Marcar bien"
+
+#: crews/templates/crews/_checkin.html:12
+msgid "later"
+msgstr "más tarde"
+
+#: crews/templates/crews/_site_card.html:8
+msgid "No forecast"
+msgstr "Sin pronóstico"
+
+#: crews/templates/crews/_site_card.html:14
+#, python-format
+msgid "Peak at %(time)s · heat index %(hi)s°F"
+msgstr "Máximo a las %(time)s · índice de calor %(hi)s°F"
+
+#: crews/templates/crews/_site_card.html:18
+msgid ""
+"No forecast for this day yet. Refresh to pull the latest from the National "
+"Weather Service."
+msgstr ""
+"Todavía no hay pronóstico para este día. Actualice para traer lo más "
+"reciente del Servicio Meteorológico Nacional."
+
+#: crews/templates/crews/_site_card.html:22
+#, python-format
+msgid "%(n)s check-in needs attention."
+msgid_plural "%(n)s check-ins need attention."
+msgstr[0] "%(n)s revisión necesita atención."
+msgstr[1] "%(n)s revisiones necesitan atención."
+
+#: crews/templates/crews/_site_card.html:25
+msgid "Breaks"
+msgstr "Descansos"
+
+#: crews/templates/crews/_site_card.html:32
+#, python-format
+msgid "Stop: too hot for %(work)s"
+msgstr "Parar: demasiado calor para %(work)s"
+
+#: crews/templates/crews/_site_card.html:33
+#, python-format
+msgid ""
+"WBGT %(wbgt)s°F is over the limit even with 45 min rest an hour. Light tasks"
+" in shade only."
+msgstr ""
+"WBGT de %(wbgt)s°F pasa el límite aun con 45 min de descanso por hora. Solo "
+"tareas ligeras a la sombra."
+
+#: crews/templates/crews/_site_card.html:38
+#, python-format
+msgid "Rest %(m)s min in shade, drink water"
+msgstr "Descanso de %(m)s min a la sombra, tomar agua"
+
+#: crews/templates/crews/_site_card.html:39
+msgid "new workers stop this hour"
+msgstr "los nuevos paran esta hora"
+
+#: crews/templates/crews/_site_card.html:39
+#, python-format
+msgid "new workers: %(m)s min from %(t)s"
+msgstr "nuevos: %(m)s min desde las %(t)s"
+
+#: crews/templates/crews/_site_card.html:44
+msgid "New workers: stop, shade only"
+msgstr "Nuevos: parar, solo sombra"
+
+#: crews/templates/crews/_site_card.html:44
+#, python-format
+msgid "New workers rest %(m)s min"
+msgstr "Los nuevos descansan %(m)s min"
+
+#: crews/templates/crews/_site_card.html:45
+msgid "Stricter limit while their bodies adjust to heat"
+msgstr "Límite más estricto mientras su cuerpo se acostumbra al calor"
+
+#: crews/templates/crews/_site_card.html:51
+msgid ""
+"No fixed breaks needed at this workload. Rest whenever someone needs it; "
+"water and shade must be close."
+msgstr ""
+"No hacen falta descansos fijos con este esfuerzo. Descanse cuando alguien lo"
+" necesite; el agua y la sombra deben estar cerca."
+
+#: crews/templates/crews/_site_card.html:53
+msgid "Low heat: no extra breaks. Keep water and shade available."
+msgstr "Calor bajo: sin descansos extra. Tenga agua y sombra disponibles."
+
+#: crews/templates/crews/_site_card.html:56
+#, python-format
+msgid "Crew (%(n)s)"
+msgid_plural "Crew (%(n)s)"
+msgstr[0] "Cuadrilla (%(n)s)"
+msgstr[1] "Cuadrilla (%(n)s)"
+
+#: crews/templates/crews/_site_card.html:56
+#, python-format
+msgid "%(n)s needs extra care"
+msgid_plural "%(n)s need extra care"
+msgstr[0] "%(n)s necesita cuidado extra"
+msgstr[1] "%(n)s necesitan cuidado extra"
+
+#: crews/templates/crews/_site_card.html:65
+#: crews/templates/crews/plan/heat_plan.html:135
+#: crews/templates/crews/workday.html:49 crews/templates/crews/workers.html:17
+msgid "First week"
+msgstr "Primera semana"
+
+#: crews/templates/crews/_site_card.html:66
+#: crews/templates/crews/workers.html:18
+#, python-format
+msgid "Day %(d)s of %(n)s"
+msgstr "Día %(d)s de %(n)s"
+
+#: crews/templates/crews/_site_card.html:70
+#, python-format
+msgid ""
+"In the heat until <strong>%(t)s</strong> (%(p)s%% of the hot hours), then "
+"shade or cool tasks"
+msgstr ""
+"En el calor hasta las <strong>%(t)s</strong> (%(p)s%% de las horas de "
+"calor), luego sombra o tareas frescas"
+
+#: crews/templates/crews/_site_card.html:72
+msgid "Full shift: no heat to count toward the ramp today"
+msgstr "Turno completo: hoy no hay calor que cuente para la aclimatación"
+
+#: crews/templates/crews/_site_card.html:74
+#, python-format
+msgid "Buddy: %(name)s"
+msgstr "Compañero: %(name)s"
+
+#: crews/templates/crews/_site_card.html:74
+msgid "No buddy on site: the crew lead checks in"
+msgstr "Sin compañero en la obra: el jefe de cuadrilla lo revisa"
+
+#: crews/templates/crews/_site_card.html:83
+msgid "Nobody is scheduled here. Open the day to add workers."
+msgstr "No hay nadie programado aquí. Abra el día para agregar trabajadores."
+
+#: crews/templates/crews/_site_card.html:88
+msgid "Refresh forecast"
+msgstr "Actualizar pronóstico"
+
+#: crews/templates/crews/_site_card.html:90
+msgid "Edit day"
+msgstr "Editar día"
+
+#: crews/templates/crews/_site_card.html:91
+msgid "Heat plan PDF"
+msgstr "Plan de calor en PDF"
+
+#: crews/templates/crews/_site_card.html:94
+msgid "Sample forecast"
+msgstr "Pronóstico de ejemplo"
+
+#: crews/templates/crews/_site_card.html:94
+#, python-format
+msgid "NWS forecast updated %(when)s ago"
+msgstr "Pronóstico del NWS actualizado hace %(when)s"
+
+#: crews/templates/crews/_site_card.html:94
+msgid "out of date"
+msgstr "desactualizado"
+
+#: crews/templates/crews/_strip.html:1
+msgid "Heat risk by hour (WBGT in °F)"
+msgstr "Riesgo de calor por hora (WBGT en °F)"
+
+#: crews/templates/crews/_strip.html:4
+msgid "heat index"
+msgstr "índice de calor"
+
+#: crews/templates/crews/_strip.html:7
+#: crews/templates/crews/plan/heat_plan.html:117
+#: crews/templates/crews/plan/heat_plan.html:118
+msgid "Stop"
+msgstr "Parar"
+
+#: crews/templates/crews/_strip.html:7 crews/templates/crews/_strip.html:18
+msgid "Break"
+msgstr "Descanso"
+
+#: crews/templates/crews/_strip.html:19
+msgid "Big number: WBGT °F · small: heat index °F"
+msgstr "Número grande: WBGT °F · pequeño: índice de calor °F"
+
+#: crews/templates/crews/dashboard.html:2
+#: crews/templates/crews/dashboard.html:11 shadebreak/templates/base.html:27
+#: shadebreak/templates/base.html:66
+msgid "Today"
+msgstr "Hoy"
+
+#: crews/templates/crews/dashboard.html:6
+msgid "Today's heat plan"
+msgstr "Plan de calor de hoy"
+
+#: crews/templates/crews/dashboard.html:6
+msgid "Heat plan for"
+msgstr "Plan de calor para el"
+
+#: crews/templates/crews/dashboard.html:10
+msgid "Previous day"
+msgstr "Día anterior"
+
+#: crews/templates/crews/dashboard.html:12
+msgid "Next day"
+msgstr "Día siguiente"
+
+#: crews/templates/crews/dashboard.html:19
+msgid "Add your first job site"
+msgstr "Agregue su primera obra"
+
+#: crews/templates/crews/dashboard.html:20
+msgid ""
+"Shadebreak pulls the National Weather Service forecast for each site and "
+"plans breaks around it."
+msgstr ""
+"Shadebreak trae el pronóstico del Servicio Meteorológico Nacional para cada "
+"obra y planea los descansos según el calor."
+
+#: crews/templates/crews/dashboard.html:21
+#: crews/templates/crews/site_form.html:5 crews/templates/crews/sites.html:22
+msgid "Add a job site"
+msgstr "Agregar una obra"
+
+#: crews/templates/crews/dashboard.html:30
+msgid "No work scheduled"
+msgstr "No hay trabajo programado"
+
+#: crews/templates/crews/dashboard.html:31
+msgid "None of your sites work on this day."
+msgstr "Ninguna de sus obras trabaja este día."
+
+#: crews/templates/crews/dashboard.html:36
+msgid "Add your crew so Shadebreak can ramp up new workers and pair buddies."
+msgstr ""
+"Agregue a su cuadrilla para que Shadebreak aclimate a los nuevos y forme "
+"parejas de compañeros."
+
+#: crews/templates/crews/dashboard.html:36
+#: crews/templates/crews/workday.html:70
+msgid "Add a worker"
+msgstr "Agregar un trabajador"
+
+#: crews/templates/crews/dashboard.html:40
+msgid "Not working this day"
+msgstr "No trabajan este día"
+
+#: crews/templates/crews/dashboard.html:45
+msgid "Schedule work"
+msgstr "Programar trabajo"
+
+#: crews/templates/crews/onboarding.html:2
+#: crews/templates/crews/onboarding.html:5
+#: shadebreak/templates/registration/login.html:20
+#: shadebreak/templates/registration/signup.html:2
+#: shadebreak/templates/registration/signup.html:7
+msgid "Set up your crew"
+msgstr "Configure su cuadrilla"
+
+#: crews/templates/crews/onboarding.html:8
+msgid "Continue"
+msgstr "Continuar"
+
+#: crews/templates/crews/plan/heat_plan.html:5
+#: crews/templates/crews/plan/heat_plan.html:53
+msgid "Heat illness prevention plan"
+msgstr "Plan de prevención de enfermedades por calor"
+
+#: crews/templates/crews/plan/heat_plan.html:58
+#: crews/templates/crews/plan/heat_plan.html:137
+#: messaging/templates/messaging/_message_rows.html:5
+#: messaging/templates/messaging/_message_rows.html:7
+msgid "Crew lead"
+msgstr "Jefe de cuadrilla"
+
+#: crews/templates/crews/plan/heat_plan.html:59
+msgid "Emergency"
+msgstr "Emergencia"
+
+#: crews/templates/crews/plan/heat_plan.html:60
+msgid "Printed"
+msgstr "Impreso"
+
+#: crews/templates/crews/plan/heat_plan.html:61
+msgid "Version"
+msgstr "Versión"
+
+#: crews/templates/crews/plan/heat_plan.html:63
+msgid ""
+"Heat illness is preventable. Every worker on this crew has the right to "
+"water, rest and shade, and to stop and cool down when they feel sick, "
+"without being punished. New workers build up slowly: most heat deaths happen"
+" in the first week on the job."
+msgstr ""
+"Las enfermedades por calor se pueden prevenir. Cada trabajador de esta "
+"cuadrilla tiene derecho a agua, descanso y sombra, y a parar y refrescarse "
+"cuando se sienta mal, sin castigo. Los trabajadores nuevos empiezan poco a "
+"poco: la mayoría de las muertes por calor ocurren en la primera semana de "
+"trabajo."
+
+#: crews/templates/crews/plan/heat_plan.html:65
+msgid "How we rate heat and what we do"
+msgstr "Cómo medimos el calor y qué hacemos"
+
+#: crews/templates/crews/plan/heat_plan.html:66
+msgid ""
+"Each hour gets the higher of two ratings: heat index (temperature and "
+"humidity, in shade) and wet bulb globe temperature, WBGT (which also counts "
+"sun and wind)."
+msgstr ""
+"Cada hora recibe la más alta de dos medidas: el índice de calor (temperatura"
+" y humedad, a la sombra) y la temperatura de globo y bulbo húmedo, WBGT (que"
+" también cuenta el sol y el viento)."
+
+#: crews/templates/crews/plan/heat_plan.html:68
+msgid "Level"
+msgstr "Nivel"
+
+#: crews/templates/crews/plan/heat_plan.html:68
+#: crews/templates/crews/workday.html:19
+msgid "Heat index"
+msgstr "Índice de calor"
+
+#: crews/templates/crews/plan/heat_plan.html:68
+msgid "What we do"
+msgstr "Qué hacemos"
+
+#: crews/templates/crews/plan/heat_plan.html:80
+msgid "Address"
+msgstr "Dirección"
+
+#: crews/templates/crews/plan/heat_plan.html:81
+msgid "Location"
+msgstr "Ubicación"
+
+#: crews/templates/crews/plan/heat_plan.html:82
+msgid "Shift"
+msgstr "Turno"
+
+#: crews/templates/crews/plan/heat_plan.html:83
+msgid "Work"
+msgstr "Trabajo"
+
+#: crews/templates/crews/plan/heat_plan.html:84
+msgid "Clothing"
+msgstr "Ropa"
+
+#: crews/templates/crews/plan/heat_plan.html:87
+msgid "Water"
+msgstr "Agua"
+
+#: crews/templates/crews/plan/heat_plan.html:88
+#: crews/templates/crews/workday.html:19
+msgid "Shade"
+msgstr "Sombra"
+
+#: crews/templates/crews/plan/heat_plan.html:89
+msgid "Nearest hospital"
+msgstr "Hospital más cercano"
+
+#: crews/templates/crews/plan/heat_plan.html:95
+#, python-format
+msgid "Peak %(wbgt)s°F WBGT, heat index %(hi)s°F, at %(time)s."
+msgstr ""
+"Máximo de %(wbgt)s°F WBGT, índice de calor de %(hi)s°F, a las %(time)s."
+
+#: crews/templates/crews/plan/heat_plan.html:96
+msgid "sample forecast"
+msgstr "pronóstico de ejemplo"
+
+#: crews/templates/crews/plan/heat_plan.html:96
+msgid "National Weather Service forecast"
+msgstr "pronóstico del Servicio Meteorológico Nacional"
+
+#: crews/templates/crews/plan/heat_plan.html:98
+msgid "Hour"
+msgstr "Hora"
+
+#: crews/templates/crews/plan/heat_plan.html:98
+#: crews/templates/crews/workday.html:19
+msgid "Risk"
+msgstr "Riesgo"
+
+#: crews/templates/crews/plan/heat_plan.html:98
+msgid "Heat index °F"
+msgstr "Índice de calor °F"
+
+#: crews/templates/crews/plan/heat_plan.html:98
+msgid "Temp °F"
+msgstr "Temp. °F"
+
+#: crews/templates/crews/plan/heat_plan.html:98
+#: crews/templates/crews/workday.html:19
+msgid "Humidity"
+msgstr "Humedad"
+
+#: crews/templates/crews/plan/heat_plan.html:98
+msgid "Wind m/s"
+msgstr "Viento m/s"
+
+#: crews/templates/crews/plan/heat_plan.html:106
+msgid ""
+"No forecast was available when this plan was printed. Check the National "
+"Weather Service forecast and treat the day as High risk until you know more."
+msgstr ""
+"No había pronóstico cuando se imprimió este plan. Revise el pronóstico del "
+"Servicio Meteorológico Nacional y trate el día como riesgo Alto hasta saber "
+"más."
+
+#: crews/templates/crews/plan/heat_plan.html:109
+msgid "Rest breaks"
+msgstr "Descansos"
+
+#: crews/templates/crews/plan/heat_plan.html:112
+#: crews/templates/crews/workday.html:19
+msgid "Time"
+msgstr "Hora"
+
+#: crews/templates/crews/plan/heat_plan.html:112
+msgid "Everyone"
+msgstr "Todos"
+
+#: crews/templates/crews/plan/heat_plan.html:112
+msgid "New and ramping workers"
+msgstr "Trabajadores nuevos y en aclimatación"
+
+#: crews/templates/crews/plan/heat_plan.html:112
+msgid "Why"
+msgstr "Por qué"
+
+#: crews/templates/crews/plan/heat_plan.html:117
+#: crews/templates/crews/plan/heat_plan.html:118
+#, python-format
+msgid "%(m)s min rest"
+msgstr "%(m)s min de descanso"
+
+#: crews/templates/crews/plan/heat_plan.html:125
+msgid ""
+"No fixed breaks are required by the forecast. Workers rest in shade whenever"
+" they need to."
+msgstr ""
+"El pronóstico no exige descansos fijos. Los trabajadores descansan a la "
+"sombra cuando lo necesiten."
+
+#: crews/templates/crews/plan/heat_plan.html:128
+msgid "Crew, hours in the heat and buddies"
+msgstr "Cuadrilla, horas en el calor y compañeros"
+
+#: crews/templates/crews/plan/heat_plan.html:130
+#: crews/templates/crews/plan/heat_plan.html:208
+msgid "Name"
+msgstr "Nombre"
+
+#: crews/templates/crews/plan/heat_plan.html:130
+msgid "Status"
+msgstr "Estado"
+
+#: crews/templates/crews/plan/heat_plan.html:130
+msgid "In the heat until"
+msgstr "En el calor hasta"
+
+#: crews/templates/crews/plan/heat_plan.html:130
+msgid "Buddy"
+msgstr "Compañero"
+
+#: crews/templates/crews/plan/heat_plan.html:130
+msgid "Check-ins"
+msgstr "Revisiones"
+
+#: crews/templates/crews/plan/heat_plan.html:135
+#, python-format
+msgid "Ramp day %(d)s of %(n)s (%(p)s%%)"
+msgstr "Aclimatación día %(d)s de %(n)s (%(p)s%%)"
+
+#: crews/templates/crews/plan/heat_plan.html:136
+msgid "End of shift"
+msgstr "Fin del turno"
+
+#: crews/templates/crews/plan/heat_plan.html:145
+msgid "No sites are scheduled to work on this day."
+msgstr "Ninguna obra tiene trabajo programado este día."
+
+#: crews/templates/crews/plan/heat_plan.html:149
+msgid "A gradual start for new and returning workers"
+msgstr "Un comienzo gradual para trabajadores nuevos y que regresan"
+
+#: crews/templates/crews/plan/heat_plan.html:150
+msgid ""
+"Bodies take about a week to adjust to heat. New workers spend only part of "
+"the hot hours in the heat at first, following NIOSH guidance. Only days at "
+"Caution or above count. After a week or more away from hot work, the "
+"returning schedule starts again."
+msgstr ""
+"El cuerpo tarda alrededor de una semana en acostumbrarse al calor. Al "
+"principio, los trabajadores nuevos pasan solo una parte de las horas de "
+"calor en el calor, según las recomendaciones de NIOSH. Solo cuentan los días"
+" con nivel de Precaución o más. Después de una semana o más sin trabajar con"
+" calor, se vuelve a empezar el plan para quienes regresan."
+
+#: crews/templates/crews/plan/heat_plan.html:153
+msgid "New to hot work"
+msgstr "Nuevo en el trabajo con calor"
+
+#: crews/templates/crews/plan/heat_plan.html:154
+#: crews/templates/crews/plan/heat_plan.html:160
+#: crews/templates/crews/plan_page.html:9
+msgid "Day"
+msgstr "Día"
+
+#: crews/templates/crews/plan/heat_plan.html:154
+#: crews/templates/crews/plan/heat_plan.html:160
+msgid "Share of hot hours"
+msgstr "Parte de las horas de calor"
+
+#: crews/templates/crews/plan/heat_plan.html:159
+msgid "Experienced, new to the crew or returning"
+msgstr "Con experiencia, nuevo en la cuadrilla o que regresa"
+
+#: crews/templates/crews/plan/heat_plan.html:166
+msgid "Water, rest and shade"
+msgstr "Agua, descanso y sombra"
+
+#: crews/templates/crews/plan/heat_plan.html:168
+msgid ""
+"Cool drinking water close to the work, enough for 1 quart per worker per "
+"hour. Drink 1 cup every 15–20 minutes, even when not thirsty."
+msgstr ""
+"Agua fresca para tomar cerca del trabajo, suficiente para 1 cuarto de galón "
+"por trabajador por hora. Tome 1 vaso cada 15 a 20 minutos, aunque no tenga "
+"sed."
+
+#: crews/templates/crews/plan/heat_plan.html:169
+msgid ""
+"Shade big enough for everyone on break to sit at the same time, as close to "
+"the work as possible."
+msgstr ""
+"Sombra suficiente para que todos los que descansan se sienten al mismo "
+"tiempo, lo más cerca posible del trabajo."
+
+#: crews/templates/crews/plan/heat_plan.html:170
+msgid ""
+"Anyone may take a rest in shade at any time to prevent overheating. Rest at "
+"least 5 minutes and until they feel better."
+msgstr ""
+"Cualquiera puede descansar a la sombra en cualquier momento para no "
+"sobrecalentarse. Descanse al menos 5 minutos y hasta sentirse mejor."
+
+#: crews/templates/crews/plan/heat_plan.html:171
+msgid ""
+"Buddies check on each other at the times above. Reply to Shadebreak texts: 1"
+" = OK, 2 = needs help."
+msgstr ""
+"Los compañeros se revisan entre sí a las horas indicadas. Responda a los "
+"mensajes de Shadebreak: 1 = bien, 2 = necesita ayuda."
+
+#: crews/templates/crews/plan/heat_plan.html:174
+msgid "Warning signs and first aid"
+msgstr "Señales de alerta y primeros auxilios"
+
+#: crews/templates/crews/plan/heat_plan.html:177
+msgid "Heat exhaustion"
+msgstr "Agotamiento por calor"
+
+#: crews/templates/crews/plan/heat_plan.html:178
+msgid ""
+"Heavy sweating, cool pale clammy skin, fast weak pulse, nausea or vomiting, "
+"muscle cramps, tiredness or weakness, dizziness, headache, fainting."
+msgstr ""
+"Sudor abundante, piel fría, pálida y húmeda, pulso rápido y débil, náuseas o"
+" vómito, calambres, cansancio o debilidad, mareo, dolor de cabeza, desmayo."
+
+#: crews/templates/crews/plan/heat_plan.html:180
+msgid "Stop work. Move to shade or a cool place."
+msgstr "Pare de trabajar. Vaya a la sombra o a un lugar fresco."
+
+#: crews/templates/crews/plan/heat_plan.html:181
+msgid "Loosen clothing. Cool with wet cloths and fanning."
+msgstr "Afloje la ropa. Refresque con trapos mojados y abanicando."
+
+#: crews/templates/crews/plan/heat_plan.html:182
+msgid "Sip cool water."
+msgstr "Tome agua fresca a sorbos."
+
+#: crews/templates/crews/plan/heat_plan.html:183
+msgid ""
+"Get medical help if they vomit, get worse, or are not better within an hour."
+" Do not leave them alone."
+msgstr ""
+"Busque atención médica si vomita, empeora o no mejora en una hora. No lo "
+"deje solo."
+
+#: crews/templates/crews/plan/heat_plan.html:187
+msgid "Heat stroke: a medical emergency"
+msgstr "Golpe de calor: una emergencia médica"
+
+#: crews/templates/crews/plan/heat_plan.html:188
+msgid ""
+"Confusion, slurred speech, acting strange, fainting or seizures, very high "
+"body temperature, hot red skin that may be dry or damp."
+msgstr ""
+"Confusión, habla arrastrada, comportamiento extraño, desmayo o convulsiones,"
+" temperatura del cuerpo muy alta, piel caliente y roja que puede estar seca "
+"o húmeda."
+
+#: crews/templates/crews/plan/heat_plan.html:190
+#, python-format
+msgid "Call %(number)s now."
+msgstr "Llame al %(number)s ahora."
+
+#: crews/templates/crews/plan/heat_plan.html:191
+msgid ""
+"Cool them right away: cold water or ice on the body, ice-water immersion if "
+"available, wet towels and fanning."
+msgstr ""
+"Enfríe a la persona de inmediato: agua fría o hielo en el cuerpo, inmersión "
+"en agua con hielo si hay, toallas mojadas y abanicar."
+
+#: crews/templates/crews/plan/heat_plan.html:192
+msgid ""
+"Stay with them. Do not give drinks if they are confused or not fully awake."
+msgstr ""
+"Quédese con la persona. No le dé de beber si está confundida o no está bien "
+"despierta."
+
+#: crews/templates/crews/plan/heat_plan.html:193
+msgid "Send someone to meet the ambulance and guide it in."
+msgstr "Mande a alguien a recibir a la ambulancia y guiarla."
+
+#: crews/templates/crews/plan/heat_plan.html:198
+msgid "In an emergency"
+msgstr "En una emergencia"
+
+#: crews/templates/crews/plan/heat_plan.html:200
+#, python-format
+msgid ""
+"Call %(number)s. Say: \"Heat emergency,\" the site address and the closest "
+"cross street."
+msgstr ""
+"Llame al %(number)s. Diga: \"Emergencia por calor\", la dirección de la obra"
+" y la calle cercana que la cruza."
+
+#: crews/templates/crews/plan/heat_plan.html:201
+msgid ""
+"Start cooling the worker while you wait. Keep cooling until help arrives."
+msgstr ""
+"Empiece a enfriar al trabajador mientras espera. Siga enfriando hasta que "
+"llegue la ayuda."
+
+#: crews/templates/crews/plan/heat_plan.html:202
+msgid "the crew lead"
+msgstr "el jefe de cuadrilla"
+
+#: crews/templates/crews/plan/heat_plan.html:202
+#, python-format
+msgid "Tell %(name)s right away."
+msgstr "Avise de inmediato a %(name)s."
+
+#: crews/templates/crews/plan/heat_plan.html:205
+msgid "Sign-off"
+msgstr "Firmas"
+
+#: crews/templates/crews/plan/heat_plan.html:206
+msgid ""
+"I received this plan and was trained on heat illness: signs, first aid, "
+"water, rest, shade and my right to stop and cool down."
+msgstr ""
+"Recibí este plan y me capacitaron sobre las enfermedades por calor: señales,"
+" primeros auxilios, agua, descanso, sombra y mi derecho a parar y "
+"refrescarme."
+
+#: crews/templates/crews/plan/heat_plan.html:208
+msgid "Signature"
+msgstr "Firma"
+
+#: crews/templates/crews/plan/heat_plan.html:208
+msgid "Date"
+msgstr "Fecha"
+
+#: crews/templates/crews/plan/heat_plan.html:215
+msgid ""
+"Sources: NIOSH Criteria for a Recommended Standard, Occupational Exposure to"
+" Heat and Hot Environments (2016); ACGIH heat stress TLV and action limit as"
+" reproduced in the OSHA Technical Manual; National Weather Service heat "
+"index; WBGT estimated with the Liljegren method (thermofeel). Breaks follow "
+"the 2024 proposed OSHA heat rule's triggers; check current OSHA and state "
+"rules that apply to you."
+msgstr ""
+"Fuentes: NIOSH, Criterios para una norma recomendada sobre exposición "
+"ocupacional al calor (2016); TLV y límite de acción de ACGIH para estrés por"
+" calor, según el Manual Técnico de OSHA; índice de calor del Servicio "
+"Meteorológico Nacional; WBGT estimado con el método de Liljegren "
+"(thermofeel). Los descansos siguen los umbrales de la norma de calor "
+"propuesta por OSHA en 2024; revise las normas actuales de OSHA y de su "
+"estado que le apliquen."
+
+#: crews/templates/crews/plan_page.html:2 shadebreak/templates/base.html:31
+msgid "Heat plan"
+msgstr "Plan de calor"
+
+#: crews/templates/crews/plan_page.html:4
+msgid "Written heat plan"
+msgstr "Plan de calor por escrito"
+
+#: crews/templates/crews/plan_page.html:6
+msgid ""
+"A printable plan for the day: hourly risk at each site, breaks, who is new "
+"and on reduced hours, buddy pairs, warning signs and first aid, emergency "
+"details and a sign-off sheet. Keep a copy on site."
+msgstr ""
+"Un plan para imprimir del día: riesgo por hora en cada obra, descansos, "
+"quién es nuevo y tiene horas reducidas, parejas de compañeros, señales de "
+"alerta y primeros auxilios, datos de emergencia y una hoja de firmas. Tenga "
+"una copia en la obra."
+
+#: crews/templates/crews/plan_page.html:10
+msgid "Language"
+msgstr "Idioma"
+
+#: crews/templates/crews/plan_page.html:15
+msgid "Open PDF"
+msgstr "Abrir PDF"
+
+#: crews/templates/crews/plan_page.html:16
+msgid "Download"
+msgstr "Descargar"
+
+#: crews/templates/crews/settings.html:2 shadebreak/templates/base.html:32
+msgid "Settings"
+msgstr "Ajustes"
+
+#: crews/templates/crews/settings.html:4 shadebreak/templates/base.html:34
+msgid "Crew settings"
+msgstr "Ajustes de la cuadrilla"
+
+#: crews/templates/crews/settings.html:19
+#: crews/templates/crews/workday.html:58
+#: crews/templates/crews/worker_form.html:24
+msgid "Save"
+msgstr "Guardar"
+
+#: crews/templates/crews/settings.html:24
+msgid "Switch crew"
+msgstr "Cambiar de cuadrilla"
+
+#: crews/templates/crews/settings.html:27
+msgid "Switch"
+msgstr "Cambiar"
+
+#: crews/templates/crews/settings.html:33
+msgid "Text message setup"
+msgstr "Configuración de mensajes de texto"
+
+#: crews/templates/crews/settings.html:34
+msgid ""
+"Point your SMS provider's incoming-message webhook here so replies like 1 "
+"(OK) and 2 (needs help) reach Shadebreak:"
+msgstr ""
+"Apunte el webhook de mensajes entrantes de su proveedor de SMS aquí para que"
+" las respuestas como 1 (bien) y 2 (necesita ayuda) lleguen a Shadebreak:"
+
+#: crews/templates/crews/settings.html:37
+msgid "Other gateways"
+msgstr "Otras pasarelas"
+
+#: crews/templates/crews/site_form.html:2 crews/templates/crews/sites.html:6
+msgid "Add site"
+msgstr "Agregar obra"
+
+#: crews/templates/crews/site_form.html:5 crews/templates/crews/sites.html:2
+#: shadebreak/templates/base.html:29 shadebreak/templates/base.html:74
+msgid "Sites"
+msgstr "Obras"
+
+#: crews/templates/crews/site_form.html:11
+msgid "Where"
+msgstr "Dónde"
+
+#: crews/templates/crews/site_form.html:15
+msgid "Location is not available on this device."
+msgstr "La ubicación no está disponible en este aparato."
+
+#: crews/templates/crews/site_form.html:15
+msgid "Use my location"
+msgstr "Usar mi ubicación"
+
+#: crews/templates/crews/site_form.html:22
+msgid ""
+"Leave latitude and longitude empty to look up the address (U.S. addresses "
+"only)."
+msgstr ""
+"Deje la latitud y la longitud vacías para buscar la dirección (solo "
+"direcciones de EE. UU.)."
+
+#: crews/templates/crews/site_form.html:25
+msgid "The work"
+msgstr "El trabajo"
+
+#: crews/templates/crews/site_form.html:36
+msgid "For the written plan"
+msgstr "Para el plan por escrito"
+
+#: crews/templates/crews/site_form.html:43
+msgid "Save site"
+msgstr "Guardar obra"
+
+#: crews/templates/crews/site_form.html:43
+#: crews/templates/crews/worker_form.html:24
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: crews/templates/crews/sites.html:5
+msgid "Job sites"
+msgstr "Obras"
+
+#: crews/templates/crews/sites.html:13
+msgid "Archived"
+msgstr "Archivada"
+
+#: crews/templates/crews/sites.html:15
+#, python-format
+msgid "%(n)s regular"
+msgid_plural "%(n)s regulars"
+msgstr[0] "%(n)s habitual"
+msgstr[1] "%(n)s habituales"
+
+#: crews/templates/crews/sites.html:15
+#, python-format
+msgid "forecast %(when)s ago"
+msgstr "pronóstico de hace %(when)s"
+
+#: crews/templates/crews/sites.html:22
+msgid "No job sites yet"
+msgstr "Todavía no hay obras"
+
+#: crews/templates/crews/workday.html:6
+msgid "Back"
+msgstr "Volver"
+
+#: crews/templates/crews/workday.html:15
+msgid "Hour by hour"
+msgstr "Hora por hora"
+
+#: crews/templates/crews/workday.html:16
+#, python-format
+msgid ""
+"WBGT is for %(exposure)s. \"Shade\" is what a worker resting in full shade "
+"feels."
+msgstr ""
+"El WBGT es para %(exposure)s. \"Sombra\" es lo que siente un trabajador que "
+"descansa en sombra completa."
+
+#: crews/templates/crews/workday.html:19
+msgid "Temp"
+msgstr "Temp."
+
+#: crews/templates/crews/workday.html:19
+msgid "Wind"
+msgstr "Viento"
+
+#: crews/templates/crews/workday.html:19
+msgid "Clouds"
+msgstr "Nubes"
+
+#: crews/templates/crews/workday.html:41
+msgid "Who is working"
+msgstr "Quién trabaja"
+
+#: crews/templates/crews/workday.html:42
+msgid ""
+"Change a buddy, mark someone absent, or override time in the heat. The plan "
+"and texts update right away."
+msgstr ""
+"Cambie un compañero, marque a alguien ausente o ajuste el tiempo en el "
+"calor. El plan y los mensajes se actualizan de inmediato."
+
+#: crews/templates/crews/workday.html:50
+#, python-format
+msgid "Day %(d)s of %(n)s · %(p)s%%"
+msgstr "Día %(d)s de %(n)s · %(p)s%%"
+
+#: crews/templates/crews/workday.html:59
+msgid "Remove from day"
+msgstr "Quitar del día"
+
+#: crews/templates/crews/workday.html:64
+msgid "Nobody is scheduled yet."
+msgstr "Todavía no hay nadie programado."
+
+#: crews/templates/crews/workday.html:74
+msgid "Add to day"
+msgstr "Agregar al día"
+
+#: crews/templates/crews/worker_form.html:2
+#: crews/templates/crews/worker_form.html:5
+#: crews/templates/crews/workers.html:6 crews/templates/crews/workers.html:30
+msgid "Add worker"
+msgstr "Agregar trabajador"
+
+#: crews/templates/crews/worker_form.html:5
+#: crews/templates/crews/workers.html:2 crews/templates/crews/workers.html:5
+#: shadebreak/templates/base.html:28 shadebreak/templates/base.html:70
+msgid "Crew"
+msgstr "Cuadrilla"
+
+#: crews/templates/crews/worker_form.html:27
+msgid "Remove from active crew"
+msgstr "Quitar de la cuadrilla activa"
+
+#: crews/templates/crews/workers.html:8
+#, python-format
+msgid ""
+"More than 70%% of heat deaths happen in a worker's first week. New workers "
+"start with short hours in the heat and build up day by day."
+msgstr ""
+"Más del 70%% de las muertes por calor ocurren en la primera semana de "
+"trabajo. Los trabajadores nuevos empiezan con pocas horas en el calor y "
+"aumentan día a día."
+
+#: crews/templates/crews/workers.html:16
+msgid "Inactive"
+msgstr "Inactivo"
+
+#: crews/templates/crews/workers.html:22
+#, python-format
+msgid "buddy %(name)s"
+msgstr "compañero %(name)s"
+
+#: crews/templates/crews/workers.html:24
+msgid "gets texts"
+msgstr "recibe mensajes"
+
+#: crews/templates/crews/workers.html:24
+#: messaging/templates/messaging/log.html:7
+msgid "no texts (not opted in)"
+msgstr "sin mensajes (no aceptó)"
+
+#: crews/templates/crews/workers.html:24
+msgid "no phone number"
+msgstr "sin número de teléfono"
+
+#: crews/templates/crews/workers.html:30
+msgid "No workers yet"
+msgstr "Todavía no hay trabajadores"
+
+#: crews/templates/crews/workers.html:30
+msgid "Add the people on your crew. Workers do not need an app or an account."
+msgstr ""
+"Agregue a las personas de su cuadrilla. Los trabajadores no necesitan una "
+"app ni una cuenta."
+
+#: crews/views.py:60
+#, python-format
+msgid "Could not reach the National Weather Service: %(error)s"
+msgstr "No se pudo conectar con el Servicio Meteorológico Nacional: %(error)s"
+
+#: crews/views.py:154
+#, python-format
+msgid "%(name)s added to the day."
+msgstr "%(name)s agregado al día."
+
+#: crews/views.py:175
+#, python-format
+msgid "Saved changes for %(name)s."
+msgstr "Cambios guardados para %(name)s."
+
+#: crews/views.py:177
+#, python-format
+msgid "Could not save: %(errors)s"
+msgstr "No se pudo guardar: %(errors)s"
+
+#: crews/views.py:193
+msgid "Marked in the app"
+msgstr "Marcado en la app"
+
+#: crews/views.py:226 crews/views.py:269
+#, python-format
+msgid "Saved %(name)s."
+msgstr "%(name)s guardado."
+
+#: crews/views.py:238
+#, python-format
+msgid "%(name)s is no longer on the active crew."
+msgstr "%(name)s ya no está en la cuadrilla activa."
+
+#: crews/views.py:280
+#, python-format
+msgid "%(name)s is archived."
+msgstr "%(name)s está archivada."
+
+#: crews/views.py:308
+msgid "Crew settings saved."
+msgstr "Ajustes de la cuadrilla guardados."
+
+#: crews/views.py:330
+msgid "Welcome! Add your first job site to get today's heat plan."
+msgstr ""
+"¡Bienvenido! Agregue su primera obra para ver el plan de calor de hoy."
+
+#: messaging/apps.py:7 messaging/templates/messaging/log.html:6
+msgid "Text messages"
+msgstr "Mensajes de texto"
+
+#: messaging/compose.py:31
+msgid "unknown"
+msgstr "desconocido"
+
+#: messaging/compose.py:37
+msgid "light"
+msgstr "ligero"
+
+#: messaging/compose.py:38
+msgid "moderate"
+msgstr "moderado"
+
+#: messaging/compose.py:39
+msgid "heavy"
+msgstr "pesado"
+
+#: messaging/compose.py:40
+msgid "very heavy"
+msgstr "muy pesado"
+
+#: messaging/compose.py:62
+#, python-format
+msgid "%(time)s stop"
+msgstr "%(time)s parar"
+
+#: messaging/compose.py:64
+#, python-format
+msgid "%(time)s %(minutes)s min"
+msgstr "%(time)s %(minutes)s min"
+
+#: messaging/compose.py:67
+#, python-format
+msgid "(+%(count)s more)"
+msgstr "(+%(count)s más)"
+
+#: messaging/compose.py:80
+#, python-format
+msgid ""
+"Shadebreak - %(site)s, %(day)s: heat %(risk)s (peak %(wbgt)s°F WBGT at "
+"%(time)s)."
+msgstr ""
+"Shadebreak - %(site)s, %(day)s: calor %(risk)s (máximo %(wbgt)s°F WBGT a las"
+" %(time)s)."
+
+#: messaging/compose.py:91
+#, python-format
+msgid "Rest in shade: %(breaks)s."
+msgstr "Descansos a la sombra: %(breaks)s."
+
+#: messaging/compose.py:92
+msgid "Drink 1 cup of water every 15-20 min, even if not thirsty."
+msgstr "Tome 1 vaso de agua cada 15-20 min, aunque no tenga sed."
+
+#: messaging/compose.py:100
+#, python-format
+msgid ""
+"You are on day %(day)s of %(days)s of your heat ramp: work in the heat until"
+" %(time)s, then shade or cool tasks."
+msgstr ""
+"Hoy es su día %(day)s de %(days)s de aclimatación: trabaje en el calor hasta"
+" las %(time)s y después sombra o tareas frescas."
+
+#: messaging/compose.py:110
+msgid "First week on the crew: tell your lead right away if you feel sick."
+msgstr ""
+"Primera semana en la cuadrilla: avise a su jefe de inmediato si se siente "
+"mal."
+
+#: messaging/compose.py:113
+#, python-format
+msgid ""
+"Shadebreak - %(site)s, %(day)s: heat %(risk)s. Keep water and shade close."
+msgstr ""
+"Shadebreak - %(site)s, %(day)s: calor %(risk)s. Tenga agua y sombra cerca."
+
+#: messaging/compose.py:117
+#, python-format
+msgid "Your buddy: %(name)s."
+msgstr "Su compañero: %(name)s."
+
+#: messaging/compose.py:118
+#, python-format
+msgid "Emergency: call %(number)s."
+msgstr "Emergencia: llame al %(number)s."
+
+#: messaging/compose.py:119
+msgid "Reply STOP to end texts."
+msgstr "Responda STOP para no recibir más mensajes."
+
+#: messaging/compose.py:128
+#, python-format
+msgid "Shadebreak %(day)s - %(site)s: no forecast yet. Open the app to check."
+msgstr ""
+"Shadebreak %(day)s - %(site)s: todavía no hay pronóstico. Abra la app para "
+"revisar."
+
+#: messaging/compose.py:134
+#, python-format
+msgid ""
+"Shadebreak %(day)s - %(site)s: heat %(risk)s, peak %(wbgt)s°F WBGT / heat "
+"index %(hi)s°F at %(time)s."
+msgstr ""
+"Shadebreak %(day)s - %(site)s: calor %(risk)s, máximo %(wbgt)s°F WBGT / "
+"índice de calor %(hi)s°F a las %(time)s."
+
+#: messaging/compose.py:148
+#, python-format
+msgid "Crew breaks: %(breaks)s."
+msgstr "Descansos de la cuadrilla: %(breaks)s."
+
+#: messaging/compose.py:156
+#, python-format
+msgid "%(name)s (day %(day)s, until %(time)s)"
+msgstr "%(name)s (día %(day)s, hasta las %(time)s)"
+
+#: messaging/compose.py:165
+#, python-format
+msgid "New or ramping up: %(names)s."
+msgstr "Nuevos o en aclimatación: %(names)s."
+
+#: messaging/compose.py:168
+#, python-format
+msgid "Buddies: %(pairs)s."
+msgstr "Compañeros: %(pairs)s."
+
+#: messaging/compose.py:192
+#, python-format
+msgid ""
+"Shadebreak: too hot for %(workload)s work until %(time)s. Stop or switch to "
+"light tasks in the shade. Drink water."
+msgstr ""
+"Shadebreak: hace demasiado calor para trabajo %(workload)s hasta las "
+"%(time)s. Pare o cambie a tareas ligeras a la sombra. Tome agua."
+
+#: messaging/compose.py:195
+#, python-format
+msgid ""
+"Shadebreak: rest break now, %(minutes)s min in the shade until %(time)s. "
+"Drink water."
+msgstr ""
+"Shadebreak: descanso ahora, %(minutes)s min a la sombra hasta las %(time)s. "
+"Tome agua."
+
+#: messaging/compose.py:203
+#, python-format
+msgid ""
+"Shadebreak: water check. Drink a cup now, even if you are not thirsty. Heat:"
+" %(risk)s."
+msgstr ""
+"Shadebreak: hora de tomar agua. Tome un vaso ahora, aunque no tenga sed. "
+"Calor: %(risk)s."
+
+#: messaging/compose.py:213
+#, python-format
+msgid ""
+"Shadebreak check-in: %(worker)s has no buddy on site. Check on them now. "
+"Reply 1 if OK, 2 if they need help."
+msgstr ""
+"Shadebreak revisión: %(worker)s no tiene compañero en la obra. Revise cómo "
+"está ahora. Responda 1 si está bien, 2 si necesita ayuda."
+
+#: messaging/compose.py:217
+#, python-format
+msgid ""
+"Shadebreak check-in: look at %(worker)s now. Reply 1 if OK, 2 if they need "
+"help. Danger signs: confusion, slurred speech, fainting, hot dry skin - call"
+" %(number)s."
+msgstr ""
+"Shadebreak revisión: revise cómo está %(worker)s ahora. Responda 1 si está "
+"bien, 2 si necesita ayuda. Señales de peligro: confusión, habla arrastrada, "
+"desmayo, piel caliente y seca - llame al %(number)s."
+
+#: messaging/compose.py:225
+msgid "you"
+msgstr "usted"
+
+#: messaging/compose.py:227
+#, python-format
+msgid ""
+"Shadebreak ALERT: no reply to the %(time)s check-in on %(worker)s at "
+"%(site)s (asked: %(buddy)s). Check on %(worker)s now."
+msgstr ""
+"Shadebreak ALERTA: nadie respondió la revisión de las %(time)s sobre "
+"%(worker)s en %(site)s (se le preguntó a: %(buddy)s). Revise a %(worker)s "
+"ahora."
+
+#: messaging/compose.py:242
+#, python-format
+msgid ""
+"Shadebreak URGENT: %(worker)s texted for help at %(site)s. Call them now: "
+"%(phone)s. If confused, fainting or not sweating: call %(number)s."
+msgstr ""
+"Shadebreak URGENTE: %(worker)s pidió ayuda por mensaje en %(site)s. Llámele "
+"ahora: %(phone)s. Si hay confusión, desmayo o no suda: llame al %(number)s."
+
+#: messaging/compose.py:251
+#, python-format
+msgid ""
+"Shadebreak URGENT: %(reporter)s says %(worker)s needs help at %(site)s. Go "
+"now. If confused, fainting or not sweating: call %(number)s and cool them "
+"with cold water or ice."
+msgstr ""
+"Shadebreak URGENTE: %(reporter)s dice que %(worker)s necesita ayuda en "
+"%(site)s. Vaya ahora. Si hay confusión, desmayo o no suda: llame al "
+"%(number)s y enfríe a la persona con agua fría o hielo."
+
+#: messaging/compose.py:258
+#, python-format
+msgid "Shadebreak update: %(reporter)s says %(worker)s is OK."
+msgstr "Shadebreak aviso: %(reporter)s dice que %(worker)s está bien."
+
+#: messaging/compose.py:259
+msgid "Someone"
+msgstr "Alguien"
+
+#: messaging/compose.py:266
+#, python-format
+msgid "Thanks. Logged: %(names)s OK."
+msgstr "Gracias. Anotado: %(names)s bien."
+
+#: messaging/compose.py:272
+#, python-format
+msgid ""
+"Alert sent to your crew lead. Stay with %(names)s, get to shade and cool off"
+" with water. Call %(number)s for confusion, fainting or vomiting."
+msgstr ""
+"Se avisó a su jefe de cuadrilla. Quédese con %(names)s, vayan a la sombra y "
+"refrésquense con agua. Llame al %(number)s si hay confusión, desmayo o "
+"vómito."
+
+#: messaging/compose.py:280
+#, python-format
+msgid ""
+"Alert sent to your crew lead. Stop work, get to shade and drink water. If "
+"you feel confused or faint, call %(number)s."
+msgstr ""
+"Se avisó a su jefe de cuadrilla. Pare de trabajar, vaya a la sombra y tome "
+"agua. Si se siente confundido o mareado, llame al %(number)s."
+
+#: messaging/compose.py:287
+msgid ""
+"Shadebreak: you will not get more texts. Reply START to turn them back on."
+msgstr ""
+"Shadebreak: ya no recibirá mensajes. Responda START para volver a "
+"recibirlos."
+
+#: messaging/compose.py:292
+msgid "Shadebreak: texts are on. Reply STOP to turn them off."
+msgstr ""
+"Shadebreak: los mensajes están activados. Responda STOP para desactivarlos."
+
+#: messaging/compose.py:298
+#, python-format
+msgid ""
+"Shadebreak heat-safety texts. Reply 1 = OK, 2 = needs help, STOP = end "
+"texts. Emergency: call %(number)s."
+msgstr ""
+"Mensajes de seguridad contra el calor de Shadebreak. Responda 1 = bien, 2 = "
+"necesita ayuda, STOP = no más mensajes. Emergencia: llame al %(number)s."
+
+#: messaging/models.py:7 messaging/models.py:22
+msgid "Sent"
+msgstr "Enviado"
+
+#: messaging/models.py:8 messaging/models.py:25
+msgid "Received"
+msgstr "Recibido"
+
+#: messaging/models.py:11
+msgid "Morning briefing"
+msgstr "Resumen de la mañana"
+
+#: messaging/models.py:12
+msgid "Break reminder"
+msgstr "Recordatorio de descanso"
+
+#: messaging/models.py:13
+msgid "Water reminder"
+msgstr "Recordatorio de agua"
+
+#: messaging/models.py:14
+msgid "Buddy check-in"
+msgstr "Revisión entre compañeros"
+
+#: messaging/models.py:15
+msgid "Alert to crew lead"
+msgstr "Alerta al jefe de cuadrilla"
+
+#: messaging/models.py:16
+msgid "Reply"
+msgstr "Respuesta"
+
+#: messaging/models.py:17
+msgid "Incoming text"
+msgstr "Mensaje recibido"
+
+#: messaging/models.py:21
+msgid "Sending"
+msgstr "Enviando"
+
+#: messaging/models.py:23 messaging/templates/messaging/log.html:22
+msgid "Failed"
+msgstr "Falló"
+
+#: messaging/models.py:24
+msgid "Skipped (too late)"
+msgstr "Omitido (muy tarde)"
+
+#: messaging/templates/messaging/_message_rows.html:18
+msgid "Load more"
+msgstr "Cargar más"
+
+#: messaging/templates/messaging/log.html:2 shadebreak/templates/base.html:30
+#: shadebreak/templates/base.html:78
+msgid "Texts"
+msgstr "Mensajes"
+
+#: messaging/templates/messaging/log.html:5
+#| msgid "gets texts"
+msgid "All texts"
+msgstr "Todos los mensajes"
+
+#: messaging/templates/messaging/log.html:10
+msgid "Conversation with"
+msgstr "Conversación con"
+
+#: messaging/templates/messaging/log.html:12
+msgid "Conversation with…"
+msgstr "Conversación con…"
+
+#: messaging/templates/messaging/log.html:18
+msgid "Filter"
+msgstr "Filtrar"
+
+#: messaging/templates/messaging/log.html:19
+msgid "All"
+msgstr "Todos"
+
+#: messaging/templates/messaging/log.html:28
+msgid "No texts yet"
+msgstr "Todavía no hay mensajes"
+
+#: messaging/templates/messaging/log.html:28
+msgid ""
+"Briefings, break reminders and check-ins show up here once a day is planned "
+"for workers who agreed to get texts."
+msgstr ""
+"Los resúmenes, recordatorios de descanso y revisiones aparecen aquí cuando "
+"se planea un día para trabajadores que aceptaron recibir mensajes."
+
+#: shadebreak/settings.py:125
+msgid "English"
+msgstr "Inglés"
+
+#: shadebreak/settings.py:125
+msgid "Spanish"
+msgstr "Español"
+
+#: shadebreak/templates/404.html:2
+msgid "Not found"
+msgstr "No encontrado"
+
+#: shadebreak/templates/404.html:6
+msgid "Page not found"
+msgstr "Página no encontrada"
+
+#: shadebreak/templates/404.html:7
+msgid "That page does not exist or belongs to another crew."
+msgstr "Esa página no existe o pertenece a otra cuadrilla."
+
+#: shadebreak/templates/404.html:8
+msgid "Back to today"
+msgstr "Volver a hoy"
+
+#: shadebreak/templates/base.html:8
+msgid ""
+"Heat-illness prevention for outdoor crews: forecast, breaks, acclimatization"
+" and buddy check-ins."
+msgstr ""
+"Prevención de enfermedades por calor para cuadrillas al aire libre: "
+"pronóstico, descansos, aclimatación y revisiones entre compañeros."
+
+#: shadebreak/templates/base.html:18
+msgid "Skip to content"
+msgstr "Ir al contenido"
+
+#: shadebreak/templates/base.html:26 shadebreak/templates/base.html:63
+msgid "Main"
+msgstr "Principal"
+
+#: shadebreak/templates/base.html:56
+msgid "Forecasts from the"
+msgstr "Pronósticos del"
+
+#: shadebreak/templates/base.html:56
+msgid "A planning aid, not medical advice. In an emergency call 911."
+msgstr ""
+"Una ayuda para planear, no un consejo médico. En una emergencia llame al "
+"911."
+
+#: shadebreak/templates/base.html:58
+msgid "Sign out"
+msgstr "Cerrar sesión"
+
+#: shadebreak/templates/base.html:82
+msgid "Plan"
+msgstr "Plan"
+
+#: shadebreak/templates/registration/login.html:2
+#: shadebreak/templates/registration/login.html:17
+#: shadebreak/templates/registration/signup.html:23
+msgid "Sign in"
+msgstr "Iniciar sesión"
+
+#: shadebreak/templates/registration/login.html:8
+msgid ""
+"Water, rest, shade and a gradual start, planned for your crew every morning."
+msgstr ""
+"Agua, descanso, sombra y un comienzo gradual, planeados para su cuadrilla "
+"cada mañana."
+
+#: shadebreak/templates/registration/login.html:20
+msgid "New here?"
+msgstr "¿Es nuevo aquí?"
+
+#: shadebreak/templates/registration/signup.html:8
+msgid ""
+"Takes two minutes. Workers never need an account: they get plain text "
+"messages."
+msgstr ""
+"Toma dos minutos. Los trabajadores nunca necesitan una cuenta: reciben "
+"mensajes de texto normales."
+
+#: shadebreak/templates/registration/signup.html:20
+msgid "Create crew"
+msgstr "Crear cuadrilla"
+
+#: shadebreak/templates/registration/signup.html:23
+msgid "Already have an account?"
+msgstr "¿Ya tiene una cuenta?"
+
+#: shadebreak/templates/shadebreak/_field.html:11
+msgid "optional"
+msgstr "opcional"

@@ -1,0 +1,41 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% translate "Settings" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">{{ crew.name }}</div><h1>{% translate "Crew settings" %}</h1></div></div>
+<form method="post" class="card form">
+  {% csrf_token %}
+  {% include "shadebreak/_field.html" with field=form.name %}
+  <div class="row-2">
+    {% include "shadebreak/_field.html" with field=form.lead_name %}
+    {% include "shadebreak/_field.html" with field=form.lead_phone %}
+  </div>
+  <div class="row-2">
+    {% include "shadebreak/_field.html" with field=form.timezone %}
+    {% include "shadebreak/_field.html" with field=form.language inline=True %}
+  </div>
+  {% include "shadebreak/_field.html" with field=form.emergency_number %}
+  {% include "shadebreak/_field.html" with field=form.sms_enabled %}
+  {% include "shadebreak/_field.html" with field=form.water_reminders %}
+  <div class="actions"><button class="btn btn--primary" type="submit">{% translate "Save" %}</button></div>
+</form>
+
+{% if user.crews.count > 1 %}
+<section class="card" style="margin-top:1rem">
+  <h2>{% translate "Switch crew" %}</h2>
+  <form method="post" action="{% url 'switch_crew' %}" class="actions">{% csrf_token %}
+    <select name="crew" style="flex:1">{% for c in user.crews.all %}<option value="{{ c.pk }}" {% if c.pk == crew.pk %}selected{% endif %}>{{ c.name }}</option>{% endfor %}</select>
+    <button class="btn" type="submit">{% translate "Switch" %}</button>
+  </form>
+</section>
+{% endif %}
+
+<section class="card" style="margin-top:1rem">
+  <h2>{% translate "Text message setup" %}</h2>
+  <p class="small muted">{% translate "Point your SMS provider's incoming-message webhook here so replies like 1 (OK) and 2 (needs help) reach Shadebreak:" %}</p>
+  <ul class="small">
+    <li>Twilio: <code>{{ request.scheme }}://{{ request.get_host }}{% url 'sms_twilio' %}</code></li>
+    <li>{% translate "Other gateways" %}: <code>{{ request.scheme }}://{{ request.get_host }}{% url 'sms_gateway' %}</code></li>
+  </ul>
+  <p class="small muted">Shadebreak {{ version_string }}</p>
+</section>
+{% endblock %}

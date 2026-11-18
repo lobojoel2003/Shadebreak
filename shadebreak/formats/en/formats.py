@@ -1,0 +1,4 @@
+DATE_FORMAT = "l, F j, Y"
+SHORT_DATE_FORMAT = "M j"
+TIME_FORMAT = "g:i A"
+DATETIME_FORMAT = "M j, g:i A"

@@ -1,0 +1,19 @@
+{% load i18n shadebreak %}{% for m in page.object_list %}
+<li class="sms{% if m.direction == 'in' %} sms--in{% endif %}{% if m.kind == 'escalation' %} sms--escalation{% endif %}">
+  <div class="sms__meta">
+    {% if m.direction == "in" %}
+      <strong>{% if m.worker %}{% if not person %}<a href="?worker={{ m.worker.pk }}">{{ m.worker.name }}</a>{% else %}{{ m.worker.name }}{% endif %}{% elif m.from_number == crew.lead_phone %}{% translate "Crew lead" %}{% else %}{{ m.from_number|phone }}{% endif %}</strong>
+    {% else %}
+      <strong>→ {% if m.worker %}{% if not person %}<a href="?worker={{ m.worker.pk }}">{{ m.worker.name }}</a>{% else %}{{ m.worker.name }}{% endif %}{% elif m.to_number == crew.lead_phone %}{% translate "Crew lead" %}{% else %}{{ m.to_number|phone }}{% endif %}</strong>
+    {% endif %}
+    <span>{{ m.get_kind_display }}</span>
+    <span>{{ m.moment|date:"DATETIME_FORMAT" }}</span>
+    {% if m.status != "sent" and m.status != "received" %}<span class="badge">{{ m.get_status_display }}</span>{% endif %}
+  </div>
+  <div>{{ m.body }}</div>
+  {% if m.error and m.status != "queued" %}<div class="small muted">{{ m.error }}</div>{% endif %}
+</li>
+{% endfor %}
+{% if page.has_next %}
+<li style="text-align:center"><button class="btn btn--sm" hx-get="{% query page=page.next_page_number %}" hx-target="closest li" hx-swap="outerHTML">{% translate "Load more" %}</button></li>
+{% endif %}

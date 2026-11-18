@@ -1,0 +1,25 @@
+{% extends "base.html" %}{% load i18n static %}
+{% block title %}{% translate "Set up your crew" %}{% endblock %}
+{% block content %}
+<div class="auth">
+  <div class="hero">
+    <img src="{% static 'shadebreak/img/logo.svg' %}" alt="">
+    <h1>{% translate "Set up your crew" %}</h1>
+    <p class="muted">{% translate "Takes two minutes. Workers never need an account: they get plain text messages." %}</p>
+  </div>
+  <div class="card">
+    <form method="post" class="form">
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+      {% include "shadebreak/_field.html" with field=form.crew_name %}
+      {% include "shadebreak/_field.html" with field=form.lead_name %}
+      {% include "shadebreak/_field.html" with field=form.timezone %}
+      {% include "shadebreak/_field.html" with field=form.username %}
+      {% include "shadebreak/_field.html" with field=form.password1 %}
+      {% include "shadebreak/_field.html" with field=form.password2 %}
+      <button class="btn btn--primary" type="submit">{% translate "Create crew" %}</button>
+    </form>
+  </div>
+  <p class="muted small" style="text-align:center;margin-top:1rem">{% translate "Already have an account?" %} <a href="{% url 'login' %}">{% translate "Sign in" %}</a></p>
+</div>
+{% endblock %}

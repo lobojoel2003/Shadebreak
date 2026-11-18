@@ -1,0 +1,29 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% if worker %}{{ worker.name }}{% else %}{% translate "Add worker" %}{% endif %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><div class="eyebrow"><a href="{% url 'worker_list' %}">‹ {% translate "Crew" %}</a></div><h1>{% if worker %}{{ worker.name }}{% else %}{% translate "Add worker" %}{% endif %}</h1></div>
+</div>
+<form method="post" class="card form">
+  {% csrf_token %}
+  {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+  {% include "shadebreak/_field.html" with field=form.name %}
+  <div class="row-2">
+    {% include "shadebreak/_field.html" with field=form.phone %}
+    {% include "shadebreak/_field.html" with field=form.language inline=True %}
+  </div>
+  {% include "shadebreak/_field.html" with field=form.sms_opt_in %}
+  {% include "shadebreak/_field.html" with field=form.experience %}
+  <div class="row-2">
+    {% include "shadebreak/_field.html" with field=form.start_date %}
+    {% include "shadebreak/_field.html" with field=form.site %}
+  </div>
+  {% include "shadebreak/_field.html" with field=form.buddy %}
+  {% include "shadebreak/_field.html" with field=form.notes %}
+  {% if worker %}{% include "shadebreak/_field.html" with field=form.active %}{% endif %}
+  <div class="actions"><button class="btn btn--primary" type="submit">{% translate "Save" %}</button><a class="btn btn--ghost" href="{% url 'worker_list' %}">{% translate "Cancel" %}</a></div>
+</form>
+{% if worker and worker.active %}
+<form method="post" action="{% url 'worker_deactivate' worker.pk %}" style="margin-top:1rem">{% csrf_token %}<button class="btn btn--sm btn--ghost btn--danger" type="submit">{% translate "Remove from active crew" %}</button></form>
+{% endif %}
+{% endblock %}

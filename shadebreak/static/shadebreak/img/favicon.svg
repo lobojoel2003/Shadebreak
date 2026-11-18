@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Shadebreak">
+  <rect width="64" height="64" rx="15" fill="#1d2633"/>
+  <g stroke="#ffb020" stroke-width="3" stroke-linecap="round">
+    <line x1="41" y1="6.5" x2="41" y2="10"/>
+    <line x1="52.3" y1="11.2" x2="49.8" y2="13.7"/>
+    <line x1="57" y1="22.5" x2="53.5" y2="22.5"/>
+    <line x1="29.7" y1="11.2" x2="32.2" y2="13.7"/>
+  </g>
+  <circle cx="41" cy="23" r="8.5" fill="#ffb020"/>
+  <path d="M8 36 L32 25.5 L56 36 Z" fill="#f76707"/>
+  <path d="M8 36 a4 4 0 0 0 8 0 a4 4 0 0 0 8 0 a4 4 0 0 0 8 0 a4 4 0 0 0 8 0 a4 4 0 0 0 8 0 a4 4 0 0 0 8 0 Z" fill="#f76707"/>
+  <rect x="13" y="38" width="3" height="18" rx="1.5" fill="#f1ebe1"/>
+  <rect x="48" y="38" width="3" height="18" rx="1.5" fill="#f1ebe1"/>
+  <path d="M19 56 h26" stroke="#3b4a5e" stroke-width="3" stroke-linecap="round"/>
+</svg>

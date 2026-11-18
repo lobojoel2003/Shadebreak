@@ -1,0 +1,30 @@
+{% extends "base.html" %}{% load i18n shadebreak %}
+{% block title %}{% translate "Texts" %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><div class="eyebrow">{% if person %}<a href="{% url 'message_log' %}">‹ {% translate "All texts" %}</a>{% else %}{{ crew.name }}{% endif %}</div>
+  <h1>{% if person %}{{ person.name }}{% else %}{% translate "Text messages" %}{% endif %}</h1>
+  {% if person %}<div class="small muted">{{ person.phone|phone }} · {{ person.get_language_display }}{% if not person.sms_opt_in %} · {% translate "no texts (not opted in)" %}{% endif %}</div>{% endif %}</div>
+  {% if people and not person %}
+  <form method="get" class="field" style="min-width:12rem">
+    <label class="visually-hidden" for="thread">{% translate "Conversation with" %}</label>
+    <select id="thread" name="worker" onchange="this.form.submit()">
+      <option value="">{% translate "Conversation with…" %}</option>
+      {% for p in people %}<option value="{{ p.pk }}">{{ p.name }}</option>{% endfor %}
+    </select>
+  </form>
+  {% endif %}
+</div>
+<nav class="filters" aria-label="{% translate 'Filter' %}">
+  <a class="btn btn--sm" href="{% query kind='' status='' page='' %}" {% if not kind and not status %}aria-current="true"{% endif %}>{% translate "All" %}</a>
+  {% for value, label in kinds %}<a class="btn btn--sm" href="{% query kind=value status='' page='' %}" {% if kind == value %}aria-current="true"{% endif %}>{{ label }}</a>{% endfor %}
+  <a class="btn btn--sm" href="{% query status='queued' kind='' page='' %}" {% if status == 'queued' %}aria-current="true"{% endif %}>{% translate "Scheduled" %}</a>
+  <a class="btn btn--sm" href="{% query status='failed' kind='' page='' %}" {% if status == 'failed' %}aria-current="true"{% endif %}>{% translate "Failed" %}</a>
+</nav>
+<ul class="sms-list" id="sms-list">
+  {% include "messaging/_message_rows.html" %}
+</ul>
+{% if not page.object_list %}
+<div class="card empty"><h2>{% translate "No texts yet" %}</h2><p class="muted">{% translate "Briefings, break reminders and check-ins show up here once a day is planned for workers who agreed to get texts." %}</p></div>
+{% endif %}
+{% endblock %}

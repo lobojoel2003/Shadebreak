@@ -1,0 +1,51 @@
+{% extends "base.html" %}{% load i18n static shadebreak %}
+{% block title %}{% if is_today %}{% translate "Today" %}{% else %}{{ day|date:"SHORT_DATE_FORMAT" }}{% endif %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <div class="eyebrow">{% if is_today %}{% translate "Today's heat plan" %}{% else %}{% translate "Heat plan for" %}{% endif %}</div>
+    <h1>{{ day|date:"DATE_FORMAT" }}</h1>
+  </div>
+  <div class="day-nav">
+    <a class="btn btn--icon" href="?date={{ previous_day|date:'Y-m-d' }}" aria-label="{% translate 'Previous day' %}">‹</a>
+    {% if not is_today %}<a class="btn btn--sm" href="{% url 'dashboard' %}">{% translate "Today" %}</a>{% endif %}
+    <a class="btn btn--icon" href="?date={{ next_day|date:'Y-m-d' }}" aria-label="{% translate 'Next day' %}">›</a>
+  </div>
+</div>
+
+{% if not has_sites %}
+<div class="card empty">
+  <img src="{% static 'shadebreak/img/logo.svg' %}" alt="">
+  <h2>{% translate "Add your first job site" %}</h2>
+  <p class="muted">{% translate "Shadebreak pulls the National Weather Service forecast for each site and plans breaks around it." %}</p>
+  <a class="btn btn--primary" href="{% url 'site_create' %}">{% translate "Add a job site" %}</a>
+</div>
+{% else %}
+  {% if site_days %}
+  <div class="grid grid--sites{% if site_days|length == 1 %} single{% endif %}">
+    {% for sd in site_days %}{% include "crews/_site_card.html" %}{% endfor %}
+  </div>
+  {% else %}
+  <div class="card empty">
+    <h2>{% translate "No work scheduled" %}</h2>
+    <p class="muted">{% translate "None of your sites work on this day." %}</p>
+  </div>
+  {% endif %}
+
+  {% if not has_workers %}
+  <div class="notice" style="margin-top:1rem">{% translate "Add your crew so Shadebreak can ramp up new workers and pair buddies." %} <a href="{% url 'worker_create' %}">{% translate "Add a worker" %}</a></div>
+  {% endif %}
+
+  {% if off_sites %}
+  <h3 class="section-title">{% translate "Not working this day" %}</h3>
+  <ul class="list">
+    {% for site in off_sites %}
+    <li class="list-item">
+      <div class="list-item__body"><div class="list-item__title">{{ site.name }}</div><div class="small muted">{{ site.nws_place|default:site.address }}</div></div>
+      <form method="post" action="{% url 'site_schedule_day' site.pk %}">{% csrf_token %}<input type="hidden" name="date" value="{{ day|date:'Y-m-d' }}"><button class="btn btn--sm" type="submit">{% translate "Schedule work" %}</button></form>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+{% endif %}
+{% endblock %}

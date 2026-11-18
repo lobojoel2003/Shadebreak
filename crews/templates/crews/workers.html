@@ -1,0 +1,33 @@
+{% extends "base.html" %}{% load i18n shadebreak %}
+{% block title %}{% translate "Crew" %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><div class="eyebrow">{{ crew.name }}</div><h1>{% translate "Crew" %}</h1></div>
+  <a class="btn btn--primary" href="{% url 'worker_create' %}">+ {% translate "Add worker" %}</a>
+</div>
+<p class="muted small">{% translate "More than 70% of heat deaths happen in a worker's first week. New workers start with short hours in the heat and build up day by day." %}</p>
+<ul class="list">
+  {% for worker, today in rows %}
+  <li>
+    <a class="list-item{% if not worker.active %} person--out{% endif %}" href="{% url 'worker_edit' worker.pk %}">
+      <div class="avatar" aria-hidden="true">{{ worker.name|slice:":1"|upper }}</div>
+      <div class="list-item__body">
+        <div class="list-item__title">{{ worker.name }}
+          {% if not worker.active %}<span class="badge badge--out">{% translate "Inactive" %}</span>{% endif %}
+          {% if today.first_week %}<span class="badge badge--first">{% translate "First week" %}</span>{% endif %}
+          {% if today.acclimatizing %}<span class="badge badge--ramp">{% blocktranslate with d=today.acclimatization_day n=today.acclimatization_days %}Day {{ d }} of {{ n }}{% endblocktranslate %}</span>{% endif %}
+          <span class="badge">{{ worker.language|upper }}</span>
+        </div>
+        <div class="small muted">
+          {{ worker.experience_short }}{% if worker.site %} · {{ worker.site.name }}{% endif %}{% if worker.buddy %} · {% blocktranslate with name=worker.buddy.name %}buddy {{ name }}{% endblocktranslate %}{% endif %}
+        </div>
+        <div class="small muted">{% if worker.phone %}{{ worker.phone|phone }} · {% if worker.sms_opt_in %}{% translate "gets texts" %}{% else %}{% translate "no texts (not opted in)" %}{% endif %}{% else %}{% translate "no phone number" %}{% endif %}</div>
+      </div>
+      <span aria-hidden="true">›</span>
+    </a>
+  </li>
+  {% empty %}
+  <li class="card empty"><h2>{% translate "No workers yet" %}</h2><p class="muted">{% translate "Add the people on your crew. Workers do not need an app or an account." %}</p><a class="btn btn--primary" href="{% url 'worker_create' %}">{% translate "Add worker" %}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}

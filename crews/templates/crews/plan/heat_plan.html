@@ -1,0 +1,218 @@
+{% load i18n shadebreak %}<!doctype html>
+<html lang="{{ language }}">
+<head>
+<meta charset="utf-8">
+<title>{% translate "Heat illness prevention plan" %} · {{ crew.name }} · {{ day|date:"Y-m-d" }}</title>
+<style>
+  @page {
+    size: Letter;
+    margin: 0.55in 0.6in 0.7in;
+    @bottom-left { content: "Shadebreak · {{ crew.name|escapejs }} · {{ day|date:'Y-m-d' }}"; font-family: "Inter", "DejaVu Sans", "Liberation Sans", Arial, sans-serif; font-size: 8pt; color: #6b7280; }
+    @bottom-right { content: counter(page) " / " counter(pages); font-family: "Inter", "DejaVu Sans", "Liberation Sans", Arial, sans-serif; font-size: 8pt; color: #6b7280; }
+  }
+  * { box-sizing: border-box; }
+  body { font-family: "Inter", "DejaVu Sans", "Liberation Sans", Arial, sans-serif; font-size: 9.5pt; color: #1d2633; line-height: 1.38; }
+  h1 { font-size: 20pt; margin: 0; letter-spacing: -0.02em; }
+  h2 { font-size: 13pt; margin: 18pt 0 6pt; padding-bottom: 3pt; border-bottom: 2px solid #e8590c; }
+  h3 { font-size: 10.5pt; margin: 10pt 0 4pt; }
+  p { margin: 0 0 6pt; }
+  .head { display: flex; align-items: center; gap: 12pt; padding-bottom: 8pt; border-bottom: 3px solid #1d2633; }
+  .head img { width: 46pt; height: 46pt; }
+  .head .sub { color: #5b6675; font-size: 10pt; }
+  .facts { display: flex; flex-wrap: wrap; gap: 4pt 18pt; margin: 8pt 0; font-size: 9pt; }
+  .facts b { color: #5b6675; font-weight: 600; margin-right: 3pt; }
+  table { width: 100%; border-collapse: collapse; margin: 4pt 0 8pt; font-size: 8.8pt; }
+  th, td { text-align: left; padding: 3.5pt 5pt; border-bottom: 0.6pt solid #d9cfbf; vertical-align: top; }
+  th { background: #f4eee4; font-size: 7.8pt; text-transform: uppercase; letter-spacing: 0.04em; color: #4b5563; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .risk { display: inline-block; padding: 1pt 5pt; border-radius: 8pt; font-weight: 700; font-size: 7.6pt; text-transform: uppercase; }
+  .risk-low { background: #37b24d; color: #fff; }
+  .risk-caution { background: #fcc419; color: #3b2f00; }
+  .risk-high { background: #fd7e14; color: #2b1500; }
+  .risk-very-high { background: #e03131; color: #fff; }
+  .risk-extreme { background: #862e9c; color: #fff; }
+  .risk-unknown { background: #ced4da; color: #343a40; }
+  .site { page-break-inside: auto; }
+  .callout { background: #fff4e6; border-left: 4pt solid #e8590c; padding: 6pt 8pt; margin: 6pt 0; }
+  .danger { background: #fff5f5; border-left: 4pt solid #e03131; padding: 6pt 8pt; }
+  .cols { display: flex; gap: 12pt; }
+  .cols > div { flex: 1; }
+  ul { margin: 2pt 0 6pt; padding-left: 12pt; }
+  li { margin-bottom: 2pt; }
+  .sign td { height: 22pt; }
+  .muted { color: #5b6675; }
+  .small { font-size: 8pt; }
+  .keep { page-break-inside: avoid; }
+  .break-before { page-break-before: always; }
+</style>
+</head>
+<body>
+<div class="head">
+  {% if logo_path %}<img src="{{ logo_path }}" alt="">{% endif %}
+  <div>
+    <h1>{% translate "Heat illness prevention plan" %}</h1>
+    <div class="sub">{{ crew.name }} · {{ day|date:"DATE_FORMAT" }}</div>
+  </div>
+</div>
+<div class="facts">
+  <span><b>{% translate "Crew lead" %}</b>{{ crew.lead_name|default:"—" }}{% if crew.lead_phone %} · {{ crew.lead_phone|phone }}{% endif %}</span>
+  <span><b>{% translate "Emergency" %}</b>{{ crew.emergency_number }}</span>
+  <span><b>{% translate "Printed" %}</b>{{ generated_at|date:"DATETIME_FORMAT" }}</span>
+  <span><b>{% translate "Version" %}</b>{{ version_string }}</span>
+</div>
+<div class="callout">{% translate "Heat illness is preventable. Every worker on this crew has the right to water, rest and shade, and to stop and cool down when they feel sick, without being punished. New workers build up slowly: most heat deaths happen in the first week on the job." %}</div>
+
+<h2>{% translate "How we rate heat and what we do" %}</h2>
+<p class="muted small">{% translate "Each hour gets the higher of two ratings: heat index (temperature and humidity, in shade) and wet bulb globe temperature, WBGT (which also counts sun and wind)." %}</p>
+<table>
+  <thead><tr><th>{% translate "Level" %}</th><th>{% translate "Heat index" %}</th><th>WBGT</th><th>{% translate "What we do" %}</th></tr></thead>
+  <tbody>
+  {% for slug, label, hi, wbgt, action in triggers %}
+  <tr><td><span class="risk risk-{{ slug }}">{{ label }}</span></td><td>{{ hi }}</td><td>{{ wbgt }}</td><td>{{ action }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% for sd in site_days %}{% with wd=sd.workday site=sd.site %}
+<div class="site{% if not forloop.first %} break-before{% endif %}">
+<h2>{{ site.name }}</h2>
+<div class="facts">
+  {% if site.address %}<span><b>{% translate "Address" %}</b>{{ site.address }}</span>{% endif %}
+  <span><b>{% translate "Location" %}</b>{{ site.latitude }}, {{ site.longitude }}{% if site.nws_place %} ({{ site.nws_place }}){% endif %}</span>
+  <span><b>{% translate "Shift" %}</b>{% time_range wd.shift_start wd.shift_end site %}</span>
+  <span><b>{% translate "Work" %}</b>{{ site.workload_short }} · {{ site.get_exposure_display }}</span>
+  <span><b>{% translate "Clothing" %}</b>{{ site.get_clothing_display }}</span>
+</div>
+<div class="facts">
+  <span><b>{% translate "Water" %}</b>{{ site.water_location|default:"—" }}</span>
+  <span><b>{% translate "Shade" %}</b>{{ site.shade_location|default:"—" }}</span>
+  <span><b>{% translate "Nearest hospital" %}</b>{{ site.nearest_hospital|default:"—" }}</span>
+</div>
+{% if site.notes %}<p>{{ site.notes|linebreaksbr }}</p>{% endif %}
+
+{% if wd.peak_risk is not None %}
+<p><span class="risk risk-{{ sd.peak_slug }}">{{ wd.peak_risk|risk_label }}</span>
+{% blocktranslate with wbgt=wd.peak_wbgt_c|f hi=wd.peak_heat_index_f|floatformat:0 time=wd.peak_at|local:site %}Peak {{ wbgt }}°F WBGT, heat index {{ hi }}°F, at {{ time }}.{% endblocktranslate %}
+{% if sd.source == "sample" %}<span class="muted">({% translate "sample forecast" %})</span>{% else %}<span class="muted">({% translate "National Weather Service forecast" %})</span>{% endif %}</p>
+<table>
+  <thead><tr><th>{% translate "Hour" %}</th><th>{% translate "Risk" %}</th><th class="num">WBGT °F</th><th class="num">{% translate "Heat index °F" %}</th><th class="num">{% translate "Temp °F" %}</th><th class="num">{% translate "Humidity" %}</th><th class="num">{% translate "Wind m/s" %}</th></tr></thead>
+  <tbody>
+  {% for f in sd.forecasts %}
+  <tr><td>{{ f.start|local:site }}</td><td><span class="risk risk-{{ f.risk|risk_slug }}">{{ f.risk|risk_label }}</span></td><td class="num"><b>{{ f.wbgt_c|f }}</b></td><td class="num">{{ f.heat_index_f|floatformat:0 }}</td><td class="num">{{ f.temperature_f|floatformat:0 }}</td><td class="num">{{ f.relative_humidity|floatformat:0 }}%</td><td class="num">{{ f.wind_speed_ms|floatformat:1 }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="danger">{% translate "No forecast was available when this plan was printed. Check the National Weather Service forecast and treat the day as High risk until you know more." %}</p>
+{% endif %}
+
+<h3>{% translate "Rest breaks" %}</h3>
+{% if sd.breaks %}
+<table class="keep">
+  <thead><tr><th>{% translate "Time" %}</th><th>{% translate "Everyone" %}</th><th>{% translate "New and ramping workers" %}</th><th>{% translate "Why" %}</th></tr></thead>
+  <tbody>
+  {% for brk in sd.breaks %}
+  <tr>
+    <td>{% time_range brk.earliest_start brk.end site %}</td>
+    <td>{% if brk.stop %}<b>{% translate "Stop" %}</b>{% elif brk.minutes %}{% blocktranslate with m=brk.minutes %}{{ m }} min rest{% endblocktranslate %}{% else %}—{% endif %}</td>
+    <td>{% if brk.new_worker_stop %}<b>{% translate "Stop" %}</b>{% else %}{% blocktranslate with m=brk.new_worker_minutes %}{{ m }} min rest{% endblocktranslate %}{% endif %}</td>
+    <td>{{ brk.get_reason_display }} · WBGT {{ brk.wbgt_c|f }}°F</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>{% translate "No fixed breaks are required by the forecast. Workers rest in shade whenever they need to." %}</p>
+{% endif %}
+
+<h3>{% translate "Crew, hours in the heat and buddies" %}</h3>
+<table class="keep">
+  <thead><tr><th>{% translate "Name" %}</th><th>{% translate "Status" %}</th><th>{% translate "In the heat until" %}</th><th>{% translate "Buddy" %}</th><th>{% translate "Check-ins" %}</th></tr></thead>
+  <tbody>
+  {% for row in sd.rows %}{% with a=row.assignment %}
+  <tr>
+    <td><b>{{ a.worker.name }}</b></td>
+    <td>{% if not a.present %}{{ a.get_status_display }}{% else %}{% if a.first_week %}{% translate "First week" %}. {% endif %}{% if a.acclimatizing %}{% blocktranslate with d=a.acclimatization_day n=a.acclimatization_days p=a.exposure_percent %}Ramp day {{ d }} of {{ n }} ({{ p }}%){% endblocktranslate %}{% elif not a.first_week %}{% translate "Acclimatized" %}{% endif %}{% endif %}</td>
+    <td>{% if a.present %}{% if a.reduced_today %}<b>{{ a.planned_end|local:site }}</b>{% else %}{% translate "End of shift" %}{% endif %}{% endif %}</td>
+    <td>{% if a.buddy %}{{ a.buddy.name }}{% elif a.present %}{% translate "Crew lead" %}{% endif %}</td>
+    <td class="small">{% for c in row.checkins %}{{ c.due_at|local:site }}{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}</td>
+  </tr>
+  {% endwith %}{% endfor %}
+  </tbody>
+</table>
+</div>
+{% endwith %}{% empty %}
+<p class="muted">{% translate "No sites are scheduled to work on this day." %}</p>
+{% endfor %}
+
+<div class="break-before">
+<h2>{% translate "A gradual start for new and returning workers" %}</h2>
+<p>{% translate "Bodies take about a week to adjust to heat. New workers spend only part of the hot hours in the heat at first, following NIOSH guidance. Only days at Caution or above count. After a week or more away from hot work, the returning schedule starts again." %}</p>
+<div class="cols keep">
+  <div>
+    <h3>{% translate "New to hot work" %}</h3>
+    <table><thead><tr><th>{% translate "Day" %}</th><th class="num">{% translate "Share of hot hours" %}</th></tr></thead><tbody>
+    {% for pct in new_ramp %}<tr><td>{{ forloop.counter }}</td><td class="num">{{ pct }}%</td></tr>{% endfor %}
+    </tbody></table>
+  </div>
+  <div>
+    <h3>{% translate "Experienced, new to the crew or returning" %}</h3>
+    <table><thead><tr><th>{% translate "Day" %}</th><th class="num">{% translate "Share of hot hours" %}</th></tr></thead><tbody>
+    {% for pct in returning_ramp %}<tr><td>{{ forloop.counter }}</td><td class="num">{{ pct }}%</td></tr>{% endfor %}
+    </tbody></table>
+  </div>
+</div>
+
+<h2>{% translate "Water, rest and shade" %}</h2>
+<ul>
+  <li>{% translate "Cool drinking water close to the work, enough for 1 quart per worker per hour. Drink 1 cup every 15–20 minutes, even when not thirsty." %}</li>
+  <li>{% translate "Shade big enough for everyone on break to sit at the same time, as close to the work as possible." %}</li>
+  <li>{% translate "Anyone may take a rest in shade at any time to prevent overheating. Rest at least 5 minutes and until they feel better." %}</li>
+  <li>{% translate "Buddies check on each other at the times above. Reply to Shadebreak texts: 1 = OK, 2 = needs help." %}</li>
+</ul>
+
+<h2>{% translate "Warning signs and first aid" %}</h2>
+<div class="cols keep">
+  <div class="callout">
+    <h3>{% translate "Heat exhaustion" %}</h3>
+    <p class="small">{% translate "Heavy sweating, cool pale clammy skin, fast weak pulse, nausea or vomiting, muscle cramps, tiredness or weakness, dizziness, headache, fainting." %}</p>
+    <ul class="small">
+      <li>{% translate "Stop work. Move to shade or a cool place." %}</li>
+      <li>{% translate "Loosen clothing. Cool with wet cloths and fanning." %}</li>
+      <li>{% translate "Sip cool water." %}</li>
+      <li>{% translate "Get medical help if they vomit, get worse, or are not better within an hour. Do not leave them alone." %}</li>
+    </ul>
+  </div>
+  <div class="danger">
+    <h3>{% translate "Heat stroke: a medical emergency" %}</h3>
+    <p class="small">{% translate "Confusion, slurred speech, acting strange, fainting or seizures, very high body temperature, hot red skin that may be dry or damp." %}</p>
+    <ul class="small">
+      <li><b>{% blocktranslate with number=crew.emergency_number %}Call {{ number }} now.{% endblocktranslate %}</b></li>
+      <li>{% translate "Cool them right away: cold water or ice on the body, ice-water immersion if available, wet towels and fanning." %}</li>
+      <li>{% translate "Stay with them. Do not give drinks if they are confused or not fully awake." %}</li>
+      <li>{% translate "Send someone to meet the ambulance and guide it in." %}</li>
+    </ul>
+  </div>
+</div>
+
+<h2>{% translate "In an emergency" %}</h2>
+<ol>
+  <li>{% blocktranslate with number=crew.emergency_number %}Call {{ number }}. Say: "Heat emergency," the site address and the closest cross street.{% endblocktranslate %}</li>
+  <li>{% translate "Start cooling the worker while you wait. Keep cooling until help arrives." %}</li>
+  <li>{% blocktranslate with name=crew.lead_name|default:_("the crew lead") %}Tell {{ name }} right away.{% endblocktranslate %}</li>
+</ol>
+
+<h2 class="keep">{% translate "Sign-off" %}</h2>
+<p class="small">{% translate "I received this plan and was trained on heat illness: signs, first aid, water, rest, shade and my right to stop and cool down." %}</p>
+<table class="sign">
+  <thead><tr><th style="width:34%">{% translate "Name" %}</th><th style="width:40%">{% translate "Signature" %}</th><th>{% translate "Date" %}</th></tr></thead>
+  <tbody>
+  {% for worker in workers %}<tr><td>{{ worker.name }}</td><td></td><td></td></tr>{% endfor %}
+  <tr><td>&nbsp;</td><td></td><td></td></tr><tr><td>&nbsp;</td><td></td><td></td></tr>
+  </tbody>
+</table>
+
+<p class="small muted" style="margin-top:12pt">{% translate "Sources: NIOSH Criteria for a Recommended Standard, Occupational Exposure to Heat and Hot Environments (2016); ACGIH heat stress TLV and action limit as reproduced in the OSHA Technical Manual; National Weather Service heat index; WBGT estimated with the Liljegren method (thermofeel). Breaks follow the 2024 proposed OSHA heat rule's triggers; check current OSHA and state rules that apply to you." %}</p>
+</div>
+</body>
+</html>

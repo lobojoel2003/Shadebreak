@@ -1,0 +1,79 @@
+{% extends "base.html" %}{% load i18n shadebreak %}
+{% block title %}{{ sd.site.name }}{% endblock %}
+{% block content %}{% with wd=sd.workday site=sd.site %}
+<div class="page-head">
+  <div>
+    <div class="eyebrow"><a href="{% url 'dashboard' %}?date={{ wd.date|date:'Y-m-d' }}">‹ {% translate "Back" %}</a></div>
+    <h1>{{ wd.date|date:"DATE_FORMAT" }}</h1>
+  </div>
+</div>
+<div class="grid">
+  {% include "crews/_site_card.html" %}
+
+  {% if sd.forecasts %}
+  <section class="card">
+    <h2>{% translate "Hour by hour" %}</h2>
+    <p class="small muted">{% blocktranslate with exposure=site.get_exposure_display|lower %}WBGT is for {{ exposure }}. "Shade" is what a worker resting in full shade feels.{% endblocktranslate %}</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>{% translate "Time" %}</th><th>{% translate "Risk" %}</th><th>WBGT °F</th><th>{% translate "Shade" %}</th><th>{% translate "Heat index" %}</th><th>{% translate "Temp" %}</th><th>{% translate "Humidity" %}</th><th>{% translate "Wind" %}</th><th>{% translate "Clouds" %}</th></tr></thead>
+        <tbody>
+          {% for f in sd.forecasts %}
+          <tr>
+            <td>{{ f.start|local:site }}</td>
+            <td><span class="risk-pill risk-{{ f.risk|risk_slug }}">{{ f.risk|risk_label }}</span></td>
+            <td><strong>{{ f.wbgt_c|f }}</strong>{% if f.wbgt_source == "nws" %} <span class="muted small">NWS</span>{% endif %}</td>
+            <td>{{ f.wbgt_shade_c|f }}</td>
+            <td>{{ f.heat_index_f|floatformat:0 }}</td>
+            <td>{{ f.temperature_f|floatformat:0 }}</td>
+            <td>{{ f.relative_humidity|floatformat:0 }}%</td>
+            <td>{{ f.wind_speed_ms|floatformat:1 }} m/s</td>
+            <td>{% if f.sky_cover is not None %}{{ f.sky_cover|floatformat:0 }}%{% else %}–{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="card">
+    <h2>{% translate "Who is working" %}</h2>
+    <p class="small muted">{% translate "Change a buddy, mark someone absent, or override time in the heat. The plan and texts update right away." %}</p>
+    <ul class="list">
+      {% for a, form in forms %}
+      <li class="list-item" style="display:block">
+        <form method="post" action="{% url 'assignment_update' a.pk %}" class="form" style="gap:0.6rem">
+          {% csrf_token %}
+          <div class="list-item__title">{{ a.worker.name }}
+            {% if a.first_week %}<span class="badge badge--first">{% translate "First week" %}</span>{% endif %}
+            {% if a.acclimatizing %}<span class="badge badge--ramp">{% blocktranslate with d=a.acclimatization_day n=a.acclimatization_days p=a.exposure_percent %}Day {{ d }} of {{ n }} · {{ p }}%{% endblocktranslate %}</span>{% endif %}
+          </div>
+          <div class="row-2">
+            {% include "shadebreak/_field.html" with field=form.status %}
+            {% include "shadebreak/_field.html" with field=form.buddy %}
+          </div>
+          {% include "shadebreak/_field.html" with field=form.exposure_override %}
+          <div class="actions" style="margin-top:0">
+            <button class="btn btn--sm btn--primary" type="submit">{% translate "Save" %}</button>
+            <button class="btn btn--sm btn--ghost btn--danger" type="submit" name="remove" value="1">{% translate "Remove from day" %}</button>
+          </div>
+        </form>
+      </li>
+      {% empty %}
+      <li class="muted">{% translate "Nobody is scheduled yet." %}</li>
+      {% endfor %}
+    </ul>
+    {% if available %}
+    <form method="post" action="{% url 'workday_add_worker' wd.pk %}" class="actions">
+      {% csrf_token %}
+      <label class="visually-hidden" for="add-worker">{% translate "Add a worker" %}</label>
+      <select id="add-worker" name="worker" style="flex:1;min-width:12rem">
+        {% for w in available %}<option value="{{ w.pk }}">{{ w.name }}</option>{% endfor %}
+      </select>
+      <button class="btn btn--primary" type="submit">{% translate "Add to day" %}</button>
+    </form>
+    {% endif %}
+  </section>
+</div>
+{% endwith %}{% endblock %}

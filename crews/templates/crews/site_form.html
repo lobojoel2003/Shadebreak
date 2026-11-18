@@ -1,0 +1,45 @@
+{% extends "base.html" %}{% load i18n static %}
+{% block title %}{% if site %}{{ site.name }}{% else %}{% translate "Add site" %}{% endif %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><div class="eyebrow"><a href="{% url 'site_list' %}">‹ {% translate "Sites" %}</a></div><h1>{% if site %}{{ site.name }}{% else %}{% translate "Add a job site" %}{% endif %}</h1></div>
+</div>
+<form method="post" class="card form">
+  {% csrf_token %}
+  {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+  <fieldset>
+    <legend>{% translate "Where" %}</legend>
+    {% include "shadebreak/_field.html" with field=form.name %}
+    {% include "shadebreak/_field.html" with field=form.address %}
+    <div>
+      <button class="btn btn--sm" type="button" data-locate data-unavailable="{% translate 'Location is not available on this device.' %}">{% translate "Use my location" %}</button>
+      <span class="small muted" data-locate-status></span>
+    </div>
+    <div class="row-2">
+      {% include "shadebreak/_field.html" with field=form.latitude %}
+      {% include "shadebreak/_field.html" with field=form.longitude %}
+    </div>
+    <p class="small muted">{% translate "Leave latitude and longitude empty to look up the address (U.S. addresses only)." %}</p>
+  </fieldset>
+  <fieldset>
+    <legend>{% translate "The work" %}</legend>
+    {% include "shadebreak/_field.html" with field=form.exposure inline=True %}
+    {% include "shadebreak/_field.html" with field=form.workload %}
+    {% include "shadebreak/_field.html" with field=form.clothing %}
+    <div class="row-2">
+      {% include "shadebreak/_field.html" with field=form.shift_start %}
+      {% include "shadebreak/_field.html" with field=form.shift_end %}
+    </div>
+    {% include "shadebreak/_field.html" with field=form.weekdays inline=True %}
+  </fieldset>
+  <fieldset>
+    <legend>{% translate "For the written plan" %}</legend>
+    {% include "shadebreak/_field.html" with field=form.water_location %}
+    {% include "shadebreak/_field.html" with field=form.shade_location %}
+    {% include "shadebreak/_field.html" with field=form.nearest_hospital %}
+    {% include "shadebreak/_field.html" with field=form.notes %}
+    {% if site %}{% include "shadebreak/_field.html" with field=form.active %}{% endif %}
+  </fieldset>
+  <div class="actions"><button class="btn btn--primary" type="submit">{% translate "Save site" %}</button><a class="btn btn--ghost" href="{% url 'site_list' %}">{% translate "Cancel" %}</a></div>
+</form>
+{% endblock %}

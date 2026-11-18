@@ -1,0 +1,13 @@
+{% load i18n shadebreak %}<span class="chip chip--{% if checkin.status == 'pending' and checkin.is_due %}due{% else %}{{ checkin.status }}{% endif %}" id="checkin-{{ checkin.pk }}" title="{% if checkin.buddy %}{% blocktranslate with name=checkin.buddy.name %}Asked {{ name }}{% endblocktranslate %}{% else %}{% translate 'Asked the crew lead' %}{% endif %}">
+  <time datetime="{{ checkin.due_at|date:'c' }}">{{ checkin.due_at|local:site }}</time>
+  {% if checkin.status == "pending" and checkin.is_due %}
+  <form method="post" action="{% url 'checkin_update' checkin.pk %}" hx-post="{% url 'checkin_update' checkin.pk %}" hx-target="#checkin-{{ checkin.pk }}" hx-swap="outerHTML">
+    {% csrf_token %}
+    <button type="submit" name="status" value="ok" class="ok" aria-label="{% translate 'Mark OK' %}">OK</button>
+    <button type="submit" name="status" value="help" class="help" aria-label="{% translate 'Needs help' %}">!</button>
+  </form>
+  {% elif checkin.status == "ok" %}✓ {% translate "OK" %}
+  {% elif checkin.status == "help" %}⚠ {% translate "Needs help" %}
+  {% elif checkin.status == "missed" %}⚠ {% translate "No reply" %}
+  {% else %}<span class="muted">{% translate "later" %}</span>{% endif %}
+</span>

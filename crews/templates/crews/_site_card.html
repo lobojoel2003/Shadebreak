@@ -1,0 +1,97 @@
+{% load i18n shadebreak %}{% with wd=sd.workday site=sd.site %}
+<article class="card site-card peak-{{ sd.peak_slug }}" id="site-{{ wd.pk }}">
+  <div class="card__head">
+    <div>
+      <h2 class="card__title"><a href="{% url 'workday' wd.pk %}">{{ site.name }}</a></h2>
+      <div class="site-meta">{% if site.nws_place %}{{ site.nws_place }} · {% endif %}{{ site.get_exposure_display }} · {{ site.workload_short }} · {% time_range wd.shift_start wd.shift_end site %}</div>
+    </div>
+    <span class="risk-pill risk-{{ sd.peak_slug }}">{% if wd.peak_risk is not None %}{{ wd.peak_risk|risk_label }}{% else %}{% translate "No forecast" %}{% endif %}</span>
+  </div>
+
+  {% if sd.has_forecast and wd.peak_risk is not None %}
+  <div class="peak">
+    <div class="peak__big">{{ wd.peak_wbgt_c|f }}°<small> F WBGT</small></div>
+    <div class="peak__detail">{% blocktranslate with time=wd.peak_at|local:site hi=wd.peak_heat_index_f|floatformat:0 %}Peak at {{ time }} · heat index {{ hi }}°F{% endblocktranslate %}</div>
+  </div>
+  {% include "crews/_strip.html" %}
+  {% else %}
+  <div class="notice notice--warn">{% translate "No forecast for this day yet. Refresh to pull the latest from the National Weather Service." %}{% if site.forecast_error %}<br><span class="small muted">{{ site.forecast_error }}</span>{% endif %}</div>
+  {% endif %}
+
+  {% if sd.help_checkins %}
+  <div class="alert-banner" role="alert">⚠ {% blocktranslate count n=sd.help_checkins %}{{ n }} check-in needs attention.{% plural %}{{ n }} check-ins need attention.{% endblocktranslate %}</div>
+  {% endif %}
+
+  <h3 class="section-title">{% translate "Breaks" %}</h3>
+  {% if sd.breaks %}
+  <ol class="timeline">
+    {% for brk in sd.breaks %}
+    {% if brk.stop %}
+    <li class="is-stop">
+      <time>{% time_range brk.start brk.end site %}</time>
+      <span><span class="what">{% blocktranslate with work=site.workload_short|lower %}Stop: too hot for {{ work }}{% endblocktranslate %}</span>
+      <span class="why">{% blocktranslate with wbgt=brk.wbgt_c|f %}WBGT {{ wbgt }}°F is over the limit even with 45 min rest an hour. Light tasks in shade only.{% endblocktranslate %}</span></span>
+    </li>
+    {% elif brk.minutes %}
+    <li>
+      <time>{% time_range brk.start brk.end site %}</time>
+      <span><span class="what">{% blocktranslate with m=brk.minutes %}Rest {{ m }} min in shade, drink water{% endblocktranslate %}</span>
+      <span class="why">{{ brk.get_reason_display }} · WBGT {{ brk.wbgt_c|f }}°F{% if brk.new_worker_stop %} · <strong>{% translate "new workers stop this hour" %}</strong>{% elif brk.new_worker_minutes > brk.minutes %} · {% blocktranslate with m=brk.new_worker_minutes t=brk.new_worker_start|local:site %}new workers: {{ m }} min from {{ t }}{% endblocktranslate %}{% endif %}</span></span>
+    </li>
+    {% else %}
+    <li class="is-new">
+      <time>{% time_range brk.new_worker_start brk.end site %}</time>
+      <span><span class="what">{% if brk.new_worker_stop %}{% translate "New workers: stop, shade only" %}{% else %}{% blocktranslate with m=brk.new_worker_minutes %}New workers rest {{ m }} min{% endblocktranslate %}{% endif %}</span>
+      <span class="why">{% translate "Stricter limit while their bodies adjust to heat" %}</span></span>
+    </li>
+    {% endif %}
+    {% endfor %}
+  </ol>
+  {% elif wd.peak_risk is not None and wd.peak_risk >= 1 %}
+  <p class="muted small">{% translate "No fixed breaks needed at this workload. Rest whenever someone needs it; water and shade must be close." %}</p>
+  {% else %}
+  <p class="muted small">{% translate "Low heat: no extra breaks. Keep water and shade available." %}</p>
+  {% endif %}
+
+  <h3 class="section-title">{% blocktranslate count n=sd.present_count %}Crew ({{ n }}){% plural %}Crew ({{ n }}){% endblocktranslate %}{% if sd.new_worker_count %} · <span style="color:var(--brand-dark)">{% blocktranslate count n=sd.new_worker_count %}{{ n }} needs extra care{% plural %}{{ n }} need extra care{% endblocktranslate %}</span>{% endif %}</h3>
+  {% if sd.rows %}
+  <ul class="crew-list">
+    {% for row in sd.rows %}{% with a=row.assignment %}
+    <li class="person{% if a.present and a.needs_extra_care %} person--care{% endif %}{% if not a.present %} person--out{% endif %}">
+      <div class="avatar" aria-hidden="true">{{ a.worker.name|slice:":1"|upper }}</div>
+      <div>
+        <div class="person__name">{{ a.worker.name }}
+          {% if not a.present %}<span class="badge badge--out">{{ a.get_status_display }}</span>{% endif %}
+          {% if a.first_week %}<span class="badge badge--first">{% translate "First week" %}</span>{% endif %}
+          {% if a.acclimatizing %}<span class="badge badge--ramp">{% blocktranslate with d=a.acclimatization_day n=a.acclimatization_days %}Day {{ d }} of {{ n }}{% endblocktranslate %}</span>{% endif %}
+        </div>
+        {% if a.present %}
+        {% if a.reduced_today %}
+        <div class="person__line">{% blocktranslate with t=a.planned_end|local:site p=a.exposure_percent %}In the heat until <strong>{{ t }}</strong> ({{ p }}% of the hot hours), then shade or cool tasks{% endblocktranslate %}</div>
+        {% elif a.acclimatizing %}
+        <div class="person__line">{% translate "Full shift: no heat to count toward the ramp today" %}</div>
+        {% endif %}
+        <div class="person__line">{% if a.buddy %}{% blocktranslate with name=a.buddy.name %}Buddy: {{ name }}{% endblocktranslate %}{% else %}{% translate "No buddy on site: the crew lead checks in" %}{% endif %}</div>
+        {% if a.ramp_steps %}<div class="ramp" aria-hidden="true">{% for step in a.ramp_steps %}<span class="{{ step }}"></span>{% endfor %}</div>{% endif %}
+        {% if row.checkins %}<div class="checkins">{% for checkin in row.checkins %}{% include "crews/_checkin.html" %}{% endfor %}</div>{% endif %}
+        {% endif %}
+      </div>
+    </li>
+    {% endwith %}{% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted small">{% translate "Nobody is scheduled here. Open the day to add workers." %}</p>
+  {% endif %}
+
+  <div class="actions">
+    <button class="btn btn--sm" hx-post="{% url 'workday_refresh' wd.pk %}" hx-target="#site-{{ wd.pk }}" hx-swap="outerHTML" hx-vals='{"detail": "{% if detail %}1{% else %}0{% endif %}"}' hx-disabled-elt="this">
+      <span class="btn-spinner" aria-hidden="true"></span>{% translate "Refresh forecast" %}
+    </button>
+    {% if not detail %}<a class="btn btn--sm" href="{% url 'workday' wd.pk %}">{% translate "Edit day" %}</a>{% endif %}
+    <a class="btn btn--sm" href="{% url 'heat_plan' %}?date={{ wd.date|date:'Y-m-d' }}" target="_blank" rel="noopener">{% translate "Heat plan PDF" %}</a>
+  </div>
+  <p class="small muted" style="margin:0.6rem 0 0">
+    {% if sd.source == "sample" %}<span class="badge">{% translate "Sample forecast" %}</span>{% elif sd.updated_at %}{% blocktranslate with when=sd.updated_at|timesince %}NWS forecast updated {{ when }} ago{% endblocktranslate %}{% if sd.stale %} · <strong>{% translate "out of date" %}</strong>{% endif %}{% endif %}
+  </p>
+</article>
+{% endwith %}

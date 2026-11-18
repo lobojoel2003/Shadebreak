@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% load i18n static %}
+{% block title %}{% translate "Not found" %}{% endblock %}
+{% block content %}
+<div class="card empty">
+  <img src="{% static 'shadebreak/img/logo.svg' %}" alt="">
+  <h1>{% translate "Page not found" %}</h1>
+  <p class="muted">{% translate "That page does not exist or belongs to another crew." %}</p>
+  <a class="btn btn--primary" href="/">{% translate "Back to today" %}</a>
+</div>
+{% endblock %}

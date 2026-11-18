@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% load i18n static %}
+{% block title %}{% translate "Sign in" %}{% endblock %}
+{% block content %}
+<div class="auth">
+  <div class="hero">
+    <img src="{% static 'shadebreak/img/logo.svg' %}" alt="">
+    <h1>Shadebreak</h1>
+    <p class="muted">{% translate "Water, rest, shade and a gradual start, planned for your crew every morning." %}</p>
+  </div>
+  <div class="card">
+    <form method="post" class="form">
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+      {% include "shadebreak/_field.html" with field=form.username %}
+      {% include "shadebreak/_field.html" with field=form.password %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <button class="btn btn--primary" type="submit">{% translate "Sign in" %}</button>
+    </form>
+  </div>
+  {% if allow_signup %}<p class="muted small" style="text-align:center;margin-top:1rem">{% translate "New here?" %} <a href="{% url 'signup' %}">{% translate "Set up your crew" %}</a></p>{% endif %}
+</div>
+{% endblock %}

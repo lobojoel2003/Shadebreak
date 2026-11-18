@@ -1,0 +1,20 @@
+{% load i18n shadebreak %}<div class="strip-wrap" role="group" aria-label="{% translate 'Heat risk by hour (WBGT in °F)' %}">
+  <div class="strip">
+    {% for cell in sd.cells %}
+    <div class="hour{% if not cell.in_shift %} hour--off{% endif %}{% if cell.is_now %} hour--now{% endif %}{% if cell.is_peak %} hour--peak{% endif %}" title="{{ cell.start|local:site }} · {{ cell.label }} · WBGT {{ cell.wbgt_f }}°F · {% translate 'heat index' %} {{ cell.heat_index_f }}°F · {{ cell.temp_f }}°F">
+      <div class="hour__time">{{ cell.start|hour_number:site }}<small>{{ cell.start|meridiem:site }}</small></div>
+      <div class="hour__cell risk-{{ cell.slug }}">{{ cell.wbgt_f }}°<small>{{ cell.heat_index_f }}°</small></div>
+      <div class="hour__marks">{% if cell.has_stop %}<span class="mark mark--stop" title="{% translate 'Stop' %}"></span>{% elif cell.has_break %}<span class="mark" title="{% translate 'Break' %}"></span>{% endif %}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="legend" aria-hidden="true">
+  <span><i class="risk-low"></i>{% translate "Low" %}</span>
+  <span><i class="risk-caution"></i>{% translate "Caution" %}</span>
+  <span><i class="risk-high"></i>{% translate "High" %}</span>
+  <span><i class="risk-very-high"></i>{% translate "Very high" %}</span>
+  <span><i class="risk-extreme"></i>{% translate "Extreme" %}</span>
+  <span><b class="mark"></b>{% translate "Break" %}</span>
+  <span>{% translate "Big number: WBGT °F · small: heat index °F" %}</span>
+</div>

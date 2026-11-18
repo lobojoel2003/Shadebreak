@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% translate "Heat plan" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">{{ crew.name }}</div><h1>{% translate "Written heat plan" %}</h1></div></div>
+<div class="card">
+  <p>{% translate "A printable plan for the day: hourly risk at each site, breaks, who is new and on reduced hours, buddy pairs, warning signs and first aid, emergency details and a sign-off sheet. Keep a copy on site." %}</p>
+  <form method="get" action="{% url 'heat_plan' %}" target="_blank" class="form">
+    <div class="row-2">
+      <div class="field"><label for="plan-date">{% translate "Day" %}</label><input id="plan-date" type="date" name="date" value="{{ day|date:'Y-m-d' }}"></div>
+      <div class="field"><label for="plan-lang">{% translate "Language" %}</label>
+        <select id="plan-lang" name="lang"><option value="en" {% if crew.language == "en" %}selected{% endif %}>English</option><option value="es" {% if crew.language == "es" %}selected{% endif %}>Español</option></select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn--primary" type="submit">{% translate "Open PDF" %}</button>
+      <button class="btn" type="submit" name="download" value="1">{% translate "Download" %}</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

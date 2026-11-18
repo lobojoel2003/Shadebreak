@@ -1,0 +1,17 @@
+{% load i18n %}<div class="field{% if inline %} choice-inline{% endif %}">
+  {% if field.field.widget.input_type == "checkbox" and not field.field.widget.allow_multiple_selected %}
+  <label class="check">{{ field }} <span>{{ field.label }}{% if field.help_text %}<span class="help" style="display:block">{{ field.help_text }}</span>{% endif %}</span></label>
+  {% else %}
+  {% if field.field.widget.input_type == "radio" or field.field.widget.allow_multiple_selected %}
+  <span class="label" id="{{ field.auto_id }}_label">{{ field.label }}</span>
+  <ul class="choice-list" aria-labelledby="{{ field.auto_id }}_label">
+    {% for choice in field %}<li><label>{{ choice.tag }} <span>{{ choice.choice_label }}</span></label></li>{% endfor %}
+  </ul>
+  {% else %}
+  <label for="{{ field.id_for_label }}">{{ field.label }}{% if not field.field.required %} <span class="muted small">({% translate "optional" %})</span>{% endif %}</label>
+  {{ field }}
+  {% endif %}
+  {% if field.help_text %}<div class="help">{{ field.help_text }}</div>{% endif %}
+  {% endif %}
+  {% if field.errors %}<ul class="errors">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+</div>
