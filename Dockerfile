@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 # Shadebreak production image: Django + Gunicorn, Celery worker and beat.
-FROM python:3.13-slim
+FROM python:3.15-slim
 
 ARG VERSION=dev
 ARG BUILD_NUMBER=dev
